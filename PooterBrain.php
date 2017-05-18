@@ -38,6 +38,8 @@ class PooterBrain
 
     if (strpos($this->text, 'ciao') !== FALSE || strpos($this->text, '/start') !== FALSE) {
       $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
+    } elseif (strpos($this->text, 'pooter') !== FALSE) {
+      $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
     } elseif (strpos($this->text, 'zitto') !== FALSE) {
       $text_to_send = $this->interlocutor_name . ' potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?';
     } elseif (strpos($this->text, 'somebody') !== FALSE) {
