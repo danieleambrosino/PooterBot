@@ -21,6 +21,7 @@ $text_to_send = $pooter->interpret();
 
 // set receiver
 $chat_id = isset($message['chat']['id']) ? $message['chat']['id'] : "";
+$text_to_send = "amico mio!";
 
 header("Content-Type: application/json");
 $parameters = array('chat_id' => $chat_id, "text" => $text_to_send);
