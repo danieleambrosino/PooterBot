@@ -6,9 +6,7 @@
  * Time: 20:12
  */
 
-echo "Hi there";
-
-/*$content = file_get_contents("php://input");
+$content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
 if (!$update) {
@@ -22,10 +20,9 @@ $text_to_send = $pooter->interpret();
 
 
 // set receiver
-$chat_id = isset($message['chat']['id']) ? $message['chat']['id'] : "";
-$text_to_send = "amico mio!";
+$chat_id = isset($update['message']['chat']['id']) ? $update['message']['chat']['id'] : "";
 
 header("Content-Type: application/json");
 $parameters = array('chat_id' => $chat_id, "text" => $text_to_send);
 $parameters["method"] = "sendMessage";
-echo json_encode($parameters);*/
+echo json_encode($parameters);
