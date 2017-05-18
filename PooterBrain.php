@@ -46,7 +46,7 @@ class PooterBrain
       strpos($this->text, 'sharade') !== FALSE || strpos($this->text, 'charade') !== FALSE
     ) {
       $text_to_send = 'Sono Speedy Gonzales?';
-    } elseif (strpos($this->text, 'stopper') !== FALSE) {
+    } elseif (preg_match('/sto+p{2,}er*/', $this->text)) {
       $text_to_send = 'Sergio Brio!';
     }
 
