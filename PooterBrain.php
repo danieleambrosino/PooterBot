@@ -17,12 +17,12 @@ class PooterBrain
     if (!isset($update['message'])) {
       throw new Exception('No message');
     }
-    $message = strtolower(trim($update['message']));
+    $message = $update['message'];
 
     if (!isset($message['text'])) {
       throw new Exception('No text');
     }
-    $this->text = $message['text'];
+    $this->text = strtolower(trim($message['text']));
 
     if (isset($message['chat']['first_name'])) {
       $this->interlocutor_name = $message['chat']['first_name'];
