@@ -6,7 +6,9 @@
  * Time: 20:12
  */
 
-$content = file_get_contents("php://input");
+echo "Hi there";
+
+/*$content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
 if (!$update) {
@@ -26,4 +28,4 @@ $text_to_send = "amico mio!";
 header("Content-Type: application/json");
 $parameters = array('chat_id' => $chat_id, "text" => $text_to_send);
 $parameters["method"] = "sendMessage";
-echo json_encode($parameters);
+echo json_encode($parameters);*/
