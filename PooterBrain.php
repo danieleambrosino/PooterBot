@@ -60,7 +60,7 @@ class PooterBrain
   public function get_weather()
   {
     $api_key = 'e65327d8546ce97da440352f6a915c61';
-    $base_url = 'http://api.openweather.org/data/2.5/weather';
+    $base_url = 'http://api.openweathermap.org/data/2.5/weather';
     $cities = array(
       'Bangkok',
       'Pyongyang',
@@ -74,17 +74,17 @@ class PooterBrain
       'Baghdad',
       'Caracas'
     );
-    $city = array_rand($cities);
+    $city = $cities[array_rand($cities)];
 
     $url = $base_url . '?q=' . $city . '&appid=' . $api_key;
     $content = file_get_contents($url);
     $response = json_decode($content, true);
 
-    $current_weather = $response['weather']['main'];
+    $current_weather = $response['weather'][0]['main'];
     $wind_speed = $response['wind']['speed'];
     $wind_direction = $response['wind']['deg'];
 
-    $text_to_send = 'Il clima a ' . $city . 'in questo momento è ' . $current_weather . ', il vento ha una velocità di ' . $wind_speed . 'km/h e tira in direzione ' . $wind_direction;
+    $text_to_send = 'Il clima a ' . $city . ' in questo momento è ' . $current_weather . ', il vento tira ad una velocità di ' . $wind_speed . ' km/h in direzione ' . $wind_direction;
     return $text_to_send;
   }
 
