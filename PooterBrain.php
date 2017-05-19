@@ -38,6 +38,8 @@ class PooterBrain
 
     if (strpos($this->text, 'ciao') !== FALSE || strpos($this->text, '/start') !== FALSE) {
       $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
+    } elseif (strpos($this->text, 'meteo')) {
+      $text_to_send = $this->get_weather();
     } elseif (strpos($this->text, 'pooter') !== FALSE) {
       $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
     } elseif (strpos($this->text, 'zitto') !== FALSE) {
@@ -52,6 +54,37 @@ class PooterBrain
       $text_to_send = 'Sergio Brio!';
     }
 
+    return $text_to_send;
+  }
+
+  public function get_weather()
+  {
+    $api_key = 'e65327d8546ce97da440352f6a915c61';
+    $base_url = 'http://api.openweather.org/data/2.5/weather';
+    $cities = array(
+      'Bangkok',
+      'Pyongyang',
+      'KualaLumpur',
+      'Reykjavik',
+      'Beirut',
+      'Kabul',
+      'Kathmandu',
+      'Jakarta',
+      'Tehran',
+      'Baghdad',
+      'Caracas'
+    );
+    $city = array_rand($cities);
+
+    $url = $base_url . '?q=' . $city . '&appid=' . $api_key;
+    $content = file_get_contents($url);
+    $response = json_decode($content, true);
+
+    $current_weather = $response['weather']['main'];
+    $wind_speed = $response['wind']['speed'];
+    $wind_direction = $response['wind']['deg'];
+
+    $text_to_send = 'Il clima a ' . $city . 'in questo momento è ' . $current_weather . ', il vento ha una velocità di ' . $wind_speed . 'km/h e tira in direzione ' . $wind_direction;
     return $text_to_send;
   }
 
