@@ -40,6 +40,7 @@ class PooterBrain
       $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
     } elseif (strpos($this->text, 'meteo')) {
       $text_to_send = $this->get_weather();
+      $text_to_send = $text_to_send . 'qualcosa che non torna';
     } elseif (strpos($this->text, 'pooter') !== FALSE) {
       $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
     } elseif (strpos($this->text, 'zitto') !== FALSE) {
