@@ -17,6 +17,7 @@ include 'PooterBrain.php';
 $pooter = new PooterBrain($update);
 
 $text_to_send = $pooter->interpret();
+if ($text_to_send === "") exit;
 
 
 // set receiver

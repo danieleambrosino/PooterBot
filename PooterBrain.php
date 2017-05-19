@@ -52,6 +52,8 @@ class PooterBrain
       $text_to_send = 'Sono Speedy Gonzales?';
     } elseif (preg_match('/s+t+o+p{2,}e+r+/', $this->text)) {
       $text_to_send = 'Sergio Brio!';
+    } elseif (preg_match('/s+o+m+e+/', $this->text)) {
+      $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
     }
 
     return $text_to_send;
