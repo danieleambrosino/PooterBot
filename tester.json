@@ -1,0 +1,8 @@
+{
+  "message": {
+    "text": "test text",
+    "chat": {
+      "first_name": "test name"
+    }
+  }
+}
