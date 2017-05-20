@@ -10,7 +10,7 @@ $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
 if (!$update) {
-  exit;
+    exit;
 }
 
 include 'PooterBrain.php';
