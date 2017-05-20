@@ -58,7 +58,7 @@ class PooterBrain
             $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
         } elseif (strpos($this->text, 'brau') !== FALSE) {
             $text_to_send = 'Sto arrivando, ' .$this->interlocutor_name . ' mi dai uno strappo?';
-        } elseif (preg_match('/.*(pietro|pooter).*lavato.*/', $this->text)) {
+        } elseif (preg_match('/.*lava.*piedi.*/', $this->text)) {
             $text_to_send = 'No...';
         }
         // aggiungere birreria -> arrivo + foto bicicletta
