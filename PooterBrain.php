@@ -97,6 +97,10 @@ class PooterBrain
             $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
             return $this->interpret('text', $text_to_send);
         }
+        elseif (preg_match('/b+o+d+y/', $this->text)) {
+            $text_to_send = "Sssssssssssoooooooooommmmmmmeeeeeeeeeeee";
+            return $this->interpret('text', $text_to_send);
+        }
         elseif (strpos($this->text, 'passione') !== FALSE) {
             $text_to_send = 'Il mio sogno è fare il telecronista';
             return $this->interpret('text', $text_to_send);
