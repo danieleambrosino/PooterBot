@@ -40,34 +40,44 @@ class PooterBrain
 
     }
 
-    public function interpret()
+    public function answer()
     {
         $text_to_send = "";
 
         if (strpos($this->text, 'ciao') !== FALSE || strpos($this->text, '/start') !== FALSE) {
             $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
+            return $this->interpret('text', $text_to_send);
         } elseif (strpos($this->text, 'meteo')) {
             $text_to_send = $this->get_weather();
+            return $this->interpret('text', $text_to_send);
         } elseif (strpos($this->text, 'zitto') !== FALSE) {
             $text_to_send = $this->interlocutor_name . ' potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?';
+            return $this->interpret('text', $text_to_send);
         } elseif (strpos($this->text, 'somebody') !== FALSE) {
             $text_to_send = 'Eh grande pezzo';
+            return $this->interpret('text', $text_to_send);
         } elseif (strpos($this->text, 'fidanzata') !== FALSE || strpos($this->text, 'sono') !== FALSE ||
             strpos($this->text, 'sharade') !== FALSE || strpos($this->text, 'charade') !== FALSE
         ) {
             $text_to_send = 'Sono Speedy Gonzales?';
+            return $this->interpret('text', $text_to_send);
         } elseif (preg_match('/s+t+o+p{2,}e+r+/', $this->text)) {
             $text_to_send = 'Sergio Brio!';
+            return $this->interpret('text', $text_to_send);
         } elseif (preg_match('/s+o+m+e+/', $this->text)) {
             $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
+            return $this->interpret('text', $text_to_send);
         } elseif (strpos($this->text, 'passione') !== FALSE) {
             $text_to_send = 'Il mio sogno è fare il telecronista';
+            return $this->interpret('text', $text_to_send);
         } elseif (strpos($this->text, 'pooter') !== FALSE) {
             $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
+            return $this->interpret('text', $text_to_send);
         } elseif (strpos($this->text, 'brau') !== FALSE) {
             $text_to_send = 'Sto arrivando, ' . $this->interlocutor_name . ' mi dai uno strappo?';
+            return $this->interpret('text', $text_to_send);
         } elseif (preg_match('/.*lava.*piedi.*/', $this->text)) {
-            $this->answer('photo', $this->pictures['filosofia']);
+            return $this->interpret('photo', $this->pictures['filosofia']);
         }
         // aggiungere birreria -> arrivo + foto bicicletta
         // aggiungere brau -> foto pooter allenamento
@@ -106,7 +116,7 @@ class PooterBrain
         return $text_to_send;
     }
 
-    public function answer($type, $content)
+    private function interpret($type, $content)
     {
         switch ($type) {
             case ('text'): {

@@ -16,14 +16,11 @@ if (!$update) {
 include 'PooterBrain.php';
 $pooter = new PooterBrain($update);
 
-$text_to_send = $pooter->interpret();
-if ($text_to_send === "") exit;
-
+$response = $pooter->answer();
 
 // set receiver
 $chat_id = isset($update['message']['chat']['id']) ? $update['message']['chat']['id'] : "";
 
 header("Content-Type: application/json");
-$parameters = array('chat_id' => $chat_id, "text" => $text_to_send);
-$parameters["method"] = "sendMessage";
-echo json_encode($parameters);
+$response['chat_id'] = $chat_id;
+echo json_encode($response);
