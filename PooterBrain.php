@@ -11,6 +11,7 @@ class PooterBrain
 
     private $text;
     private $interlocutor_name;
+
     private $pictures = array(
         'rugby' => 'AgADBAADRKkxGzn7-VAjJrMG6scndNWMuxkABGNtHsrxnyBOJysBAAEC',
         'intenso' => 'AgADBAADR6kxGzn7-VBUBMOaS-y26OfJnhkABBhGeuQ5-mma5FoEAAEC',
@@ -85,7 +86,7 @@ class PooterBrain
         // aggiungere brau -> foto pooter allenamento
     }
 
-    public function get_weather()
+    private function get_weather()
     {
         $api_key = 'e65327d8546ce97da440352f6a915c61';
         $base_url = 'http://api.openweathermap.org/data/2.5/weather';
@@ -123,7 +124,7 @@ class PooterBrain
                 return array('method' => 'sendMessage', 'text' => $content);
             }
             case ('photo'): {
-                return array('method' => 'sendPhoto', 'photo' => $content);
+                return array('method' => 'sendPhoto', 'photo' => $content, 'caption' => 'Come dissi tempo fa...');
             }
             default:
                 throw new Exception('Invalid argument');
