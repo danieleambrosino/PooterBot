@@ -30,13 +30,13 @@ class PooterBrain
         }
         $this->message = $update['message'];
 
-        if (!isset($message['text'])) {
+        if (!isset($this->message['text'])) {
             throw new Exception('No text');
         }
-        $this->text = strtolower(trim($message['text']));
+        $this->text = strtolower(trim($this->message['text']));
 
-        if (isset($message['chat']['first_name'])) {
-            $this->interlocutor_name = $message['chat']['first_name'];
+        if (isset($this->message['chat']['first_name'])) {
+            $this->interlocutor_name = $this->message['chat']['first_name'];
         } else {
             $this->interlocutor_name = "";
         }
@@ -45,11 +45,11 @@ class PooterBrain
 
     public function answer()
     {
-//        if (isset($message['new_chat_members'])) {
-//            if ($message['new_chat_members'][0]['first_name'] === 'PooterBot') {
-//                return $this->interpret('text', 'Ciao amici miei come va? Che fate di bello stasera?');
-//            }
-//        }
+        if (isset($message['new_chat_members'])) {
+            if ($message['new_chat_members'][0]['first_name'] === 'PooterBot') {
+                return $this->interpret('text', 'Ciao amici miei come va? Che fate di bello stasera?');
+            }
+        }
 
 
         if (strpos($this->text, 'ciao') !== FALSE || strpos($this->text, '/start') !== FALSE) {
