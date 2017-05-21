@@ -97,7 +97,7 @@ class PooterBrain
             $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
             return $this->interpret('text', $text_to_send);
         }
-        elseif (preg_match('/b+o+d+y/', $this->text)) {
+        elseif (preg_match('/b+o+d+y+/', $this->text)) {
             $text_to_send = "Sssssssssssoooooooooommmmmmmeeeeeeeeeeee";
             return $this->interpret('text', $text_to_send);
         }
