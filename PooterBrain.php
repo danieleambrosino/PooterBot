@@ -152,7 +152,7 @@ class PooterBrain
         $wind_speed = $response['wind']['speed'];
         $wind_direction = $response['wind']['deg'];
 
-        $text_to_send = 'Il clima a ' . $city . ' in questo momento è ' . $current_weather . ', il vento tira ad una velocità di ' . $wind_speed . ' km/h in direzione ' . $wind_direction;
+        $text_to_send = "Il clima a $city in questo momento è $current_weather, il vento tira ad una velocità di $wind_speed km/h a $wind_direction".'°';
         return $text_to_send;
     }
 
