@@ -33,17 +33,24 @@ class PooterBrain
         }
         $this->message = $update['message'];
 
-        if (!isset($this->message['text'])) {
-            throw new Exception('No text');
-        }
-        $this->text = strtolower(trim($this->message['text']));
-
-        if (isset($this->message['chat']['first_name'])) {
-            $this->interlocutor_name = $this->message['chat']['first_name'];
+        if (isset($this->message['text'])) {
+            $this->text = strtolower(trim($this->message['text']));
         } else {
-            $this->interlocutor_name = "";
+            $this->text = "";
         }
 
+        if (isset($this->message['chat'])) {
+            switch ($this->message['chat']['type']) {
+                case ('private'): {
+                    $this->interlocutor_name = $this->message['chat']['first_name'];
+                    break;
+                }
+                case ('group'): {
+                    $this->interlocutor_name = $this->message['from']['first_name'];
+                    break;
+                }
+            }
+        }
     }
 
     public function answer()
@@ -58,6 +65,7 @@ class PooterBrain
             }
         }
 
+        if ($this->text === "") return FALSE;
 
         if (strpos($this->text, 'ciao') !== FALSE || strpos($this->text, '/start') !== FALSE) {
             $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
