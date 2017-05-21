@@ -132,7 +132,7 @@ class PooterBrain
         $cities = array(
             'Bangkok',
             'Pyongyang',
-            'KualaLumpur',
+            'Kuala Lumpur',
             'Reykjavik',
             'Beirut',
             'Kabul',
@@ -140,7 +140,18 @@ class PooterBrain
             'Jakarta',
             'Tehran',
             'Baghdad',
-            'Caracas'
+            'Caracas',
+            'Quito',
+            'La Vella',
+            'Brazzaville',
+            'Minsk',
+            'Glasgow',
+            'Dakar',
+            'Bissau',
+            'Cusco',
+            'Antananarivo',
+            'Male',
+            'Pita Kotte',
         );
         $city = $cities[array_rand($cities)];
 
