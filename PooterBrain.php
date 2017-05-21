@@ -144,7 +144,7 @@ class PooterBrain
         );
         $city = $cities[array_rand($cities)];
 
-        $url = $base_url . '?q=' . $city . '&unit=metric' . '&appid=' . $api_key;
+        $url = $base_url . '?q=' . $city . '&unit=metric' . '&lang=it' . '&appid=' . $api_key;
         $content = file_get_contents($url);
         $response = json_decode($content, true);
 
