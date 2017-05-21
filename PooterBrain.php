@@ -42,8 +42,6 @@ class PooterBrain
 
     public function answer()
     {
-        $text_to_send = "";
-
         if (strpos($this->text, 'ciao') !== FALSE || strpos($this->text, '/start') !== FALSE) {
             $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
             return $this->interpret('text', $text_to_send);
@@ -77,15 +75,14 @@ class PooterBrain
             return $this->interpret('photo', $this->pictures['filosofia']);
         } elseif (strpos($this->text, 'conquista') !== FALSE) {
             return $this->interpret('photo', $this->pictures['rugby']);
-        }
-        elseif (strpos($this->text, 'pooter') !== FALSE) {
+        } elseif (strpos($this->text, 'pooter') !== FALSE) {
             $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
             return $this->interpret('text', $text_to_send);
+        } else {
+            return FALSE;
         }
         // aggiungere birreria -> arrivo + foto bicicletta
         // aggiungere brau -> foto pooter allenamento
-
-        return $text_to_send;
     }
 
     public function get_weather()

@@ -17,6 +17,7 @@ include 'PooterBrain.php';
 $pooter = new PooterBrain($update);
 
 $response = $pooter->answer();
+if ($response === FALSE) exit;
 
 // set receiver
 $chat_id = isset($update['message']['chat']['id']) ? $update['message']['chat']['id'] : "";
