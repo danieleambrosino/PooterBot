@@ -148,17 +148,17 @@ class PooterBrain
         $content = file_get_contents($url);
         $response = json_decode($content, true);
 
-        $current_weather = $response['weather'][0]['main'];
+        $current_weather = $response['weather'][0]['description'];
         $temperature = $response['main']['temp'];
         $wind_speed = $response['wind']['speed'];
         $wind_direction = $response['wind']['deg'];
 
-        $text_to_send = "Ragazzi aggiornamenti per il meteo: a
-                        $city c'è una giornata
-                        $current_weather con una temperatura di
-                        $temperature gradi centigradi, il vento tira ad una velocità di
-                        $wind_speed km/h a
-                        $wind_direction" . '°';
+        $text_to_send = "Ragazzi aggiornamenti per il meteo: a ".
+                        "$city c'è ".
+                        "$current_weather con una temperatura di ".
+                        "$temperature gradi centigradi, il vento tira ad una velocità di ".
+                        "$wind_speed km/h a ".
+                        "$wind_direction" . '°';
         return $text_to_send;
     }
 
