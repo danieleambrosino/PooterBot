@@ -75,7 +75,10 @@ class PooterBrain
             return $this->interpret('text', $text_to_send);
         } elseif (preg_match('/.*lava.*piedi.*/', $this->text)) {
             return $this->interpret('photo', $this->pictures['filosofia']);
-        } elseif (strpos($this->text, 'pooter') !== FALSE) {
+        } elseif (strpos($this->text, 'conquista') !== FALSE) {
+            return $this->interpret('photo', $this->pictures['rugby']);
+        }
+        elseif (strpos($this->text, 'pooter') !== FALSE) {
             $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
             return $this->interpret('text', $text_to_send);
         }
