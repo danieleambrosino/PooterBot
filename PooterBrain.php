@@ -144,15 +144,21 @@ class PooterBrain
         );
         $city = $cities[array_rand($cities)];
 
-        $url = $base_url . '?q=' . $city . '&appid=' . $api_key;
+        $url = $base_url . '?q=' . $city . '&unit=metric' . '&appid=' . $api_key;
         $content = file_get_contents($url);
         $response = json_decode($content, true);
 
         $current_weather = $response['weather'][0]['main'];
+        $temperature = $response['main']['temp'];
         $wind_speed = $response['wind']['speed'];
         $wind_direction = $response['wind']['deg'];
 
-        $text_to_send = "Il clima a $city in questo momento è $current_weather, il vento tira ad una velocità di $wind_speed km/h a $wind_direction".'°';
+        $text_to_send = "Ragazzi aggiornamenti per il meteo: a
+                        $city c'è una giornata
+                        $current_weather con una temperatura di
+                        $temperature gradi centigradi, il vento tira ad una velocità di
+                        $wind_speed km/h a
+                        $wind_direction" . '°';
         return $text_to_send;
     }
 
