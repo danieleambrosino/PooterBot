@@ -55,6 +55,11 @@ class PooterBrain
 
     public function answer()
     {
+        if (strpos($this->text, 'barzelletta') !== FALSE) {
+            $text_to_send = $this->get_joke();
+            return $this->interpret('text', $text_to_send);
+        }
+
         if (isset($this->message['new_chat_members'])) {
             if ($this->message['new_chat_members'][0]['id'] == BOT_ID) {
                 return $this->interpret('text', 'Amici miei come va? Che fate di bello stasera?');
@@ -175,6 +180,14 @@ class PooterBrain
                         "$wind_speed km/h a ".
                         "$wind_direction" . '°';
         return $text_to_send;
+    }
+
+    private function get_joke() {
+        $jokes = array(
+            "Due gamberetti si incontrano a un party ed uno si accorge che l'altro è un po' triste e gli chiede:\n-che cosa c'è?\n- no niente"
+        );
+        $joke = $jokes[array_rand($jokes)];
+        return $joke;
     }
 
     private function interpret($type, $content)
