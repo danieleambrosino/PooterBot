@@ -11,6 +11,7 @@ class PooterBrain
 
     private $text;
     private $interlocutor_name;
+    private $message;
 
     private $pictures = array(
         'rugby' => 'AgADBAADRKkxGzn7-VAjJrMG6scndNWMuxkABGNtHsrxnyBOJysBAAEC',
@@ -27,7 +28,7 @@ class PooterBrain
         if (!isset($update['message'])) {
             throw new Exception('No message');
         }
-        $message = $update['message'];
+        $this->message = $update['message'];
 
         if (!isset($message['text'])) {
             throw new Exception('No text');
@@ -44,6 +45,13 @@ class PooterBrain
 
     public function answer()
     {
+        if (isset($message['new_chat_members'])) {
+            if ($message['new_chat_members'][0]['first_name'] === 'PooterBot') {
+                return $this->interpret('text', 'Ciao amici miei come va? Che fate di bello stasera?');
+            }
+        }
+
+
         if (strpos($this->text, 'ciao') !== FALSE || strpos($this->text, '/start') !== FALSE) {
             $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
             return $this->interpret('text', $text_to_send);
