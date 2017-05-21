@@ -46,40 +46,52 @@ class PooterBrain
         if (strpos($this->text, 'ciao') !== FALSE || strpos($this->text, '/start') !== FALSE) {
             $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
             return $this->interpret('text', $text_to_send);
-        } elseif (strpos($this->text, 'meteo')) {
+        }
+        elseif (strpos($this->text, 'meteo')) {
             $text_to_send = $this->get_weather();
             return $this->interpret('text', $text_to_send);
-        } elseif (strpos($this->text, 'zitto') !== FALSE) {
+        }
+        elseif (strpos($this->text, 'zitto') !== FALSE) {
             $text_to_send = $this->interlocutor_name . ' potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?';
             return $this->interpret('text', $text_to_send);
-        } elseif (strpos($this->text, 'somebody') !== FALSE) {
+        }
+        elseif (strpos($this->text, 'somebody') !== FALSE) {
             $text_to_send = 'Eh grande pezzo';
             return $this->interpret('text', $text_to_send);
-        } elseif (strpos($this->text, 'fidanzata') !== FALSE || strpos($this->text, 'sono') !== FALSE ||
+        }
+        elseif (strpos($this->text, 'fidanzata') !== FALSE || strpos($this->text, 'sono') !== FALSE ||
             strpos($this->text, 'sharade') !== FALSE || strpos($this->text, 'charade') !== FALSE
         ) {
             $text_to_send = 'Sono Speedy Gonzales?';
             return $this->interpret('text', $text_to_send);
-        } elseif (preg_match('/s+t+o+p{2,}e+r+/', $this->text)) {
+        }
+        elseif (preg_match('/s+t+o+p{2,}e+r+/', $this->text)) {
             $text_to_send = 'Sergio Brio!';
             return $this->interpret('text', $text_to_send);
-        } elseif (preg_match('/s+o+m+e+/', $this->text)) {
+        }
+        elseif (preg_match('/s+o+m+e+/', $this->text)) {
             $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
             return $this->interpret('text', $text_to_send);
-        } elseif (strpos($this->text, 'passione') !== FALSE) {
+        }
+        elseif (strpos($this->text, 'passione') !== FALSE) {
             $text_to_send = 'Il mio sogno è fare il telecronista';
             return $this->interpret('text', $text_to_send);
-        } elseif (strpos($this->text, 'brau') !== FALSE) {
+        }
+        elseif (strpos($this->text, 'brau') !== FALSE) {
             $text_to_send = 'Sto arrivando, ' . $this->interlocutor_name . ' mi dai uno strappo?';
             return $this->interpret('text', $text_to_send);
-        } elseif (preg_match('/.*lava.*piedi.*/', $this->text)) {
-            return $this->interpret('photo', $this->pictures['filosofia']);
-        } elseif (strpos($this->text, 'conquista') !== FALSE) {
-            return $this->interpret('photo', $this->pictures['rugby']);
-        } elseif (strpos($this->text, 'pooter') !== FALSE) {
+        }
+        elseif (preg_match('/.*lava.*piedi.*/', $this->text)) {
+            return $this->interpret('photo', 'filosofia');
+        }
+        elseif (strpos($this->text, 'conquista') !== FALSE) {
+            return $this->interpret('photo', 'rugby');
+        }
+        elseif (strpos($this->text, 'pooter') !== FALSE) {
             $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
             return $this->interpret('text', $text_to_send);
-        } else {
+        }
+        else {
             return FALSE;
         }
         // aggiungere birreria -> arrivo + foto bicicletta
@@ -120,11 +132,17 @@ class PooterBrain
     private function interpret($type, $content)
     {
         switch ($type) {
-            case ('text'): {
+            case ('text'):
                 return array('method' => 'sendMessage', 'text' => $content);
-            }
             case ('photo'): {
-                return array('method' => 'sendPhoto', 'photo' => $content, 'caption' => 'Come dissi tempo fa...');
+                switch ($content) {
+                    case ('rugby'):
+                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['rugby'], 'caption' => 'Ti sventro la passera');
+                    case ('filosofia'):
+                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['filosofia'], 'caption' => 'Come dissi tempo fa...');
+                    default:
+                        throw new Exception('Invalid argument');
+                }
             }
             default:
                 throw new Exception('Invalid argument');
