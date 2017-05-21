@@ -18,7 +18,8 @@ class PooterBrain
         'linguaccia' => 'AgADBAADGakxG0EyCFGAkt-oPjv8GqNrmxkABHaZp0cgZuKvbmAEAAEC',
         'filosofia' => 'AgADBAADGqkxG0EyCFG4sm1oqFa0fBLnnxkABGk_yfNNlWpb6WUEAAEC',
         'sociale' => 'AgADBAADG6kxG0EyCFHcuocSdX-pfcjWnBkABMBjO6Rh8bYfrFgEAAEC',
-        'evil' => 'AgADBAADHKkxG0EyCFGGD1Pgnh6Fmz0AAb0ZAAShfA5vbTv5tms3AQABAg'
+        'evil' => 'AgADBAADHKkxG0EyCFGGD1Pgnh6Fmz0AAb0ZAAShfA5vbTv5tms3AQABAg',
+        'hooligan' => 'AgADBAADMaoxGwJlEVFlm6cmRDZVWV51mxkABPJAlMffzG8bZGcEAAEC'
     );
 
     public function __construct($update)
@@ -87,6 +88,9 @@ class PooterBrain
         elseif (strpos($this->text, 'conquista') !== FALSE) {
             return $this->interpret('photo', 'rugby');
         }
+        elseif (strpos($this->text, 'intimidisci') !== FALSE || strpos($this->text, 'spaventa') !== FALSE) {
+            return $this->interpret('photo', 'hooligan');
+        }
         elseif (strpos($this->text, 'pooter') !== FALSE) {
             $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
             return $this->interpret('text', $text_to_send);
@@ -140,6 +144,8 @@ class PooterBrain
                         return array('method' => 'sendPhoto', 'photo' => $this->pictures['rugby'], 'caption' => 'Ti sventro la passera');
                     case ('filosofia'):
                         return array('method' => 'sendPhoto', 'photo' => $this->pictures['filosofia'], 'caption' => 'Come dissi tempo fa...');
+                    case ('hooligan'):
+                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['hooligan'], 'caption' => 'Trema! No scherzo amico mio <3');
                     default:
                         throw new Exception('Invalid argument');
                 }
