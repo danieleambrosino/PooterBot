@@ -70,14 +70,14 @@ class PooterBrain
         } elseif (strpos($this->text, 'passione') !== FALSE) {
             $text_to_send = 'Il mio sogno è fare il telecronista';
             return $this->interpret('text', $text_to_send);
-        } elseif (strpos($this->text, 'pooter') !== FALSE) {
-            $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
-            return $this->interpret('text', $text_to_send);
         } elseif (strpos($this->text, 'brau') !== FALSE) {
             $text_to_send = 'Sto arrivando, ' . $this->interlocutor_name . ' mi dai uno strappo?';
             return $this->interpret('text', $text_to_send);
         } elseif (preg_match('/.*lava.*piedi.*/', $this->text)) {
             return $this->interpret('photo', $this->pictures['filosofia']);
+        } elseif (strpos($this->text, 'pooter') !== FALSE) {
+            $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
+            return $this->interpret('text', $text_to_send);
         }
         // aggiungere birreria -> arrivo + foto bicicletta
         // aggiungere brau -> foto pooter allenamento
