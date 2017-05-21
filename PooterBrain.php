@@ -11,6 +11,14 @@ class PooterBrain
 
     private $text;
     private $interlocutor_name;
+    private $pictures = array(
+        'rugby' => 'AgADBAADRKkxGzn7-VAjJrMG6scndNWMuxkABGNtHsrxnyBOJysBAAEC',
+        'intenso' => 'AgADBAADR6kxGzn7-VBUBMOaS-y26OfJnhkABBhGeuQ5-mma5FoEAAEC',
+        'linguaccia' => 'AgADBAADGakxG0EyCFGAkt-oPjv8GqNrmxkABHaZp0cgZuKvbmAEAAEC',
+        'filosofia' => 'AgADBAADGqkxG0EyCFG4sm1oqFa0fBLnnxkABGk_yfNNlWpb6WUEAAEC',
+        'sociale' => 'AgADBAADG6kxG0EyCFHcuocSdX-pfcjWnBkABMBjO6Rh8bYfrFgEAAEC',
+        'evil' => 'AgADBAADHKkxG0EyCFGGD1Pgnh6Fmz0AAb0ZAAShfA5vbTv5tms3AQABAg'
+    );
 
     public function __construct($update)
     {
@@ -45,8 +53,8 @@ class PooterBrain
         } elseif (strpos($this->text, 'somebody') !== FALSE) {
             $text_to_send = 'Eh grande pezzo';
         } elseif (strpos($this->text, 'fidanzata') !== FALSE || strpos($this->text, 'sono') !== FALSE ||
-                  strpos($this->text, 'sharade') !== FALSE || strpos($this->text, 'charade') !== FALSE)
-        {
+            strpos($this->text, 'sharade') !== FALSE || strpos($this->text, 'charade') !== FALSE
+        ) {
             $text_to_send = 'Sono Speedy Gonzales?';
         } elseif (preg_match('/s+t+o+p{2,}e+r+/', $this->text)) {
             $text_to_send = 'Sergio Brio!';
@@ -57,9 +65,9 @@ class PooterBrain
         } elseif (strpos($this->text, 'pooter') !== FALSE) {
             $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
         } elseif (strpos($this->text, 'brau') !== FALSE) {
-            $text_to_send = 'Sto arrivando, ' .$this->interlocutor_name . ' mi dai uno strappo?';
+            $text_to_send = 'Sto arrivando, ' . $this->interlocutor_name . ' mi dai uno strappo?';
         } elseif (preg_match('/.*lava.*piedi.*/', $this->text)) {
-            $text_to_send = 'No...';
+            $this->answer('photo', $this->pictures['filosofia']);
         }
         // aggiungere birreria -> arrivo + foto bicicletta
         // aggiungere brau -> foto pooter allenamento
@@ -96,6 +104,20 @@ class PooterBrain
 
         $text_to_send = 'Il clima a ' . $city . ' in questo momento è ' . $current_weather . ', il vento tira ad una velocità di ' . $wind_speed . ' km/h in direzione ' . $wind_direction;
         return $text_to_send;
+    }
+
+    public function answer($type, $content)
+    {
+        switch ($type) {
+            case ('text'): {
+                return array('method' => 'sendMessage', 'text' => $content);
+            }
+            case ('photo'): {
+                return array('method' => 'sendPhoto', 'photo' => $content);
+            }
+            default:
+                throw new Exception('Invalid argument');
+        }
     }
 
 }
