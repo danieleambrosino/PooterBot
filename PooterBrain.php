@@ -6,8 +6,11 @@
  * Date: 19/05/2017
  * Time: 00:09
  */
+define('BOT_ID', '395202945');
+
 class PooterBrain
 {
+
 
     private $text;
     private $interlocutor_name;
@@ -45,9 +48,12 @@ class PooterBrain
 
     public function answer()
     {
-        if (isset($message['new_chat_members'])) {
-            if ($message['new_chat_members'][0]['first_name'] === 'PooterBot') {
-                return $this->interpret('text', 'Ciao amici miei come va? Che fate di bello stasera?');
+        if (isset($this->message['new_chat_members'])) {
+            if ($this->message['new_chat_members'][0]['id'] == BOT_ID) {
+                return $this->interpret('text', 'Amici miei come va? Che fate di bello stasera?');
+            }
+            else {
+                return $this->interpret('text', "Ciao $this->interlocutor_name, che fai di bello stasera?");
             }
         }
 
