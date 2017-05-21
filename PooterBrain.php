@@ -53,7 +53,8 @@ class PooterBrain
                 return $this->interpret('text', 'Amici miei come va? Che fate di bello stasera?');
             }
             else {
-                return $this->interpret('text', "Ciao $this->interlocutor_name, che fai di bello stasera?");
+                $new_member = $this->message['new_chat_members'][0]['first_name'];
+                return $this->interpret('text', "Ciao $new_member, che fai di bello stasera?");
             }
         }
 
