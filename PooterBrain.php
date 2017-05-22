@@ -79,12 +79,14 @@ class PooterBrain
                 return array('method' => 'sendMessage', 'text' => $content);
             case ('photo'): {
                 switch ($content) {
-                    case ('rugby'):
-                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['rugby'], 'caption' => 'Ti sventro la passera');
                     case ('filosofia'):
                         return array('method' => 'sendPhoto', 'photo' => $this->pictures['filosofia'], 'caption' => 'Come dissi tempo fa...');
                     case ('hooligan'):
                         return array('method' => 'sendPhoto', 'photo' => $this->pictures['hooligan'], 'caption' => 'Trema! No scherzo amico mio <3');
+                    case ('olmo'):
+                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['olmo'], 'caption' => "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
+                    case ('rugby'):
+                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['rugby'], 'caption' => 'Ti sventro la passera');
                     default:
                         throw new Exception('Invalid argument');
                 }
@@ -245,6 +247,9 @@ class PooterBrain
              || strpos($this->text, 'spaventa') !== FALSE)
         {
             return $this->interpret('photo', 'hooligan');
+        }
+        elseif (strpos($this->text, 'olmo') !== FALSE) {
+            return $this->interpret('photo', 'olmo');
         }
         elseif (preg_match('/.*(pooter|sugo|gusso|pietro|luca).*/', $this->text)) {
             $text_to_send = 'Dimmi ' . $this->interlocutor_name . ', mi hai chiamato?';
