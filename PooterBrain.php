@@ -154,7 +154,8 @@ class PooterBrain
      *
      * @return string containing a random joke
      */
-    private function get_joke() {
+    private function get_joke()
+    {
         $jokes = array(
             "Due gamberetti si incontrano a un party ed uno si accorge che l'altro è un po' triste e gli chiede:\n-\"Che cosa c'è?\"\n-\"No niente\"",
             "Una tartaruga, dopo aver battuto la testa contro un albero si confida con un'amica:\n-\"Spero che... che la... sgusa, anzi, prego...\"\nNon me la ricordo più",
@@ -261,11 +262,11 @@ class PooterBrain
     }
 
     /**
-     * Returns Pooter's answer.
+     * Handles Telegram groups events.
      *
-     * @return array|bool containing the answer to be sent.
+     * @return array|null containing the answer to be sent (or a fail value)
      */
-    public function answer()
+    private function handle_group_event()
     {
         // greet new group members (included Pooter himself)
         if (isset($this->message['new_chat_members'])) {
@@ -281,8 +282,37 @@ class PooterBrain
                 }
             }
         }
+        // greet left group member
+        elseif (isset($this->message['left_chat_member'])) {
+            $left_member = $this->message['left_chat_member']['first_name'];
+            return $this->interpret('text', "No $left_member amico mio dove vai?");
+        }
+        // comment new group photo
+        elseif (isset($this->message['new_chat_photo'])) {
+            return $this->interpret('text', 'Bellissima foto amico mio');
+        }
+        // comment deleted group photo
+        elseif (isset($this->message['delete_chat_photo'])) {
+            return $this->interpret('text', 'Era una bellissima foto amico mio, perché l\'hai tolta?');
+        }
 
-        if ($this->text === "") return FALSE;
+        return NULL;
+    }
+
+    /**
+     * Returns Pooter's answer.
+     *
+     * @return array|bool containing the answer to be sent.
+     */
+    public function answer()
+    {
+        if ($this->text === "") {
+            if ($this->message['chat']['type'] == 'group')
+                return $this->handle_group_event();
+            else
+                return FALSE;
+        }
+
         return $this->parse_text();
     }
 
