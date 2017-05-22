@@ -174,7 +174,7 @@ class PooterBrain
         $text_to_send = "Ragazzi aggiornamenti per il meteo: a ".
                         "$city c'è ".
                         "$current_weather con una temperatura di ".
-                        "$temperature gradi centigradi, il vento tira ad una velocità di ".
+                        "$temperature °C, il vento tira ad una velocità di ".
                         "$wind_speed km/h a ".
                         "$wind_direction" . '°';
         return $text_to_send;
