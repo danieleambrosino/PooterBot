@@ -87,9 +87,10 @@ class PooterBrain
             $text_to_send = 'Eh grande pezzo';
             return $this->interpret('text', $text_to_send);
         }
-        elseif (strpos($this->text, 'fidanzata') !== FALSE || strpos($this->text, 'sono') !== FALSE ||
-            strpos($this->text, 'sharade') !== FALSE || strpos($this->text, 'charade') !== FALSE
-        ) {
+        elseif (strpos($this->text, 'fidanzata') !== FALSE
+             || strpos($this->text, 'sono') !== FALSE
+             || strpos($this->text, 'sharade') !== FALSE
+             || strpos($this->text, 'charade') !== FALSE) {
             $text_to_send = 'Sono Speedy Gonzales?';
             return $this->interpret('text', $text_to_send);
         }
@@ -129,8 +130,6 @@ class PooterBrain
         else {
             return FALSE;
         }
-        // aggiungere birreria -> arrivo + foto bicicletta
-        // aggiungere brau -> foto pooter allenamento
     }
 
     private function get_weather()
