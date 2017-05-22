@@ -79,6 +79,8 @@ class PooterBrain
                 return array('method' => 'sendMessage', 'text' => $content);
             case ('photo'): {
                 switch ($content) {
+                    case ('caschetto'):
+                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['caschetto'], 'caption' => "Sto arrivando, $this->interlocutor_name mi dai uno strappo?");
                     case ('filosofia'):
                         return array('method' => 'sendPhoto', 'photo' => $this->pictures['filosofia'], 'caption' => 'Come dissi tempo fa...');
                     case ('hooligan'):
@@ -233,8 +235,7 @@ class PooterBrain
         }
         elseif (strpos($this->text, 'brau') !== FALSE)
         {
-            $text_to_send = 'Sto arrivando, ' . $this->interlocutor_name . ' mi dai uno strappo?';
-            return $this->interpret('text', $text_to_send);
+            return $this->interpret('photo', 'caschetto');
         }
         elseif (preg_match('/.*lava.*piedi.*/', $this->text))
         {
