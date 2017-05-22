@@ -24,7 +24,8 @@ class PooterBrain
         'hooligan' => 'AgADBAADMaoxGwJlEVFlm6cmRDZVWV51mxkABPJAlMffzG8bZGcEAAEC',
         'caschetto' => 'AgADBAADzagxG09xGFGgt-QvRKw20QTmnxkABELGH8Fe93p0a2kEAAEC',
         'donna' => 'AgADBAAD1KgxG09xGFFhmilQ01jlD6ZkqRkABENvTwYiKKi0Eq0BAAEC',
-        'olmo' => 'AgADBAAD16gxG09xGFEnfKKKMsxpaVimuxkABD9pYMaIW39cSUIBAAEC'
+        'olmo' => 'AgADBAAD16gxG09xGFEnfKKKMsxpaVimuxkABD9pYMaIW39cSUIBAAEC',
+        'sergio_brio' => 'AgADBAADxqgxG3sfIVENltTMCQQs5j9KuxkABPt2tL9OyLESg0EBAAEC'
     );
 
     /**
@@ -89,6 +90,8 @@ class PooterBrain
                         return array('method' => 'sendPhoto', 'photo' => $this->pictures['olmo'], 'caption' => "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
                     case ('rugby'):
                         return array('method' => 'sendPhoto', 'photo' => $this->pictures['rugby'], 'caption' => 'Ti sventro la passera');
+                    case ('sergio_brio'):
+                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['sergio_brio'], 'caption' => 'Il più grande di tutti');
                     default:
                         throw new Exception('Invalid argument');
                 }
@@ -215,8 +218,7 @@ class PooterBrain
         }
         elseif (preg_match('/s+t+o+p{2,}e+r+/', $this->text))
         {
-            $text_to_send = 'Sergio Brio!';
-            return $this->interpret('text', $text_to_send);
+            return $this->interpret('photo', 'sergio_brio');
         }
         elseif (preg_match('/s+o+m+e+/', $this->text))
         {
