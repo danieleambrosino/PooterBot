@@ -138,12 +138,12 @@ class PooterBrain
         $wind_speed = $response['wind']['speed'];
         $wind_direction = $response['wind']['deg'];
 
-        $text_to_send = "Ragazzi aggiornamenti per il meteo: a ".
-            "$city c'è ".
-            "$current_weather con una temperatura di ".
-            "$temperature °C, il vento tira ad una velocità di ".
-            "$wind_speed km/h a ".
-            "$wind_direction" . '°';
+        $text_to_send = "Ci penso io tranquilli, a ".
+                        "$city c'è ".
+                        "$current_weather con una temperatura di ".
+                        "$temperature °C, il vento tira ad una velocità di ".
+                        "$wind_speed km/h a ".
+                        "$wind_direction" . '°';
         return $text_to_send;
     }
 
@@ -184,7 +184,8 @@ class PooterBrain
             $text_to_send = $this->get_joke();
             return $this->interpret('text', $text_to_send);
         }
-        elseif (strpos($this->text, 'meteo') !== FALSE)
+        elseif (strpos($this->text, 'meteo') !== FALSE
+             || strpos($this->text, 'clima') !== FALSE)
         {
             $text_to_send = $this->get_weather();
             return $this->interpret('text', $text_to_send);
