@@ -55,11 +55,6 @@ class PooterBrain
 
     public function answer()
     {
-        if (strpos($this->text, 'barzelletta') !== FALSE) {
-            $text_to_send = $this->get_joke();
-            return $this->interpret('text', $text_to_send);
-        }
-
         if (isset($this->message['new_chat_members'])) {
             if ($this->message['new_chat_members'][0]['id'] == BOT_ID) {
                 return $this->interpret('text', 'Amici miei come va? Che fate di bello stasera?');
@@ -72,8 +67,12 @@ class PooterBrain
 
         if ($this->text === "") return FALSE;
 
-        if (strpos($this->text, 'ciao') !== FALSE || strpos($this->text, '/start') !== FALSE) {
+        if (strpos($this->text, '/start') !== FALSE) {
             $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (strpos($this->text, 'barzelletta') !== FALSE) {
+            $text_to_send = $this->get_joke();
             return $this->interpret('text', $text_to_send);
         }
         elseif (strpos($this->text, 'meteo') !== FALSE) {
@@ -123,8 +122,8 @@ class PooterBrain
         elseif (strpos($this->text, 'intimidisci') !== FALSE || strpos($this->text, 'spaventa') !== FALSE) {
             return $this->interpret('photo', 'hooligan');
         }
-        elseif (strpos($this->text, 'pooter') !== FALSE) {
-            $text_to_send = 'Dimmi tutto ' . $this->interlocutor_name . ', mio grandissimo amico e bravissima persona';
+        elseif (preg_match('/.*(pooter|sugo|gusso|pietro|luca).*/', $this->text)) {
+            $text_to_send = 'Dimmi ' . $this->interlocutor_name . ', mi hai chiamato?';
             return $this->interpret('text', $text_to_send);
         }
         else {
@@ -186,11 +185,11 @@ class PooterBrain
         $jokes = array(
             "Due gamberetti si incontrano a un party ed uno si accorge che l'altro è un po' triste e gli chiede:\n-\"Che cosa c'è?\"\n-\"No niente\"",
             "Una tartaruga, dopo aver battuto la testa contro un albero si confida con un'amica:\n-\"Spero che... che la... sgusa, anzi, prego...\"\nNon me la ricordo più",
-            "-Voto inglese?\n-Ottimo\n-Ok... traduca \"capire le donne\"\n-Somebody",
+            "-\"Voto inglese\"?\n-\"Ottimo\"\n-\"Ok... traduca 'capire le donne'\n-\"Somebody\"",
             "Che cosa fa un pittore al polo nord? Io non lo so",
             "Tua madre è cosi troia che quando le dico... no cioè, quando non le dico... che poi tua madre non è troia... capito? Sto scherzando amico mio!",
             "Il commendator Colombo Ernesto va in Africa a caccia di leoni nella savana. Mentre è acquattato con il fucile in mano nel più completo silenzio, si sente toccare su una spalla e, giratosi di scatto, vede un negro tutto nudo, alto e muscoloso che gli grida: \"SOOOOMEBOOOOODY\"",
-            "Nella sala d'attesa dello studio di un dottore c'è una lunghissima fila. I pazienti si consultano tra di loro, un paziente dice: \"io mi sono rotto un braccio\" ed un altro: \"io mi sono rotto una gamba\" e l'ultimo paziente: \"SOOOOMEBOOOOODY"
+            "Nella sala d'attesa dello studio di un dottore c'è una lunghissima fila. I pazienti si consultano tra di loro, un paziente dice: \"io mi sono rotto un braccio\" ed un altro: \"io mi sono rotto una gamba\" e l'ultimo paziente: \"SOOOOMEBOOOOODY\""
         );
         $joke = $jokes[array_rand($jokes)];
         return $joke;
