@@ -138,12 +138,12 @@ class PooterBrain
         $wind_speed = $response['wind']['speed'];
         $wind_direction = $response['wind']['deg'];
 
-        $text_to_send = "Ci penso io tranquilli, a ".
+        $text_to_send = 'Ci penso io tranquilli, a '.
                         "$city c'è ".
                         "$current_weather con una temperatura di ".
-                        "$temperature °C, il vento tira ad una velocità di ".
+                         $temperature . '°C, il vento tira ad una velocità di '.
                         "$wind_speed km/h a ".
-                        "$wind_direction" . '°';
+                         $wind_direction . '°';
         return $text_to_send;
     }
 
