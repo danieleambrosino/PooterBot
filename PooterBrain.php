@@ -184,7 +184,11 @@ class PooterBrain
 
     private function get_joke() {
         $jokes = array(
-            "Due gamberetti si incontrano a un party ed uno si accorge che l'altro è un po' triste e gli chiede:\n-che cosa c'è?\n- no niente"
+            "Due gamberetti si incontrano a un party ed uno si accorge che l'altro è un po' triste e gli chiede:\n-che cosa c'è?\n- no niente",
+            "Una tartaruga, dopo aver battuto la testa contro un albero si confida con un'amica:\n-spero che...\nNon me la ricordo più",
+            "-Voto inglese?\n-Ottimo\n-Ok... traduca \"capire le donne\"\n-Somebody",
+            "Che cosa fa un pittore al polo nord? Ditemelo voi perché non me lo ricordo più",
+            "Tua madre è cosi troia che quando le dico... no cioè, quando non le dico... che poi tua madre non è troia... capito? Sto scherzando amico mio!"
         );
         $joke = $jokes[array_rand($jokes)];
         return $joke;
