@@ -252,6 +252,10 @@ class PooterBrain
         elseif (strpos($this->text, 'olmo') !== FALSE) {
             return $this->interpret('photo', 'olmo');
         }
+        elseif (strpos($this->text, 'pietrausen greco') !== FALSE) {
+            $text_to_send = "Che cazzo vuoi $this->interlocutor_name porco dio e anche porca madonna vaffanculo t'ammazzo di botte... forse";
+            return $this->interpret('text', $text_to_send);
+        }
         elseif (preg_match('/.*(pooter|sugo|gusso|pietro|luca).*/', $this->text)) {
             $text_to_send = 'Dimmi ' . $this->interlocutor_name . ', mi hai chiamato?';
             return $this->interpret('text', $text_to_send);
