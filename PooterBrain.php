@@ -233,7 +233,8 @@ class PooterBrain
             $text_to_send = 'Il mio sogno è fare il telecronista';
             return $this->interpret('text', $text_to_send);
         }
-        elseif (strpos($this->text, 'brau') !== FALSE)
+        elseif (strpos($this->text, 'brau') !== FALSE
+             || strpos($this->text, 'birr') !== FALSE)
         {
             return $this->interpret('photo', 'caschetto');
         }
