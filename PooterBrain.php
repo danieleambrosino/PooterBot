@@ -6,11 +6,9 @@
  * Date: 19/05/2017
  * Time: 00:09
  */
-define('BOT_ID', '395202945');
 
 class PooterBrain
 {
-
 
     private $text;
     private $interlocutor_name;
@@ -23,22 +21,34 @@ class PooterBrain
         'filosofia' => 'AgADBAADGqkxG0EyCFG4sm1oqFa0fBLnnxkABGk_yfNNlWpb6WUEAAEC',
         'sociale' => 'AgADBAADG6kxG0EyCFHcuocSdX-pfcjWnBkABMBjO6Rh8bYfrFgEAAEC',
         'evil' => 'AgADBAADHKkxG0EyCFGGD1Pgnh6Fmz0AAb0ZAAShfA5vbTv5tms3AQABAg',
-        'hooligan' => 'AgADBAADMaoxGwJlEVFlm6cmRDZVWV51mxkABPJAlMffzG8bZGcEAAEC'
+        'hooligan' => 'AgADBAADMaoxGwJlEVFlm6cmRDZVWV51mxkABPJAlMffzG8bZGcEAAEC',
+        'caschetto' => 'AgADBAADzagxG09xGFGgt-QvRKw20QTmnxkABELGH8Fe93p0a2kEAAEC',
+        'donna' => 'AgADBAAD1KgxG09xGFFhmilQ01jlD6ZkqRkABENvTwYiKKi0Eq0BAAEC',
+        'olmo' => 'AgADBAAD16gxG09xGFEnfKKKMsxpaVimuxkABD9pYMaIW39cSUIBAAEC'
     );
 
+    /**
+     * PooterBrain constructor.
+     *
+     * @param $update JsonSerializable object.
+     * @throws Exception if no message was sent.
+     */
     public function __construct($update)
     {
+        // hold received message
         if (!isset($update['message'])) {
             throw new Exception('No message');
         }
         $this->message = $update['message'];
 
+        // hold received text (if present)
         if (isset($this->message['text'])) {
             $this->text = strtolower(trim($this->message['text']));
         } else {
             $this->text = "";
         }
 
+        // hold interlocutor's name
         if (isset($this->message['chat'])) {
             switch ($this->message['chat']['type']) {
                 case ('private'): {
@@ -51,87 +61,44 @@ class PooterBrain
                 }
             }
         }
+        define('BOT_ID', '395202945');
     }
 
-    public function answer()
+    /**
+     * Interprets the content and sends it in the form of the selected type.
+     *
+     * @param $type string: type of message to be send (text, photo...)
+     * @param $content string: content to be send
+     * @return array ready to be JSON-serialized as a Telegram message
+     * @throws Exception if an unknown type is passed
+     */
+    private function interpret($type, $content)
     {
-        if (isset($this->message['new_chat_members'])) {
-            if ($this->message['new_chat_members'][0]['id'] == BOT_ID) {
-                return $this->interpret('text', 'Amici miei come va? Che fate di bello stasera?');
+        switch ($type) {
+            case ('text'):
+                return array('method' => 'sendMessage', 'text' => $content);
+            case ('photo'): {
+                switch ($content) {
+                    case ('rugby'):
+                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['rugby'], 'caption' => 'Ti sventro la passera');
+                    case ('filosofia'):
+                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['filosofia'], 'caption' => 'Come dissi tempo fa...');
+                    case ('hooligan'):
+                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['hooligan'], 'caption' => 'Trema! No scherzo amico mio <3');
+                    default:
+                        throw new Exception('Invalid argument');
+                }
             }
-            else {
-                $new_member = $this->message['new_chat_members'][0]['first_name'];
-                return $this->interpret('text', "Ciao $new_member, che fai di bello stasera?");
-            }
-        }
-
-        if ($this->text === "") return FALSE;
-
-        if (strpos($this->text, '/start') !== FALSE) {
-            $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (strpos($this->text, 'barzelletta') !== FALSE) {
-            $text_to_send = $this->get_joke();
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (strpos($this->text, 'meteo') !== FALSE) {
-            $text_to_send = $this->get_weather();
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (strpos($this->text, 'zitto') !== FALSE) {
-            $text_to_send = $this->interlocutor_name . ' potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?';
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (strpos($this->text, 'somebody') !== FALSE) {
-            $text_to_send = 'Eh grande pezzo';
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (strpos($this->text, 'fidanzata') !== FALSE
-             || strpos($this->text, 'sono') !== FALSE
-             || strpos($this->text, 'sharade') !== FALSE
-             || strpos($this->text, 'charade') !== FALSE) {
-            $text_to_send = 'Sono Speedy Gonzales?';
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (preg_match('/s+t+o+p{2,}e+r+/', $this->text)) {
-            $text_to_send = 'Sergio Brio!';
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (preg_match('/s+o+m+e+/', $this->text)) {
-            $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (preg_match('/b+o+d+y+/', $this->text)) {
-            $text_to_send = "Sssssssssssoooooooooommmmmmmeeeeeeeeeeee";
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (strpos($this->text, 'passione') !== FALSE) {
-            $text_to_send = 'Il mio sogno è fare il telecronista';
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (strpos($this->text, 'brau') !== FALSE) {
-            $text_to_send = 'Sto arrivando, ' . $this->interlocutor_name . ' mi dai uno strappo?';
-            return $this->interpret('text', $text_to_send);
-        }
-        elseif (preg_match('/.*lava.*piedi.*/', $this->text)) {
-            return $this->interpret('photo', 'filosofia');
-        }
-        elseif (strpos($this->text, 'conquista') !== FALSE) {
-            return $this->interpret('photo', 'rugby');
-        }
-        elseif (strpos($this->text, 'intimidisci') !== FALSE || strpos($this->text, 'spaventa') !== FALSE) {
-            return $this->interpret('photo', 'hooligan');
-        }
-        elseif (preg_match('/.*(pooter|sugo|gusso|pietro|luca).*/', $this->text)) {
-            $text_to_send = 'Dimmi ' . $this->interlocutor_name . ', mi hai chiamato?';
-            return $this->interpret('text', $text_to_send);
-        }
-        else {
-            return FALSE;
+            default:
+                throw new Exception('Invalid argument');
         }
     }
 
+    /**
+     * Returns a brief weather report of a random city.
+     *
+     * @return string containing a short weather report
+     */
     private function get_weather()
     {
         $api_key = 'e65327d8546ce97da440352f6a915c61';
@@ -172,14 +139,19 @@ class PooterBrain
         $wind_direction = $response['wind']['deg'];
 
         $text_to_send = "Ragazzi aggiornamenti per il meteo: a ".
-                        "$city c'è ".
-                        "$current_weather con una temperatura di ".
-                        "$temperature °C, il vento tira ad una velocità di ".
-                        "$wind_speed km/h a ".
-                        "$wind_direction" . '°';
+            "$city c'è ".
+            "$current_weather con una temperatura di ".
+            "$temperature °C, il vento tira ad una velocità di ".
+            "$wind_speed km/h a ".
+            "$wind_direction" . '°';
         return $text_to_send;
     }
 
+    /**
+     * Returns a random silly joke.
+     *
+     * @return string containing a random joke
+     */
     private function get_joke() {
         $jokes = array(
             "Due gamberetti si incontrano a un party ed uno si accorge che l'altro è un po' triste e gli chiede:\n-\"Che cosa c'è?\"\n-\"No niente\"",
@@ -194,26 +166,118 @@ class PooterBrain
         return $joke;
     }
 
-    private function interpret($type, $content)
+    /**
+     * This is the syntactic analyzer of the class. Looks for specific tokens and returns the
+     * interpreted text.
+     *
+     * @return array|bool containing the interpreted message.
+     */
+    private function parse_text()
     {
-        switch ($type) {
-            case ('text'):
-                return array('method' => 'sendMessage', 'text' => $content);
-            case ('photo'): {
-                switch ($content) {
-                    case ('rugby'):
-                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['rugby'], 'caption' => 'Ti sventro la passera');
-                    case ('filosofia'):
-                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['filosofia'], 'caption' => 'Come dissi tempo fa...');
-                    case ('hooligan'):
-                        return array('method' => 'sendPhoto', 'photo' => $this->pictures['hooligan'], 'caption' => 'Trema! No scherzo amico mio <3');
-                    default:
-                        throw new Exception('Invalid argument');
+        if (strpos($this->text, '/start') !== FALSE)
+        {
+            $text_to_send = 'Ciao ' . $this->interlocutor_name . ', caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!';
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (strpos($this->text, 'barzelletta') !== FALSE)
+        {
+            $text_to_send = $this->get_joke();
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (strpos($this->text, 'meteo') !== FALSE)
+        {
+            $text_to_send = $this->get_weather();
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (strpos($this->text, 'zitto') !== FALSE)
+        {
+            $text_to_send = $this->interlocutor_name . ' potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?';
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (strpos($this->text, 'somebody') !== FALSE)
+        {
+            $text_to_send = 'Eh grande pezzo';
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (strpos($this->text, 'fidanzata') !== FALSE
+             || strpos($this->text, 'sono') !== FALSE
+             || strpos($this->text, 'sharade') !== FALSE
+             || strpos($this->text, 'charade') !== FALSE)
+        {
+            $text_to_send = 'Sono Speedy Gonzales?';
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (preg_match('/s+t+o+p{2,}e+r+/', $this->text))
+        {
+            $text_to_send = 'Sergio Brio!';
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (preg_match('/s+o+m+e+/', $this->text))
+        {
+            $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (preg_match('/b+o+d+y+/', $this->text))
+        {
+            $text_to_send = "Sssssssssssoooooooooommmmmmmeeeeeeeeeeee";
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (strpos($this->text, 'passione') !== FALSE)
+        {
+            $text_to_send = 'Il mio sogno è fare il telecronista';
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (strpos($this->text, 'brau') !== FALSE)
+        {
+            $text_to_send = 'Sto arrivando, ' . $this->interlocutor_name . ' mi dai uno strappo?';
+            return $this->interpret('text', $text_to_send);
+        }
+        elseif (preg_match('/.*lava.*piedi.*/', $this->text))
+        {
+            return $this->interpret('photo', 'filosofia');
+        }
+        elseif (strpos($this->text, 'conquista') !== FALSE)
+        {
+            return $this->interpret('photo', 'rugby');
+        }
+        elseif (strpos($this->text, 'intimidisci') !== FALSE
+             || strpos($this->text, 'spaventa') !== FALSE)
+        {
+            return $this->interpret('photo', 'hooligan');
+        }
+        elseif (preg_match('/.*(pooter|sugo|gusso|pietro|luca).*/', $this->text)) {
+            $text_to_send = 'Dimmi ' . $this->interlocutor_name . ', mi hai chiamato?';
+            return $this->interpret('text', $text_to_send);
+        }
+        else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * Returns Pooter's answer.
+     *
+     * @return array|bool containing the answer to be sent.
+     */
+    public function answer()
+    {
+        // greet new group members (included Pooter himself)
+        if (isset($this->message['new_chat_members'])) {
+            $new_members = $this->message['new_chat_members'];
+            if ($new_members[0]['id'] == BOT_ID) {
+                return $this->interpret('text', 'Amici miei come va? Che fate di bello stasera?');
+            } else {
+                if (count($new_members) > 1) {
+                    return $this->interpret('text', 'Benvenuti ragazzi, che fate di bello stasera?');
+                } else {
+                    $new_member = $new_members[0]['first_name'];
+                    return $this->interpret('text', "Ciao $new_member, che fai di bello stasera?");
                 }
             }
-            default:
-                throw new Exception('Invalid argument');
         }
+
+        if ($this->text === "") return FALSE;
+        return $this->parse_text();
     }
 
 }
