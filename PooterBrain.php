@@ -184,11 +184,13 @@ class PooterBrain
 
     private function get_joke() {
         $jokes = array(
-            "Due gamberetti si incontrano a un party ed uno si accorge che l'altro è un po' triste e gli chiede:\n-che cosa c'è?\n- no niente",
-            "Una tartaruga, dopo aver battuto la testa contro un albero si confida con un'amica:\n-spero che...\nNon me la ricordo più",
+            "Due gamberetti si incontrano a un party ed uno si accorge che l'altro è un po' triste e gli chiede:\n-\"Che cosa c'è?\"\n-\"No niente\"",
+            "Una tartaruga, dopo aver battuto la testa contro un albero si confida con un'amica:\n-\"Spero che... che la... sgusa, anzi, prego...\"\nNon me la ricordo più",
             "-Voto inglese?\n-Ottimo\n-Ok... traduca \"capire le donne\"\n-Somebody",
-            "Che cosa fa un pittore al polo nord? Ditemelo voi perché non me lo ricordo più",
-            "Tua madre è cosi troia che quando le dico... no cioè, quando non le dico... che poi tua madre non è troia... capito? Sto scherzando amico mio!"
+            "Che cosa fa un pittore al polo nord? Io non lo so",
+            "Tua madre è cosi troia che quando le dico... no cioè, quando non le dico... che poi tua madre non è troia... capito? Sto scherzando amico mio!",
+            "Il commendator Colombo Ernesto va in Africa a caccia di leoni nella savana. Mentre è acquattato con il fucile in mano nel più completo silenzio, si sente toccare su una spalla e, giratosi di scatto, vede un negro tutto nudo, alto e muscoloso che gli grida: \"SOOOOMEBOOOOODY\"",
+            "Nella sala d'attesa dello studio di un dottore c'è una lunghissima fila. I pazienti si consultano tra di loro, un paziente dice: \"io mi sono rotto un braccio\" ed un altro: \"io mi sono rotto una gamba\" e l'ultimo paziente: \"SOOOOMEBOOOOODY"
         );
         $joke = $jokes[array_rand($jokes)];
         return $joke;
