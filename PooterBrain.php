@@ -286,9 +286,7 @@ class PooterBrain
       return $this->get_message('text', $text_to_send);
     }
     if (preg_match('/.*(pooter|sugo|gusso|pietro|luca).*/', $this->text)) {
-      $text_to_send = 'Dimmi '
-                      . $this->interlocutor_name
-                      . ', mi hai chiamato?';
+      $text_to_send = "Dimmi $this->interlocutor_name, mi hai chiamato?";
       return $this->get_message('text', $text_to_send);
     }
     else {
