@@ -313,15 +313,13 @@ class PooterBrain
     // greet new group members (included Pooter himself)
     if (isset($this->message['new_chat_members'])) {
       $new_members = $this->message['new_chat_members'];
-      if ($new_members[0]['id']
-          == BOT_ID
-      ) {
+      if ($new_members[0]['id'] == BOT_ID)
+      {
         return $this->get_message('text', 'Amici miei come va? Che fate di bello stasera?');
       }
       else {
-        if (count($new_members)
-            > 1
-        ) {
+        if (count($new_members) > 1)
+        {
           return $this->get_message('text', 'Benvenuti ragazzi, che fate di bello stasera?');
         }
         else {
@@ -329,14 +327,17 @@ class PooterBrain
           return $this->get_message('text', "Ciao $new_member, che fai di bello stasera?");
         }
       }
-    } // greet left group member
+    }
+    // greet left group member
     elseif (isset($this->message['left_chat_member'])) {
       $left_member = $this->message['left_chat_member']['first_name'];
       return $this->get_message('text', "No $left_member amico mio dove vai?");
-    } // comment new group photo
+    }
+    // comment new group photo
     elseif (isset($this->message['new_chat_photo'])) {
       return $this->get_message('text', 'Bellissima foto amico mio');
-    } // comment deleted group photo
+    }
+    // comment deleted group photo
     elseif (isset($this->message['delete_chat_photo'])) {
       return $this->get_message('text', 'Era una bellissima foto amico mio, perché l\'hai tolta?');
     }
@@ -351,12 +352,10 @@ class PooterBrain
    */
   public function answer()
   {
-    if ($this->text
-        === ""
-    ) {
-      if ($this->message['chat']['type']
-          == 'group'
-      ) {
+    if ($this->text === "")
+    {
+      if ($this->message['chat']['type'] == 'group')
+      {
         return $this->handle_group_event();
       }
       else {
