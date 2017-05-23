@@ -193,7 +193,7 @@ class PooterBrain
 
     if (strpos($this->text, '/foto') !== FALSE)
     {
-      return $this->get_message('random_photo');
+      return $this->get_message('photo', 'random');
     }
 
     if (strpos($this->text, 'barzelletta') !== FALSE)
