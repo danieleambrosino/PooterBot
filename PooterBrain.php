@@ -27,23 +27,22 @@ class PooterBrain
       'sergio_brio' => 'AgADBAADxqgxG3sfIVENltTMCQQs5j9KuxkABPt2tL9OyLESg0EBAAEC'
   );
   private $opinions = array(
-      'Hai assolutamente ragione, amico mio',
-      'Secondo me non è tanto vero, amico mio',
-      'Ma cosa dici, amico mio',
       'Somebody',
-      'Secondo me... non lo so amico mio',
-      'Ma cosa dici amico mio',
-      'Secondo me è giusto',
       'A me piace',
-      'No secondo me sbaglia',
-      'Secondo me... Somebody',
-      'Heh... non so che dirti amico mio...',
-      'Secondo me è giustissimo così',
       'Sono d\'accordissimo',
+      'Ma cosa dici, amico mio',
+      'Eh! Eh! No dai scherzo amico mio',
+      'Hai assolutamente ragione, amico mio',
+      'Heh... non so che dirti amico mio...',
       'Secondo me sì',
       'Secondo me no',
-      'Eh! Eh! No dai scherzo amico mio',
-      'Secondo me fa schifo...haha dai scherzavo amico mio'
+      'Secondo me sbaglia',
+      'Secondo me è giusto',
+      'Secondo me... Somebody',
+      'Secondo me è giustissimo così',
+      'Secondo me... non lo so amico mio',
+      'Secondo me non è tanto vero, amico mio',
+      'Secondo me fa schifo... ahah dai scherzavo amico mio'
   );
 
   /**
