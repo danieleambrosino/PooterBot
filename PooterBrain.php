@@ -56,7 +56,7 @@ class PooterBrain
           $this->interlocutor_name = $this->message['chat']['first_name'];
           break;
         }
-        case ('group'): {
+        case ('group' || 'supergroup'): {
           $this->interlocutor_name = $this->message['from']['first_name'];
           break;
         }
