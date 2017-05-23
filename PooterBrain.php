@@ -76,7 +76,7 @@ class PooterBrain
    * @return array
    * @throws Exception if an unknown type is passed
    */
-  private function get_message($type, $content=NULL, $caption=NULL)
+  private function get_message($type, $content, $caption=NULL)
   {
     switch ($type) {
       case ('text'):
