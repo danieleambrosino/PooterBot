@@ -257,7 +257,6 @@ class PooterBrain
     }
 
     if ($this->found('fidanzata')
-     || $this->found('sono')
      || $this->found('sharade')
      || $this->found('charade'))
     {
@@ -311,7 +310,7 @@ class PooterBrain
       return $this->get_message('photo', 'olmo', "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
     }
 
-    if (preg_match('/((pooter|pietro|sugo|gusso|luca).*(secondo te|((che|cosa)( ne)? pens\w)))|((secondo te|((che|cosa)( ne)? pens\w)).*(pooter|pietro|sugo|gusso|luca))/', $this->text))
+    if (preg_match('/(secondo te|((che|cosa)( ne)? pens\w))/', $this->text))
     {
       $opinion = $this->opinions[array_rand($this->opinions)];
       return $this->get_message('text', $opinion);
