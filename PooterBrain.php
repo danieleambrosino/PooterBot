@@ -314,7 +314,7 @@ class PooterBrain
     if (preg_match('/((pooter|pietro|sugo|gusso|luca).*(secondo te|((che|cosa)( ne)? pens\w)))|((secondo te|((che|cosa)( ne)? pens\w)).*(pooter|pietro|sugo|gusso|luca))/', $this->text))
     {
       $opinion = $this->opinions[array_rand($this->opinions)];
-      return $this->get_message('photo', $opinion);
+      return $this->get_message('text', $opinion);
     }
 
     if ($this->found('pietrausen greco'))
