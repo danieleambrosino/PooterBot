@@ -309,7 +309,7 @@ class PooterBrain
       return $this->get_message('photo', 'olmo', "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
     }
 
-    if (preg_match('/(secondo te|((che|cosa)( ne)? pens\w))/', $this->text))
+    if (preg_match('/(secondo te|((che|cosa)( ne)? (pens|dic))|come (la vedi|(ti )?sembra)|che te ne pare)/', $this->text))
     {
       $opinion = $this->opinions[array_rand($this->opinions)];
       return $this->get_message('text', $opinion);
