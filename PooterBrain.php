@@ -213,31 +213,37 @@ class PooterBrain
       $text_to_send = "Ciao $this->interlocutor_name, caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!";
       return $this->get_message('text', $text_to_send);
     }
+
     if (strpos($this->text, '/foto') !== FALSE)
     {
       return $this->get_message('random_photo');
     }
+
     if (strpos($this->text, 'barzelletta') !== FALSE)
     {
       $text_to_send = $this->get_joke();
       return $this->get_message('text', $text_to_send);
     }
+
     if (strpos($this->text, 'meteo') !== FALSE
      || strpos($this->text, 'clima') !== FALSE)
     {
       $text_to_send = $this->get_weather();
       return $this->get_message('text', $text_to_send);
     }
+
     if (strpos($this->text, 'zitto') !== FALSE)
     {
       $text_to_send = "$this->interlocutor_name potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?";
       return $this->get_message('text', $text_to_send);
     }
+
     if (strpos($this->text, 'somebody') !== FALSE)
     {
       $text_to_send = 'Eh grande pezzo';
       return $this->get_message('text', $text_to_send);
     }
+
     if (strpos($this->text, 'fidanzata') !== FALSE
      || strpos($this->text, 'sono') !== FALSE
      || strpos($this->text, 'sharade') !== FALSE
@@ -246,52 +252,64 @@ class PooterBrain
       $text_to_send = 'Sono Speedy Gonzales?';
       return $this->get_message('text', $text_to_send);
     }
+
     if (preg_match('/s+t+o+p{2,}e+r+/', $this->text)) {
       return $this->get_message('photo', 'sergio_brio');
     }
+
     if (preg_match('/s+o+m+e+/', $this->text)) {
       $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
       return $this->get_message('text', $text_to_send);
     }
+
     if (preg_match('/b+o+d+y+/', $this->text)) {
       $text_to_send = "Sssssssssssoooooooooommmmmmmeeeeeeeeeeee";
       return $this->get_message('text', $text_to_send);
     }
+
     if (strpos($this->text, 'passione') !== FALSE)
     {
       $text_to_send = 'Il mio sogno è fare il telecronista';
       return $this->get_message('text', $text_to_send);
     }
+
     if (strpos($this->text, 'brau') !== FALSE
      || strpos($this->text, 'birr') !== FALSE)
     {
       return $this->get_message('photo', 'caschetto');
     }
+
     if (preg_match('/.*lava.*piedi.*/', $this->text)) {
       return $this->get_message('photo', 'filosofia');
     }
+
     if (strpos($this->text, 'conquista') !== FALSE)
     {
       return $this->get_message('photo', 'rugby');
     }
+
     if (strpos($this->text, 'intimidisci') !== FALSE
      || strpos($this->text, 'spaventa') !== FALSE)
     {
       return $this->get_message('photo', 'hooligan');
     }
+
     if (strpos($this->text, 'olmo') !== FALSE)
     {
       return $this->get_message('photo', 'olmo');
     }
+
     if (strpos($this->text, 'pietrausen greco') !== FALSE)
     {
       $text_to_send = "Che cazzo vuoi $this->interlocutor_name porco dio e anche porca madonna vaffanculo t'ammazzo di botte... forse";
       return $this->get_message('text', $text_to_send);
     }
+
     if (preg_match('/.*(pooter|sugo|gusso|pietro|luca).*/', $this->text)) {
       $text_to_send = "Dimmi $this->interlocutor_name, mi hai chiamato?";
       return $this->get_message('text', $text_to_send);
     }
+
     else {
       return NULL;
     }
