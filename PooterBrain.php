@@ -75,7 +75,7 @@ class PooterBrain
    * @return array
    * @throws Exception if an unknown type is passed
    */
-  private function get_message($type, $content)
+  private function get_message($type, $content=NULL)
   {
     switch ($type) {
       case ('text'):
@@ -109,6 +109,10 @@ class PooterBrain
           default:
             throw new Exception('Invalid argument');
         }
+      }
+      case ('random_photo'): {
+        return array('method' => 'sendPhoto',
+                     'photo'  => $this->pictures[array_rand($this->pictures)]);
       }
       default:
         throw new Exception('Invalid argument');
@@ -208,6 +212,10 @@ class PooterBrain
     {
       $text_to_send = "Ciao $this->interlocutor_name, caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!";
       return $this->get_message('text', $text_to_send);
+    }
+    if (strpos($this->text, '/foto') !== FALSE)
+    {
+      return $this->get_message('random_photo');
     }
     if (strpos($this->text, 'barzelletta') !== FALSE)
     {
