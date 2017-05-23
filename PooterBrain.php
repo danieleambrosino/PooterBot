@@ -228,16 +228,13 @@ class PooterBrain
       $text_to_send = $this->get_weather();
       return $this->get_message('text', $text_to_send);
     }
-    if (strpos($this->text, 'zitto')
-        !== FALSE
-    ) {
-      $text_to_send = $this->interlocutor_name
-                      . ' potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?';
+    if (strpos($this->text, 'zitto') !== FALSE)
+    {
+      $text_to_send = "$this->interlocutor_name potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?";
       return $this->get_message('text', $text_to_send);
     }
-    if (strpos($this->text, 'somebody')
-        !== FALSE
-    ) {
+    if (strpos($this->text, 'somebody') !== FALSE)
+    {
       $text_to_send = 'Eh grande pezzo';
       return $this->get_message('text', $text_to_send);
     }
@@ -260,9 +257,8 @@ class PooterBrain
       $text_to_send = "Sssssssssssoooooooooommmmmmmeeeeeeeeeeee";
       return $this->get_message('text', $text_to_send);
     }
-    if (strpos($this->text, 'passione')
-        !== FALSE
-    ) {
+    if (strpos($this->text, 'passione') !== FALSE)
+    {
       $text_to_send = 'Il mio sogno è fare il telecronista';
       return $this->get_message('text', $text_to_send);
     }
@@ -287,9 +283,8 @@ class PooterBrain
     {
       return $this->get_message('photo', 'olmo');
     }
-    if (strpos($this->text, 'pietrausen greco')
-        !== FALSE
-    ) {
+    if (strpos($this->text, 'pietrausen greco') !== FALSE)
+    {
       $text_to_send = "Che cazzo vuoi $this->interlocutor_name porco dio e anche porca madonna vaffanculo t'ammazzo di botte... forse";
       return $this->get_message('text', $text_to_send);
     }
