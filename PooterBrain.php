@@ -26,6 +26,25 @@ class PooterBrain
       'olmo'        => 'AgADBAAD16gxG09xGFEnfKKKMsxpaVimuxkABD9pYMaIW39cSUIBAAEC',
       'sergio_brio' => 'AgADBAADxqgxG3sfIVENltTMCQQs5j9KuxkABPt2tL9OyLESg0EBAAEC'
   );
+  private $opinions = array(
+      'Hai assolutamente ragione, amico mio',
+      'Secondo me non è tanto vero, amico mio',
+      'Ma cosa dici, amico mio',
+      'Somebody',
+      'Secondo me... non lo so amico mio',
+      'Ma cosa dici amico mio',
+      'Secondo me è giusto',
+      'A me piace',
+      'No secondo me sbaglia',
+      'Secondo me... Somebody',
+      'Heh... non so che dirti amico mio...',
+      'Secondo me è giustissimo così',
+      'Sono d\'accordissimo',
+      'Secondo me sì',
+      'Secondo me no',
+      'Eh! Eh! No dai scherzo amico mio',
+      'Secondo me fa schifo...haha dai scherzavo amico mio'
+  );
 
   /**
    * PooterBrain constructor.
@@ -290,6 +309,12 @@ class PooterBrain
     if ($this->found('olmo'))
     {
       return $this->get_message('photo', 'olmo', "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
+    }
+
+    if (preg_match('/((pooter|pietro|sugo|gusso|luca).*(secondo te|((che|cosa)( ne)? pens\w)))|((secondo te|((che|cosa)( ne)? pens\w)).*(pooter|pietro|sugo|gusso|luca))/', $this->text))
+    {
+      $opinion = $this->opinions[array_rand($this->opinions)];
+      return $this->get_message('photo', $opinion);
     }
 
     if ($this->found('pietrausen greco'))
