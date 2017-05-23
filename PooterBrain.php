@@ -71,48 +71,25 @@ class PooterBrain
    *
    * @param string $type    Type of message to be send (text, photo...)
    * @param string $content Content to be send
+   * @param string $caption Optional caption (multimedia only)
    *
    * @return array
    * @throws Exception if an unknown type is passed
    */
-  private function get_message($type, $content=NULL)
+  private function get_message($type, $content=NULL, $caption=NULL)
   {
     switch ($type) {
       case ('text'):
         return array('method' => 'sendMessage', 'text' => $content);
       case ('photo'): {
-        switch ($content) {
-          case ('caschetto'):
-            return array('method'  => 'sendPhoto',
-                         'photo'   => $this->pictures['caschetto'],
-                         'caption' => "Sto arrivando, $this->interlocutor_name mi dai uno strappo?");
-          case ('filosofia'):
-            return array('method'  => 'sendPhoto',
-                         'photo'   => $this->pictures['filosofia'],
-                         'caption' => 'Come dissi tempo fa...');
-          case ('hooligan'):
-            return array('method'  => 'sendPhoto',
-                         'photo'   => $this->pictures['hooligan'],
-                         'caption' => 'Trema! No scherzo amico mio <3');
-          case ('olmo'):
-            return array('method'  => 'sendPhoto',
-                         'photo'   => $this->pictures['olmo'],
-                         'caption' => "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
-          case ('rugby'):
-            return array('method'  => 'sendPhoto',
-                         'photo'   => $this->pictures['rugby'],
-                         'caption' => 'Ti sventro la passera');
-          case ('sergio_brio'):
-            return array('method'  => 'sendPhoto',
-                         'photo'   => $this->pictures['sergio_brio'],
-                         'caption' => 'Il più grande di tutti');
-          default:
-            throw new Exception('Invalid argument');
+        $message = array('method' => 'sendPhoto');
+        if ($content === 'random')
+          $message['photo'] = $this->pictures[array_rand($this->pictures)];
+        elseif (array_key_exists($content, $this->pictures)) {
+          $message['photo'] = $this->pictures[$content];
+          $message['caption'] = $caption;
         }
-      }
-      case ('random_photo'): {
-        return array('method' => 'sendPhoto',
-                     'photo'  => $this->pictures[array_rand($this->pictures)]);
+        return $message;
       }
       default:
         throw new Exception('Invalid argument');
@@ -254,7 +231,7 @@ class PooterBrain
     }
 
     if (preg_match('/s+t+o+p{2,}e+r+/', $this->text)) {
-      return $this->get_message('photo', 'sergio_brio');
+      return $this->get_message('photo', 'sergio_brio', 'Il più grande di tutti');
     }
 
     if (preg_match('/s+o+m+e+/', $this->text)) {
@@ -276,16 +253,16 @@ class PooterBrain
     if (strpos($this->text, 'brau') !== FALSE
      || strpos($this->text, 'birr') !== FALSE)
     {
-      return $this->get_message('photo', 'caschetto');
+      return $this->get_message('photo', 'caschetto', "Sto arrivando, $this->interlocutor_name mi dai uno strappo?");
     }
 
     if (preg_match('/.*lava.*piedi.*/', $this->text)) {
-      return $this->get_message('photo', 'filosofia');
+      return $this->get_message('photo', 'filosofia', 'Come dissi tempo fa...');
     }
 
     if (strpos($this->text, 'conquista') !== FALSE)
     {
-      return $this->get_message('photo', 'rugby');
+      return $this->get_message('photo', 'rugby', 'Ti sventro la passera');
     }
 
     if (strpos($this->text, 'intimidisci') !== FALSE
@@ -296,7 +273,7 @@ class PooterBrain
 
     if (strpos($this->text, 'olmo') !== FALSE)
     {
-      return $this->get_message('photo', 'olmo');
+      return $this->get_message('photo', 'olmo', "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
     }
 
     if (strpos($this->text, 'pietrausen greco') !== FALSE)
