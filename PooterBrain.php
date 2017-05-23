@@ -85,9 +85,14 @@ class PooterBrain
         $message = array('method' => 'sendPhoto');
         if ($content === 'random')
           $message['photo'] = $this->pictures[array_rand($this->pictures)];
-        elseif (array_key_exists($content, $this->pictures)) {
+        elseif (array_key_exists($content, $this->pictures))
+        {
           $message['photo'] = $this->pictures[$content];
           $message['caption'] = $caption;
+        }
+        else
+        {
+          throw new Exception('Selected picture is not available');
         }
         return $message;
       }
