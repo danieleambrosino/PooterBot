@@ -178,6 +178,17 @@ class PooterBrain
   }
 
   /**
+   * Returns if a substring is found in received text.
+   *
+   * @param string $needle Substring to find
+   * @return bool
+   */
+  private function found($needle)
+  {
+    return strpos($this->text, $needle) !== FALSE;
+  }
+
+  /**
    * This is the syntactic analyzer of the class. Looks for keywords and returns
    * the interpreted text.
    *
@@ -185,46 +196,46 @@ class PooterBrain
    */
   private function parse_text()
   {
-    if (strpos($this->text, '/start') !== FALSE)
+    if ($this->found('/start'))
     {
       $text_to_send = "Ciao $this->interlocutor_name, caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!";
       return $this->get_message('text', $text_to_send);
     }
 
-    if (strpos($this->text, '/foto') !== FALSE)
+    if ($this->found('/foto'))
     {
       return $this->get_message('photo', 'random');
     }
 
-    if (strpos($this->text, 'barzelletta') !== FALSE)
+    if ($this->found('barzelletta'))
     {
       $text_to_send = $this->get_joke();
       return $this->get_message('text', $text_to_send);
     }
 
-    if (strpos($this->text, 'meteo') !== FALSE
-     || strpos($this->text, 'clima') !== FALSE)
+    if ($this->found('meteo')
+     || $this->found('clima'))
     {
       $text_to_send = $this->get_weather();
       return $this->get_message('text', $text_to_send);
     }
 
-    if (strpos($this->text, 'zitto') !== FALSE)
+    if ($this->found('zitto'))
     {
       $text_to_send = "$this->interlocutor_name potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?";
       return $this->get_message('text', $text_to_send);
     }
 
-    if (strpos($this->text, 'somebody') !== FALSE)
+    if ($this->found('somebody'))
     {
       $text_to_send = 'Eh grande pezzo';
       return $this->get_message('text', $text_to_send);
     }
 
-    if (strpos($this->text, 'fidanzata') !== FALSE
-     || strpos($this->text, 'sono') !== FALSE
-     || strpos($this->text, 'sharade') !== FALSE
-     || strpos($this->text, 'charade') !== FALSE)
+    if ($this->found('fidanzata')
+     || $this->found('sono')
+     || $this->found('sharade')
+     || $this->found('charade'))
     {
       $text_to_send = 'Sono Speedy Gonzales?';
       return $this->get_message('text', $text_to_send);
@@ -244,14 +255,14 @@ class PooterBrain
       return $this->get_message('text', $text_to_send);
     }
 
-    if (strpos($this->text, 'passione') !== FALSE)
+    if ($this->found('passione'))
     {
       $text_to_send = 'Il mio sogno è fare il telecronista';
       return $this->get_message('text', $text_to_send);
     }
 
-    if (strpos($this->text, 'brau') !== FALSE
-     || strpos($this->text, 'birr') !== FALSE)
+    if ($this->found('brau')
+     || $this->found('birr'))
     {
       return $this->get_message('photo', 'caschetto', "Sto arrivando, $this->interlocutor_name mi dai uno strappo?");
     }
@@ -260,23 +271,23 @@ class PooterBrain
       return $this->get_message('photo', 'filosofia', 'Come dissi tempo fa...');
     }
 
-    if (strpos($this->text, 'conquista') !== FALSE)
+    if ($this->found('conquista'))
     {
       return $this->get_message('photo', 'rugby', 'Ti sventro la passera');
     }
 
-    if (strpos($this->text, 'intimidisci') !== FALSE
-     || strpos($this->text, 'spaventa') !== FALSE)
+    if ($this->found('intimidisci')
+     || $this->found('spaventa'))
     {
       return $this->get_message('photo', 'hooligan');
     }
 
-    if (strpos($this->text, 'olmo') !== FALSE)
+    if ($this->found('olmo'))
     {
       return $this->get_message('photo', 'olmo', "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
     }
 
-    if (strpos($this->text, 'pietrausen greco') !== FALSE)
+    if ($this->found('pietrausen greco'))
     {
       $text_to_send = "Che cazzo vuoi $this->interlocutor_name porco dio e anche porca madonna vaffanculo t'ammazzo di botte... forse";
       return $this->get_message('text', $text_to_send);
