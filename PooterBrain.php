@@ -279,7 +279,7 @@ class PooterBrain
     if ($this->found('intimidisci')
      || $this->found('spaventa'))
     {
-      return $this->get_message('photo', 'hooligan');
+      return $this->get_message('photo', 'hooligan', 'Trema! No scherzo amico mio <3');
     }
 
     if ($this->found('olmo'))
