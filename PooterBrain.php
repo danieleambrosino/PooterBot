@@ -225,7 +225,7 @@ class PooterBrain
    *
    * @return array|null
    */
-  private function parse_text()
+  private function handle_text()
   {
     if ($this->found('/start'))
     {
@@ -411,7 +411,7 @@ class PooterBrain
   public function answer()
   {
     if ($this->text != "")
-      return $this->parse_text();
+      return $this->handle_text();
 
     if (isset($this->message['photo']))
     {
