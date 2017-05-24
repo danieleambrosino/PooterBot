@@ -33,36 +33,6 @@ class PooterBrain
       'olmo'        => 'AgADBAAD16gxG09xGFEnfKKKMsxpaVimuxkABD9pYMaIW39cSUIBAAEC',
       'sergio_brio' => 'AgADBAADxqgxG3sfIVENltTMCQQs5j9KuxkABPt2tL9OyLESg0EBAAEC'
   );
-  private $opinions = array(
-      'Somebody',
-      'A me piace',
-      'Sono d\'accordissimo',
-      'Ma cosa dici, amico mio',
-      'Eh! Eh! No dai scherzo amico mio',
-      'Hai assolutamente ragione, amico mio',
-      'Heh... non so che dirti amico mio...',
-      'Secondo me sì',
-      'Secondo me no',
-      'Secondo me sbaglia',
-      'Secondo me è giusto',
-      'Secondo me... Somebody',
-      'Secondo me è giustissimo così',
-      'Secondo me... non lo so amico mio',
-      'Secondo me non è tanto vero, amico mio',
-      'Secondo me fa schifo... ahah dai scherzavo amico mio'
-  );
-  private $likes = array(
-      'No',
-      'Proprio per nulla amico mio',
-      'Senza offesa amico mio ma fa proprio schifo',
-      'Può andare',
-      'Non è male',
-      'Sì',
-      'Mi piace',
-      'Mi piace molto amico mio',
-      'Amico mio, non avrei saputo fare di meglio',
-      'È incredibile, quasi quanto te, caro amico mio'
-  );
 
   /**
    * PooterBrain constructor.
@@ -255,6 +225,47 @@ class PooterBrain
     return $proverb;
   }
 
+  private function get_opinion()
+  {
+    $opinions = array(
+        'Somebody',
+        'A me piace',
+        'Sono d\'accordissimo',
+        $this->tr('Ma cosa dici, amico mio'),
+        $this->tr('Eh! Eh! No dai scherzo amico mio'),
+        $this->tr('Hai assolutamente ragione, amico mio'),
+        $this->tr('Heh... non so che dirti amico mio...'),
+        'Secondo me sì',
+        'Secondo me no',
+        'Secondo me sbaglia',
+        'Secondo me è giusto',
+        'Secondo me... Somebody',
+        'Secondo me è giustissimo così',
+        $this->tr('Secondo me... non lo so amico mio'),
+        $this->tr('Secondo me non è tanto vero, amico mio'),
+        $this->tr('Secondo me fa schifo... ahah dai scherzavo amico mio')
+    );
+
+    return $opinions[array_rand($opinions)];
+  }
+
+  private function get_like()
+  {
+    $likes = array(
+        'No',
+        $this->tr('Proprio per nulla amico mio'),
+        $this->tr('Senza offesa amico mio ma fa proprio schifo'),
+        'Può andare',
+        'Non è male',
+        'Sì',
+        'Mi piace',
+        $this->tr('Mi piace molto amico mio'),
+        $this->tr('Amico mio, non avrei saputo fare di meglio'),
+        $this->tr('È incredibile, quasi quanto te, caro amico mio')
+    );
+    return $likes[array_rand($likes)];
+  }
+
   #############
   # UTILITIES #
   #############
@@ -425,13 +436,13 @@ class PooterBrain
 
     if (preg_match('/(secondo te|((che|cosa)( ne)? (pens|dic))|come (la vedi|(ti )?sembra)|che te ne pare)/', $this->text))
     {
-      $opinion = $this->opinions[array_rand($this->opinions)];
+      $opinion = $this->get_opinion();
       return $this->get_message(MessageType::TEXT, $opinion);
     }
 
     if (preg_match('/(a te|ti) piace/', $this->text))
     {
-      $like = $this->likes[array_rand($this->likes)];
+      $like = $this->get_like();
       return $this->get_message(MessageType::TEXT, $like);
     }
 
