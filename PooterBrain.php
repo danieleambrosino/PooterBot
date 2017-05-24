@@ -327,8 +327,7 @@ class PooterBrain
   {
     if ($this->found('/start'))
     {
-      $text_to_send = "Ciao $this->interlocutor_name, caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!";
-      $text_to_send = $this->tr($text_to_send);
+      $text_to_send = $this->tr("Ciao $this->interlocutor_name, caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!");
       return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
