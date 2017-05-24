@@ -386,6 +386,11 @@ class PooterBrain
     return NULL;
   }
 
+  /**
+   * Comments a received photo.
+   *
+   * @return array
+   */
   private function comment_photo()
   {
     $comments = array(
