@@ -44,6 +44,18 @@ class PooterBrain
       'Secondo me non è tanto vero, amico mio',
       'Secondo me fa schifo... ahah dai scherzavo amico mio'
   );
+  private $likes = array(
+      'No',
+      'Proprio per nulla amico mio',
+      'Senza offesa amico mio ma fa proprio schifo',
+      'Può andare',
+      'Non è male',
+      'Sì',
+      'Mi piace',
+      'Mi piace molto amico mio',
+      'Amico mio, non avrei saputo fare di meglio',
+      'È incredibile, quasi quanto te, caro amico mio'
+  );
 
   /**
    * PooterBrain constructor.
@@ -313,6 +325,12 @@ class PooterBrain
     {
       $opinion = $this->opinions[array_rand($this->opinions)];
       return $this->get_message('text', $opinion);
+    }
+
+    if (preg_match('/(a te|ti) piace/', $this->text))
+    {
+      $like = $this->likes[array_rand($this->likes)];
+      return $this->get_message('text', $like);
     }
 
     if ($this->found('pietrausen greco'))
