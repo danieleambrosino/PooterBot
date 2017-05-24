@@ -430,25 +430,28 @@ class PooterBrain
         }
       }
     }
+
     // greet left group member
-    elseif (isset($this->message['left_chat_member']))
+    if (isset($this->message['left_chat_member']))
     {
       $left_member = $this->message['left_chat_member']['first_name'];
-
       return $this->get_message(MessageType::TEXT, "No $left_member amico mio dove vai?");
     }
+
     // comment new group photo
-    elseif (isset($this->message['new_chat_photo']))
+    if (isset($this->message['new_chat_photo']))
     {
       return $this->get_message(MessageType::TEXT, 'Bellissima foto amico mio');
     }
+
     // comment deleted group photo
-    elseif (isset($this->message['delete_chat_photo']))
+    if (isset($this->message['delete_chat_photo']))
     {
       return $this->get_message(MessageType::TEXT, 'Era una bellissima foto amico mio, perché l\'hai tolta?');
     }
+
     // comment new group title
-    elseif (isset($this->message['new_chat_title']))
+    if (isset($this->message['new_chat_title']))
     {
       return $this->get_message(MessageType::TEXT, 'Bellissimo nome amico mio');
     }
