@@ -17,6 +17,7 @@ class PooterBrain
 
   private $text;
   private $interlocutor_name;
+  private $is_female;
   private $message;
 
   private $pictures = array(
@@ -88,6 +89,14 @@ class PooterBrain
     // hold interlocutor's name
     $this->interlocutor_name = $this->message['from']['first_name'];
 
+    $file_handle = fopen('female_names.txt', 'r');
+    $female_names = fread($file_handle, filesize('female_names.txt'));
+
+    $this->is_female = preg_match("/$this->interlocutor_name/i",
+                                  $female_names);
+
+    fclose($file_handle);
+
     define('BOT_ID', '395202945');
   }
 
@@ -131,6 +140,10 @@ class PooterBrain
         throw new Exception('Invalid argument');
     }
   }
+
+  ####################
+  # RANDOM RESOURCES #
+  ####################
 
   /**
    * Returns a brief weather report of a random city.
@@ -242,6 +255,10 @@ class PooterBrain
     return $proverb;
   }
 
+  #############
+  # UTILITIES #
+  #############
+
   /**
    * Returns if a substring is found in received text.
    *
@@ -254,6 +271,30 @@ class PooterBrain
   }
 
   /**
+   * Checks interlocutor's gender and returns the correct string.
+   *
+   * @param string $string Translation input.
+   * @return string
+   */
+  private function tr($string)
+  {
+    $final_string = $string;
+
+    if ($this->is_female)
+    {
+      $final_string = preg_replace('/caro/', 'cara', $final_string);
+      $final_string = preg_replace('/amico/', 'amica', $final_string);
+      $final_string = preg_replace('/mio/', 'mia', $final_string);
+    }
+
+    return $final_string;
+  }
+
+  ####################
+  # MESSAGE HANDLERS #
+  ####################
+
+  /**
    * This is the syntactic analyzer of the class. Looks for keywords and returns
    * the interpreted text.
    *
@@ -264,6 +305,7 @@ class PooterBrain
     if ($this->found('/start'))
     {
       $text_to_send = "Ciao $this->interlocutor_name, caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!";
+      $text_to_send = $this->tr($text_to_send);
       return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
@@ -369,7 +411,8 @@ class PooterBrain
     if ($this->found('intimidisci')
      || $this->found('spaventa'))
     {
-      return $this->get_message(MessageType::PHOTO, 'hooligan', 'Trema! No scherzo amico mio <3');
+      $caption = $this->tr('Trema! No scherzo amico mio <3');
+      return $this->get_message(MessageType::PHOTO, 'hooligan', $caption);
     }
 
     if ($this->found('olmo'))
