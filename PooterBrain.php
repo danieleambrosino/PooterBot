@@ -80,14 +80,8 @@ class PooterBrain
     }
 
     // hold interlocutor's name
-    if (isset($this->message['chat']))
-    {
-      $this->interlocutor_name = $this->message['from']['first_name'];
-    }
-    else
-    {
-      $this->interlocutor_name = "";
-    }
+    $this->interlocutor_name = $this->message['from']['first_name'];
+
     define('BOT_ID', '395202945');
   }
 
