@@ -208,6 +208,35 @@ class PooterBrain
   }
 
   /**
+   * Returns a random proverb.
+   *
+   * @return string
+   */
+  private function get_proverb()
+  {
+    $proverbs = array(
+      'A buon intenditor ogni scherzo vale',
+      'A carnevale poche parole',
+      'Al cuor, che si vinca o che si perda, si fa il mare',
+      'A mali estremi, Pasqua con chi vuoi',
+      'Campa cavallo che il buon sangue batte il ferro finché è caldo',
+      'Chi ben comincia, disperato muore',
+      'Chi disprezza ed è causa del suo mal, non fa errori',
+      'Chi dorme non lascia la via vecchia per la nuova',
+      'Chi di spada ferisce è per gli altri un trastullo',
+      'Can che abbaia non prende lezioni',
+      'Chi la fa sa quel che lascia ma non piglia pesci',
+      'Chi nasce tondo raccoglie solo rabbia',
+      'Chi non muore non rosica',
+      'Chi non risica si rivede',
+      'Chiodo scaccia chi ti accarezza oltre quel che suole',
+      'Chi va piano va con lo zoppo e impara a toccare il fuoco',
+    );
+    $proverb = $proverbs[array_rand($proverbs)];
+    return $proverb;
+  }
+
+  /**
    * Returns if a substring is found in received text.
    *
    * @param string $needle Substring to find
@@ -240,6 +269,12 @@ class PooterBrain
     if ($this->found('barzelletta'))
     {
       $text_to_send = $this->get_joke();
+      return $this->get_message('text', $text_to_send);
+    }
+
+    if ($this->found('proverbio'))
+    {
+      $text_to_send = $this->get_proverb();
       return $this->get_message('text', $text_to_send);
     }
 
