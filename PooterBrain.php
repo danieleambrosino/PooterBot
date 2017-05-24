@@ -381,7 +381,7 @@ class PooterBrain
     }
 
     if (preg_match('/s+t+o+p{2,}e+r+/', $this->text)) {
-      return $this->get_message(MessageType::TEXT, 'sergio_brio', 'Il più grande di tutti');
+      return $this->get_message(MessageType::PHOTO, 'sergio_brio', 'Il più grande di tutti');
     }
 
     if ($this->found('some'))
