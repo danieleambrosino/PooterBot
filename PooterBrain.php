@@ -309,6 +309,26 @@ class PooterBrain
       return $this->get_message('photo', 'sergio_brio', 'Il più grande di tutti');
     }
 
+    if ($this->found('some'))
+    {
+      return $this->get_message('text', 'body');
+    }
+
+    if ($this->found('once'))
+    {
+      return $this->get_message('text', 'told me');
+    }
+
+    if ($this->found('the'))
+    {
+      return $this->get_message('text', 'world');
+    }
+
+    if ($this->found('is gonna'))
+    {
+      return $this->get_message('text', 'roll me');
+    }
+
     if (preg_match('/s+o+m+e+/', $this->text)) {
       $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
       return $this->get_message('text', $text_to_send);

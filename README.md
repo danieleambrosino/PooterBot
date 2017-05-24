@@ -16,6 +16,7 @@ I comandi di base sono
 /barzelletta - Fatti una grassa risata
 /foto - Lasciati travolgere dalla bellezza di Pooter
 /meteo - Resta sempre aggiornato con informazioni pertinenti
+/proverbio - Impara qualcosa di nuovo
 ~~~
 
 Per gli altri (tanti) comandi "nascosti"... sta a te scoprirli! Leggi il codice o tenta la fortuna! 
