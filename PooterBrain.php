@@ -192,8 +192,8 @@ class PooterBrain
         "Il commendator Colombo Ernesto va in Africa a caccia di leoni nella savana. Mentre è acquattato con il fucile in mano nel più completo silenzio, si sente toccare su una spalla e, giratosi di scatto, vede un negro tutto nudo, alto e muscoloso che gli grida: \"SOOOOMEBOOOOODY\"",
         "Nella sala d'attesa dello studio di un dottore c'è una lunghissima fila. I pazienti si consultano tra di loro, un paziente dice: \"io mi sono rotto un braccio\" ed un altro: \"io mi sono rotto una gamba\" e l'ultimo paziente: \"SOOOOMEBOOOOODY\""
     );
-    $joke = $jokes[array_rand($jokes)];
-    return $joke;
+
+    return $jokes[array_rand($jokes)];
   }
 
   /**
@@ -221,10 +221,15 @@ class PooterBrain
       'Chiodo scaccia chi ti accarezza oltre quel che suole',
       'Chi va piano va con lo zoppo e impara a toccare il fuoco',
     );
-    $proverb = $proverbs[array_rand($proverbs)];
-    return $proverb;
+
+    return $proverbs[array_rand($proverbs)];
   }
 
+  /**
+   * Returns a random opinion.
+   *
+   * @return string
+   */
   private function get_opinion()
   {
     $opinions = array(
@@ -249,6 +254,11 @@ class PooterBrain
     return $opinions[array_rand($opinions)];
   }
 
+  /**
+   * Returns a random approval sentence.
+   *
+   * @return string
+   */
   private function get_like()
   {
     $likes = array(
