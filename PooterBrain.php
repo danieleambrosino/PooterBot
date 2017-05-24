@@ -100,11 +100,14 @@ class PooterBrain
   {
     switch ($type) {
       case ('text'):
-        return array('method'           => 'sendMessage',
-                     'reply_to_message' => $this->message,
-                     'text'             => $content);
+        return array('method'              => 'sendMessage',
+                     'reply_to_message_id' => $this->message['message_id'],
+                     'text'                => $content);
+
       case ('photo'): {
-        $message = array('method' => 'sendPhoto', 'reply_to_message' => $this->message);
+        $message = array('method'              => 'sendPhoto',
+                         'reply_to_message_id' => $this->message['message_id']);
+
         if ($content === 'random')
           $message['photo'] = $this->pictures[array_rand($this->pictures)];
         elseif (array_key_exists($content, $this->pictures))
