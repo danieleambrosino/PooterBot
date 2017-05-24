@@ -417,7 +417,8 @@ class PooterBrain
 
     if ($this->found('olmo'))
     {
-      return $this->get_message(MessageType::PHOTO, 'olmo', "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
+      $caption = $this->tr("$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
+      return $this->get_message(MessageType::PHOTO, 'olmo', $caption);
     }
 
     if (preg_match('/(secondo te|((che|cosa)( ne)? (pens|dic))|come (la vedi|(ti )?sembra)|che te ne pare)/', $this->text))
