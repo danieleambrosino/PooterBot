@@ -80,17 +80,13 @@ class PooterBrain
     }
 
     // hold interlocutor's name
-    if (isset($this->message['chat'])) {
-      switch ($this->message['chat']['type']) {
-        case ('private'): {
-          $this->interlocutor_name = $this->message['chat']['first_name'];
-          break;
-        }
-        case ('group' || 'supergroup'): {
-          $this->interlocutor_name = $this->message['from']['first_name'];
-          break;
-        }
-      }
+    if (isset($this->message['chat']))
+    {
+      $this->interlocutor_name = $this->message['from']['first_name'];
+    }
+    else
+    {
+      $this->interlocutor_name = "";
     }
     define('BOT_ID', '395202945');
   }
