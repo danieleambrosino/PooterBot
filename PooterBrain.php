@@ -6,6 +6,12 @@
  * Date: 19/05/2017
  * Time: 00:09
  */
+
+abstract class MessageType {
+  const TEXT = 0;
+  const PHOTO = 1;
+}
+
 class PooterBrain
 {
 
@@ -89,7 +95,7 @@ class PooterBrain
    * Interprets the content and sends it in the form of the selected type.
    * Returns an array ready to be JSON-serialized as a Telegram message object.
    *
-   * @param string $type    Type of message to be send (text, photo...)
+   * @param int $type    Type of message to be send (text, photo...)
    * @param string $content Content to be send
    * @param string $caption Optional caption (multimedia only)
    *
@@ -99,12 +105,12 @@ class PooterBrain
   private function get_message($type, $content, $caption=NULL)
   {
     switch ($type) {
-      case ('text'):
+      case (MessageType::TEXT):
         return array('method'              => 'sendMessage',
                      'reply_to_message_id' => $this->message['message_id'],
                      'text'                => $content);
 
-      case ('photo'): {
+      case (MessageType::PHOTO): {
         $message = array('method'              => 'sendPhoto',
                          'reply_to_message_id' => $this->message['message_id']);
 
@@ -258,43 +264,43 @@ class PooterBrain
     if ($this->found('/start'))
     {
       $text_to_send = "Ciao $this->interlocutor_name, caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!";
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if ($this->found('/foto'))
     {
-      return $this->get_message('photo', 'random');
+      return $this->get_message(MessageType::PHOTO, 'random');
     }
 
     if ($this->found('barzelletta'))
     {
       $text_to_send = $this->get_joke();
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if ($this->found('proverbio'))
     {
       $text_to_send = $this->get_proverb();
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if ($this->found('meteo')
      || $this->found('clima'))
     {
       $text_to_send = $this->get_weather();
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if ($this->found('zitto'))
     {
       $text_to_send = "$this->interlocutor_name potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?";
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if ($this->found('somebody'))
     {
       $text_to_send = 'Eh grande pezzo';
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if ($this->found('fidanzata')
@@ -302,96 +308,96 @@ class PooterBrain
      || $this->found('charade'))
     {
       $text_to_send = 'Sono Speedy Gonzales?';
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if (preg_match('/s+t+o+p{2,}e+r+/', $this->text)) {
-      return $this->get_message('photo', 'sergio_brio', 'Il più grande di tutti');
+      return $this->get_message(MessageType::TEXT, 'sergio_brio', 'Il più grande di tutti');
     }
 
     if ($this->found('some'))
     {
-      return $this->get_message('text', 'Body');
+      return $this->get_message(MessageType::TEXT, 'Body');
     }
 
     if ($this->found('once'))
     {
-      return $this->get_message('text', 'Told me');
+      return $this->get_message(MessageType::TEXT, 'Told me');
     }
 
     if ($this->found('the'))
     {
-      return $this->get_message('text', 'World');
+      return $this->get_message(MessageType::TEXT, 'World');
     }
 
     if ($this->found('is gonna'))
     {
-      return $this->get_message('text', 'Roll me');
+      return $this->get_message(MessageType::TEXT, 'Roll me');
     }
 
     if (preg_match('/s+o+m+e+/', $this->text)) {
       $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if (preg_match('/b+o+d+y+/', $this->text)) {
       $text_to_send = "Sssssssssssoooooooooommmmmmmeeeeeeeeeeee";
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if ($this->found('passione'))
     {
       $text_to_send = 'Il mio sogno è fare il telecronista';
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if ($this->found('brau')
      || $this->found('birr'))
     {
-      return $this->get_message('photo', 'caschetto', "Sto arrivando, $this->interlocutor_name mi dai uno strappo?");
+      return $this->get_message(MessageType::PHOTO, 'caschetto', "Sto arrivando, $this->interlocutor_name mi dai uno strappo?");
     }
 
     if (preg_match('/lava.*piedi/', $this->text)) {
-      return $this->get_message('photo', 'filosofia', 'Come dissi tempo fa...');
+      return $this->get_message(MessageType::PHOTO, 'filosofia', 'Come dissi tempo fa...');
     }
 
     if ($this->found('conquista'))
     {
-      return $this->get_message('photo', 'rugby', 'Ti sventro la passera');
+      return $this->get_message(MessageType::PHOTO, 'rugby', 'Ti sventro la passera');
     }
 
     if ($this->found('intimidisci')
      || $this->found('spaventa'))
     {
-      return $this->get_message('photo', 'hooligan', 'Trema! No scherzo amico mio <3');
+      return $this->get_message(MessageType::PHOTO, 'hooligan', 'Trema! No scherzo amico mio <3');
     }
 
     if ($this->found('olmo'))
     {
-      return $this->get_message('photo', 'olmo', "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
+      return $this->get_message(MessageType::PHOTO, 'olmo', "$this->interlocutor_name hai nominato Olmo? Grande amico mio <3");
     }
 
     if (preg_match('/(secondo te|((che|cosa)( ne)? (pens|dic))|come (la vedi|(ti )?sembra)|che te ne pare)/', $this->text))
     {
       $opinion = $this->opinions[array_rand($this->opinions)];
-      return $this->get_message('text', $opinion);
+      return $this->get_message(MessageType::TEXT, $opinion);
     }
 
     if (preg_match('/(a te|ti) piace/', $this->text))
     {
       $like = $this->likes[array_rand($this->likes)];
-      return $this->get_message('text', $like);
+      return $this->get_message(MessageType::TEXT, $like);
     }
 
     if ($this->found('pietrausen greco'))
     {
       $text_to_send = "Che cazzo vuoi $this->interlocutor_name porco dio e anche porca madonna vaffanculo t'ammazzo di botte... forse";
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     if (preg_match('/(pooter|sugo|gusso|pietro|luca)/', $this->text)) {
       $text_to_send = "Dimmi $this->interlocutor_name, mi hai chiamato?";
-      return $this->get_message('text', $text_to_send);
+      return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
     else {
@@ -411,31 +417,40 @@ class PooterBrain
       $new_members = $this->message['new_chat_members'];
       if ($new_members[0]['id'] == BOT_ID)
       {
-        return $this->get_message('text', 'Amici miei come va? Che fate di bello stasera?');
+        return $this->get_message(MessageType::TEXT, 'Amici miei come va? Che fate di bello stasera?');
       }
       else {
         if (count($new_members) > 1)
         {
-          return $this->get_message('text', 'Benvenuti ragazzi, che fate di bello stasera?');
+          return $this->get_message(MessageType::TEXT, 'Benvenuti ragazzi, che fate di bello stasera?');
         }
         else {
           $new_member = $new_members[0]['first_name'];
-          return $this->get_message('text', "Ciao $new_member, che fai di bello stasera?");
+          return $this->get_message(MessageType::TEXT, "Ciao $new_member, che fai di bello stasera?");
         }
       }
     }
     // greet left group member
-    elseif (isset($this->message['left_chat_member'])) {
+    elseif (isset($this->message['left_chat_member']))
+    {
       $left_member = $this->message['left_chat_member']['first_name'];
-      return $this->get_message('text', "No $left_member amico mio dove vai?");
+
+      return $this->get_message(MessageType::TEXT, "No $left_member amico mio dove vai?");
     }
     // comment new group photo
-    elseif (isset($this->message['new_chat_photo'])) {
-      return $this->get_message('text', 'Bellissima foto amico mio');
+    elseif (isset($this->message['new_chat_photo']))
+    {
+      return $this->get_message(MessageType::TEXT, 'Bellissima foto amico mio');
     }
     // comment deleted group photo
-    elseif (isset($this->message['delete_chat_photo'])) {
-      return $this->get_message('text', 'Era una bellissima foto amico mio, perché l\'hai tolta?');
+    elseif (isset($this->message['delete_chat_photo']))
+    {
+      return $this->get_message(MessageType::TEXT, 'Era una bellissima foto amico mio, perché l\'hai tolta?');
+    }
+    // comment new group title
+    elseif (isset($this->message['new_chat_title']))
+    {
+      return $this->get_message(MessageType::TEXT, 'Bellissimo nome amico mio');
     }
 
     return NULL;
@@ -459,7 +474,7 @@ class PooterBrain
         'Questa foto è incredibile quasi quanto te, caro amico mio'
     );
     $comment = $comments[array_rand($comments)];
-    return $this->get_message('text', $comment);
+    return $this->get_message(MessageType::TEXT, $comment);
   }
 
   /**
