@@ -511,14 +511,14 @@ class PooterBrain
   private function comment_photo()
   {
     $comments = array(
-        'Questa foto non mi piace amico mio',
-        'Questa foto non mi piace proprio per nulla amico mio',
-        'Senza offesa amico mio ma questa foto fa proprio schifo',
-        'Bella foto amico mio',
-        'Mi piace questa foto, si vede che hai il palato fino amico mio',
-        'Mi piace molto amico mio, sei un grande',
-        'Amico mio, non avrei saputo fare di meglio',
-        'Questa foto è incredibile quasi quanto te, caro amico mio'
+        $this->tr('Questa foto non mi piace amico mio'),
+        $this->tr('Questa foto non mi piace proprio per nulla amico mio'),
+        $this->tr('Senza offesa amico mio ma questa foto fa proprio schifo'),
+        $this->tr('Bella foto amico mio'),
+        $this->tr('Mi piace questa foto, si vede che hai il palato fino amico mio'),
+        $this->tr('Mi piace molto amico mio, sei un grande'),
+        $this->tr('Amico mio, non avrei saputo fare di meglio'),
+        $this->tr('Questa foto è incredibile quasi quanto te, caro amico mio')
     );
     $comment = $comments[array_rand($comments)];
     return $this->get_message(MessageType::TEXT, $comment);
