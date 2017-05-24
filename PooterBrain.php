@@ -83,18 +83,23 @@ class PooterBrain
    */
   private function get_message($type, $content, $caption=NULL)
   {
-    switch ($type) {
+    switch ($type)
+    {
       case (MessageType::TEXT):
+      {
         return array('method'              => 'sendMessage',
                      'reply_to_message_id' => $this->message['message_id'],
                      'text'                => $content);
-
-      case (MessageType::PHOTO): {
+      }
+      case (MessageType::PHOTO):
+      {
         $message = array('method'              => 'sendPhoto',
                          'reply_to_message_id' => $this->message['message_id']);
 
         if ($content === 'random')
+        {
           $message['photo'] = $this->pictures[array_rand($this->pictures)];
+        }
         elseif (array_key_exists($content, $this->pictures))
         {
           $message['photo'] = $this->pictures[$content];
