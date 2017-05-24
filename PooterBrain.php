@@ -301,7 +301,7 @@ class PooterBrain
       return $this->get_message('photo', 'caschetto', "Sto arrivando, $this->interlocutor_name mi dai uno strappo?");
     }
 
-    if (preg_match('/.*lava.*piedi.*/', $this->text)) {
+    if (preg_match('/lava.*piedi/', $this->text)) {
       return $this->get_message('photo', 'filosofia', 'Come dissi tempo fa...');
     }
 
@@ -339,7 +339,7 @@ class PooterBrain
       return $this->get_message('text', $text_to_send);
     }
 
-    if (preg_match('/.*(pooter|sugo|gusso|pietro|luca).*/', $this->text)) {
+    if (preg_match('/(pooter|sugo|gusso|pietro|luca)/', $this->text)) {
       $text_to_send = "Dimmi $this->interlocutor_name, mi hai chiamato?";
       return $this->get_message('text', $text_to_send);
     }
