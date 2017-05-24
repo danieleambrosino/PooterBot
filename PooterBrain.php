@@ -417,14 +417,14 @@ class PooterBrain
     if ($this->text != "")
       return $this->parse_text();
 
-    if ($this->message['chat']['type'] == 'group')
-    {
-      return $this->handle_group_event();
-    }
-
     if (isset($this->message['photo']))
     {
       return $this->comment_photo();
+    }
+
+    if ($this->message['chat']['type'] == 'group')
+    {
+      return $this->handle_group_event();
     }
 
     return NULL;
