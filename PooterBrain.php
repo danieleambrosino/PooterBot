@@ -391,6 +391,22 @@ class PooterBrain
     return NULL;
   }
 
+  private function comment_photo()
+  {
+    $comments = array(
+        'Questa foto non mi piace amico mio',
+        'Questa foto non mi piace proprio per nulla amico mio',
+        'Senza offesa amico mio ma questa foto fa proprio schifo',
+        'Bella foto amico mio',
+        'Mi piace questa foto, si vede che hai il palato fino amico mio',
+        'Mi piace molto amico mio, sei un grande',
+        'Amico mio, non avrei saputo fare di meglio',
+        'Questa foto è incredibile quasi quanto te, caro amico mio'
+    );
+    $comment = $comments[array_rand($comments)];
+    return $this->get_message('text', $comment);
+  }
+
   /**
    * Returns Pooter's answer.
    *
@@ -398,18 +414,20 @@ class PooterBrain
    */
   public function answer()
   {
-    if ($this->text === "")
+    if ($this->text != "")
+      return $this->parse_text();
+
+    if ($this->message['chat']['type'] == 'group')
     {
-      if ($this->message['chat']['type'] == 'group')
-      {
-        return $this->handle_group_event();
-      }
-      else {
-        return NULL;
-      }
+      return $this->handle_group_event();
     }
 
-    return $this->parse_text();
+    if (isset($this->message['photo']))
+    {
+      return $this->comment_photo();
+    }
+
+    return NULL;
   }
 
 }
