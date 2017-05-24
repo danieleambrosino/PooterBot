@@ -311,22 +311,22 @@ class PooterBrain
 
     if ($this->found('some'))
     {
-      return $this->get_message('text', 'body');
+      return $this->get_message('text', 'Body');
     }
 
     if ($this->found('once'))
     {
-      return $this->get_message('text', 'told me');
+      return $this->get_message('text', 'Told me');
     }
 
     if ($this->found('the'))
     {
-      return $this->get_message('text', 'world');
+      return $this->get_message('text', 'World');
     }
 
     if ($this->found('is gonna'))
     {
-      return $this->get_message('text', 'roll me');
+      return $this->get_message('text', 'Roll me');
     }
 
     if (preg_match('/s+o+m+e+/', $this->text)) {
