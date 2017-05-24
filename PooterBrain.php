@@ -283,8 +283,10 @@ class PooterBrain
     if ($this->is_female)
     {
       $final_string = preg_replace('/caro/', 'cara', $final_string);
-      $final_string = preg_replace('/amico/', 'amica', $final_string);
+      $final_string = preg_replace('/Caro/', 'Cara', $final_string);
+      $final_string = preg_replace('/mico/', 'mica', $final_string);
       $final_string = preg_replace('/mio/', 'mia', $final_string);
+      $final_string = preg_replace('/Mio/', 'Mia', $final_string);
     }
 
     return $final_string;
