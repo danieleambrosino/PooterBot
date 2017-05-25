@@ -404,12 +404,14 @@ class PooterBrain
       return $this->get_message(MessageType::TEXT, 'Roll me');
     }
 
-    if (preg_match('/s+o+m+e+/', $this->text)) {
+    if (preg_match('/s+o+m+e+/', $this->text))
+    {
       $text_to_send = 'Bbbbbbboooooooooooodddddddddddyyyyyyyyyyy';
       return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
-    if (preg_match('/b+o+d+y+/', $this->text)) {
+    if (preg_match('/b+o+d+y+/', $this->text))
+    {
       $text_to_send = "Sssssssssssoooooooooommmmmmmeeeeeeeeeeee";
       return $this->get_message(MessageType::TEXT, $text_to_send);
     }
@@ -466,7 +468,8 @@ class PooterBrain
       return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
-    if (preg_match('/(pooter|sugo|gusso|pietro|luca)/', $this->text)) {
+    if (preg_match('/(pooter|sugo|gusso|pietro|luca)/', $this->text))
+    {
       $text_to_send = "Dimmi $this->interlocutor_name, mi hai chiamato?";
       return $this->get_message(MessageType::TEXT, $text_to_send);
     }
@@ -490,15 +493,14 @@ class PooterBrain
       {
         return $this->get_message(MessageType::TEXT, 'Amici miei come va? Che fate di bello stasera?');
       }
-      else {
-        if (count($new_members) > 1)
-        {
-          return $this->get_message(MessageType::TEXT, 'Benvenuti ragazzi, che fate di bello stasera?');
-        }
-        else {
-          $new_member = $new_members[0]['first_name'];
-          return $this->get_message(MessageType::TEXT, "Ciao $new_member, che fai di bello stasera?");
-        }
+      elseif (count($new_members) > 1)
+      {
+        return $this->get_message(MessageType::TEXT, 'Benvenuti ragazzi, che fate di bello stasera?');
+      }
+      else
+      {
+        $new_member = $new_members[0]['first_name'];
+        return $this->get_message(MessageType::TEXT, "Ciao $new_member, che fai di bello stasera?");
       }
     }
 
@@ -506,25 +508,29 @@ class PooterBrain
     if (isset($this->message['left_chat_member']))
     {
       $left_member = $this->message['left_chat_member']['first_name'];
-      return $this->get_message(MessageType::TEXT, "No $left_member amico mio dove vai?");
+      $message = $this->tr("No $left_member amico mio dove vai?");
+      return $this->get_message(MessageType::TEXT, $message);
     }
 
     // comment new group photo
     if (isset($this->message['new_chat_photo']))
     {
-      return $this->get_message(MessageType::TEXT, 'Bellissima foto amico mio');
+      $message = $this->tr('Bellissima foto amico mio');
+      return $this->get_message(MessageType::TEXT, $message);
     }
 
     // comment deleted group photo
     if (isset($this->message['delete_chat_photo']))
     {
-      return $this->get_message(MessageType::TEXT, 'Era una bellissima foto amico mio, perché l\'hai tolta?');
+      $message = $this->tr('Era una bellissima foto amico mio, perché l\'hai tolta?');
+      return $this->get_message(MessageType::TEXT, $message);
     }
 
     // comment new group title
     if (isset($this->message['new_chat_title']))
     {
-      return $this->get_message(MessageType::TEXT, 'Bellissimo nome amico mio');
+      $message = $this->tr('Bellissimo nome amico mio');
+      return $this->get_message(MessageType::TEXT, $message);
     }
 
     return NULL;
