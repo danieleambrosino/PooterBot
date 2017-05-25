@@ -74,7 +74,7 @@ class PooterBrain
    * Interprets the content and sends it in the form of the selected type.
    * Returns an array ready to be JSON-serialized as a Telegram message object.
    *
-   * @param int $type    Type of message to be send (text, photo...)
+   * @param int    $type    Type of message to be send (text, photo...)
    * @param string $content Content to be send
    * @param string $caption Optional caption (multimedia only)
    *
