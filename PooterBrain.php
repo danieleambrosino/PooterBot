@@ -318,6 +318,37 @@ class PooterBrain
     return $final_string;
   }
 
+  /**
+   * Checks if a group is muted.
+   *
+   * @return bool
+   */
+  private function is_muted()
+  {
+    $group_id = $this->message['chat']['id'];
+    $database = new mysqli('','','','my_pooterbot');
+    $query = "SELECT * FROM muted_groups WHERE group_id = $group_id";
+    $result = $database->query($query);
+
+    return $result->num_rows > 0;
+  }
+
+  private function mute()
+  {
+    $group_id = $this->message['chat']['id'];
+    $database = new mysqli('', '', '', 'my_pooterbot');
+    $query = "INSERT INTO muted_groups (group_id) VALUES ($group_id)";
+    $database->query($query);
+  }
+
+  private function unmute()
+  {
+    $group_id = $this->message['chat']['id'];
+    $database = new mysqli('', '', '', 'my_pooterbot');
+    $query = "DELETE FROM muted_groups WHERE group_id = $group_id";
+    $database->query($query);
+  }
+
   ####################
   # MESSAGE HANDLERS #
   ####################
@@ -334,6 +365,19 @@ class PooterBrain
     {
       $text_to_send = $this->tr("Ciao $this->interlocutor_name, caro amico mio, io sono Pietro Gusso. Ho 20 anni e mi piace la musica e lo sport e da ben 9 anni pratico rugby!");
       return $this->get_message(MessageType::TEXT, $text_to_send);
+    }
+
+    if ($this->found('basta pooter'))
+    {
+      if ($this->message['chat']['type'] == 'private')
+      {
+        return NULL;
+      }
+      else
+      {
+        $this->mute();
+        return $this->get_message('text', 'Sto zitto va bene non dico stronzate');
+      }
     }
 
     if ($this->found('/foto'))
@@ -564,17 +608,41 @@ class PooterBrain
    */
   public function answer()
   {
-    if ($this->text != "")
+    if ($this->message['chat']['type'] == 'group'
+     || $this->message['chat']['type'] == 'supergroup')
+    {
+      if ($this->is_muted())
+      {
+        if (preg_match('/pooter.*(si )?(scherza|scherzav)/', $this->text))
+        {
+          $this->unmute();
+          return $this->get_message(MessageType::TEXT, 'Allora torno, amici miei');
+        }
+
+        return NULL;
+      }
+
+      if ($this->text != '')
+      {
+        return $this->handle_text();
+      }
+
+      if (isset($this->message['photo']))
+      {
+        return $this->comment_photo();
+      }
+
+      return $this->handle_group_event();
+    }
+
+    if ($this->text != '')
+    {
       return $this->handle_text();
+    }
 
     if (isset($this->message['photo']))
     {
       return $this->comment_photo();
-    }
-
-    if ($this->message['chat']['type'] == 'group')
-    {
-      return $this->handle_group_event();
     }
 
     return NULL;
