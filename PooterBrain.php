@@ -551,6 +551,11 @@ class PooterBrain
     // greet left group member
     if (isset($this->message['left_chat_member']))
     {
+      if ($this->message['left_chat_member']['id'] == BOT_ID)
+      {
+        $this->unmute();
+      }
+
       $left_member = $this->message['left_chat_member']['first_name'];
       $message = $this->tr("No $left_member amico mio dove vai?");
       return $this->get_message(MessageType::TEXT, $message);
