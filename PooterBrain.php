@@ -316,6 +316,12 @@ class PooterBrain
     return $final_string;
   }
 
+  /**
+   * Checks if passed name is female.
+   *
+   * @param string|null $name
+   * @return bool
+   */
   private function is_female($name = NULL)
   {
     if ($name == NULL)
