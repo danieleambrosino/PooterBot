@@ -239,22 +239,22 @@ class PooterBrain
         'Somebody',
         'A me piace',
         'Sono d\'accordissimo',
-        $this->tr('Ma cosa dici, amico mio'),
-        $this->tr('Eh! Eh! No dai scherzo amico mio'),
-        $this->tr('Hai assolutamente ragione, amico mio'),
-        $this->tr('Heh... non so che dirti amico mio...'),
+        'Ma cosa dici, amico mio',
+        'Eh! Eh! No dai scherzo amico mio',
+        'Hai assolutamente ragione, amico mio',
+        'Heh... non so che dirti amico mio...',
         'Secondo me sì',
         'Secondo me no',
         'Secondo me sbaglia',
         'Secondo me è giusto',
         'Secondo me... Somebody',
         'Secondo me è giustissimo così',
-        $this->tr('Secondo me... non lo so amico mio'),
-        $this->tr('Secondo me non è tanto vero, amico mio'),
-        $this->tr('Secondo me fa schifo... ahah dai scherzavo amico mio')
+        'Secondo me... non lo so amico mio',
+        'Secondo me non è tanto vero, amico mio',
+        'Secondo me fa schifo... ahah dai scherzavo amico mio'
     );
 
-    return $opinions[array_rand($opinions)];
+    return $this->tr($opinions[array_rand($opinions)]);
   }
 
   /**
@@ -266,17 +266,17 @@ class PooterBrain
   {
     $likes = array(
         'No',
-        $this->tr('Proprio per nulla amico mio'),
-        $this->tr('Senza offesa amico mio ma fa proprio schifo'),
+        'Proprio per nulla amico mio',
+        'Senza offesa amico mio ma fa proprio schifo',
         'Può andare',
         'Non è male',
         'Sì',
         'Mi piace',
-        $this->tr('Mi piace molto amico mio'),
-        $this->tr('Amico mio, non avrei saputo fare di meglio'),
-        $this->tr('È incredibile, quasi quanto te, caro amico mio')
+        'Mi piace molto amico mio',
+        'Amico mio, non avrei saputo fare di meglio',
+        'È incredibile, quasi quanto te, caro amico mio'
     );
-    return $likes[array_rand($likes)];
+    return $this->tr($likes[array_rand($likes)]);
   }
 
   #############
@@ -348,6 +348,9 @@ class PooterBrain
     return $result->num_rows > 0;
   }
 
+  /**
+   * Mutes PooterBot in a specific group.
+   */
   private function mute()
   {
     $group_id = $this->message['chat']['id'];
@@ -355,6 +358,9 @@ class PooterBrain
     $this->database->query($query);
   }
 
+  /**
+   * Unmutes PooterBot in a specific group.
+   */
   private function unmute()
   {
     $group_id = $this->message['chat']['id'];
@@ -613,6 +619,10 @@ class PooterBrain
     $comment = $comments[array_rand($comments)];
     return $this->get_message(MessageType::TEXT, $comment);
   }
+
+  ##################
+  # USER INTERFACE #
+  ##################
 
   /**
    * Returns Pooter's answer.
