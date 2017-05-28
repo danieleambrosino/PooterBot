@@ -20,6 +20,8 @@ class PooterBrain
   private $is_female;
   private $message;
 
+  private $database;
+
   private $pictures = array(
       'rugby'       => 'AgADBAADRKkxGzn7-VAjJrMG6scndNWMuxkABGNtHsrxnyBOJysBAAEC',
       'intenso'     => 'AgADBAADR6kxGzn7-VBUBMOaS-y26OfJnhkABBhGeuQ5-mma5FoEAAEC',
@@ -59,13 +61,9 @@ class PooterBrain
     // hold interlocutor's name
     $this->interlocutor_name = $this->message['from']['first_name'];
 
-    $file_handle = fopen('female_names.txt', 'r');
-    $female_names = fread($file_handle, filesize('female_names.txt'));
+    $this->database = new mysqli('', '', '', 'my_pooterbot');
 
-    $this->is_female = preg_match("/$this->interlocutor_name/i",
-                                  $female_names);
-
-    fclose($file_handle);
+    $this->is_female = $this->is_female();
 
     define('BOT_ID', '395202945');
   }
@@ -81,7 +79,7 @@ class PooterBrain
    * @return array
    * @throws Exception if an unknown type is passed
    */
-  private function get_message($type, $content, $caption=NULL)
+  private function get_message($type, $content, $caption = NULL)
   {
     switch ($type)
     {
@@ -318,6 +316,18 @@ class PooterBrain
     return $final_string;
   }
 
+  private function is_female($name = NULL)
+  {
+    if ($name == NULL)
+    {
+      $name = $this->interlocutor_name;
+    }
+
+    $name = strtolower($name);
+
+    return $this->database->query("SELECT name FROM female_names WHERE name = '$name'")->num_rows > 0;
+  }
+
   /**
    * Checks if a group is muted.
    *
@@ -326,9 +336,8 @@ class PooterBrain
   private function is_muted()
   {
     $group_id = $this->message['chat']['id'];
-    $database = new mysqli('','','','my_pooterbot');
     $query = "SELECT * FROM muted_groups WHERE group_id = $group_id";
-    $result = $database->query($query);
+    $result = $this->database->query($query);
 
     return $result->num_rows > 0;
   }
@@ -336,17 +345,15 @@ class PooterBrain
   private function mute()
   {
     $group_id = $this->message['chat']['id'];
-    $database = new mysqli('', '', '', 'my_pooterbot');
     $query = "INSERT INTO muted_groups (group_id) VALUES ($group_id)";
-    $database->query($query);
+    $this->database->query($query);
   }
 
   private function unmute()
   {
     $group_id = $this->message['chat']['id'];
-    $database = new mysqli('', '', '', 'my_pooterbot');
     $query = "DELETE FROM muted_groups WHERE group_id = $group_id";
-    $database->query($query);
+    $this->database->query($query);
   }
 
   ####################
