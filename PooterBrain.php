@@ -1,16 +1,13 @@
 <?php
 
+include 'PooterMemory.php';
+
 /**
  * Created by PhpStorm.
  * User: danie
  * Date: 19/05/2017
  * Time: 00:09
  */
-
-abstract class MessageType {
-  const TEXT = 0;
-  const PHOTO = 1;
-}
 
 class PooterBrain
 {
@@ -21,6 +18,7 @@ class PooterBrain
   private $message;
 
   private $database;
+  private $memory;
 
   private $pictures = array(
       'rugby'       => 'AgADBAADRKkxGzn7-VAjJrMG6scndNWMuxkABGNtHsrxnyBOJysBAAEC',
@@ -62,6 +60,8 @@ class PooterBrain
     $this->interlocutor_name = $this->message['from']['first_name'];
 
     $this->database = new mysqli('', '', '', 'my_pooterbot');
+    $this->memory = new PooterMemory();
+    $this->memory->save_message($this->message);
 
     $this->is_female = $this->is_female();
 
@@ -297,14 +297,20 @@ class PooterBrain
   /**
    * Checks interlocutor's gender and returns the correct string.
    *
-   * @param string $string Translation input.
+   * @param string    $string    Translation input.
+   * @param bool|null $is_female Gender parameter.
    * @return string
    */
-  private function tr($string)
+  private function tr($string, $is_female = NULL)
   {
     $final_string = $string;
 
-    if ($this->is_female)
+    if ($is_female == NULL)
+    {
+      $is_female = $this->is_female;
+    }
+
+    if ($is_female)
     {
       $final_string = preg_replace('/caro/', 'cara', $final_string);
       $final_string = preg_replace('/Caro/', 'Cara', $final_string);
@@ -550,7 +556,8 @@ class PooterBrain
   private function handle_group_event()
   {
     // greet new group members (included Pooter himself)
-    if (isset($this->message['new_chat_members'])) {
+    if (isset($this->message['new_chat_members']))
+    {
       $new_members = $this->message['new_chat_members'];
       if ($new_members[0]['id'] == BOT_ID)
       {
@@ -607,16 +614,16 @@ class PooterBrain
   private function comment_photo()
   {
     $comments = array(
-        $this->tr('Questa foto non mi piace amico mio'),
-        $this->tr('Questa foto non mi piace proprio per nulla amico mio'),
-        $this->tr('Senza offesa amico mio ma questa foto fa proprio schifo'),
-        $this->tr('Bella foto amico mio'),
-        $this->tr('Mi piace questa foto, si vede che hai il palato fino amico mio'),
-        $this->tr('Mi piace molto amico mio, sei un grande'),
-        $this->tr('Amico mio, non avrei saputo fare di meglio'),
-        $this->tr('Questa foto è incredibile quasi quanto te, caro amico mio')
+        'Questa foto non mi piace amico mio',
+        'Questa foto non mi piace proprio per nulla amico mio',
+        'Senza offesa amico mio ma questa foto fa proprio schifo',
+        'Bella foto amico mio',
+        'Mi piace questa foto, si vede che hai il palato fino amico mio',
+        'Mi piace molto amico mio, sei un grande',
+        'Amico mio, non avrei saputo fare di meglio',
+        'Questa foto è incredibile quasi quanto te, caro amico mio'
     );
-    $comment = $comments[array_rand($comments)];
+    $comment = $this->tr($comments[array_rand($comments)]);
     return $this->get_message(MessageType::TEXT, $comment);
   }
 
