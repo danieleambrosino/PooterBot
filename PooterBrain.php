@@ -33,6 +33,29 @@ class PooterBrain
       'olmo'        => 'AgADBAAD16gxG09xGFEnfKKKMsxpaVimuxkABD9pYMaIW39cSUIBAAEC',
       'sergio_brio' => 'AgADBAADxqgxG3sfIVENltTMCQQs5j9KuxkABPt2tL9OyLESg0EBAAEC'
   );
+  private $voices = array(
+      'esatto' => 'AwADBAADEwEAAk-rYVFJ4vECDuLzJQI',
+      'somebody' => 'AwADBAADFAEAAk-rYVFyXdKkQimdpAI',
+      'somebody_poesia' => 'AwADBAADFQEAAk-rYVFQWqetvlT71gI',
+      'allucinazioni' => 'AwADBAADFgEAAk-rYVG_x599FffrNwI',
+      'delirio1' => 'AwADBAADHwEAAk-rYVGQ1P9swKylxAI',
+      'reflections' => 'AwADBAADIAEAAk-rYVGvbgt2Dgc4egI',
+      'delirio2' => 'AwADBAADIQEAAk-rYVHpLsH7DHxrBAI',
+      'english_reflections' => 'AwADBAADIgEAAk-rYVHvZta-RnFYogI',
+      'ruggito' => 'AwADBAADEQEAAk-rYVGqSDFbkF5YJwI',
+      'fantasia_potenza' => 'AwADBAADEAEAAk-rYVHxjRG3s8hRogI',
+      'magico' => 'AwADBAADDwEAAk-rYVH8yZwt5mEWpwI',
+      'sergio_brio' => 'AwADBAADCgEAAk-rYVGvbZpjP5UEmAI',
+      'most_famous' => 'AwADBAADCQEAAk-rYVGodJALE2_0owI',
+      'avventurosa' => 'AwADBAADBgEAAk-rYVHTcFJ5z_hXNwI',
+      'romagnolo' => 'AwADBAADBwEAAk-rYVHej38x5nECogI',
+      'zampino' => 'AwADBAADBQEAAk-rYVHqF1j_TDjzMAI'
+  );
+  private $songs = array(
+      'tempo_cattedrali' => 'AwADBAADFwEAAk-rYVHPx0beI6ewEQI',
+      'stranieri' => 'AwADBAADGAEAAk-rYVEihOZVNCQDdAI',
+      'corte_miracoli' => 'AwADBAADHgEAAk-rYVEx2Nikwfdh1QI',
+  );
 
   /**
    * PooterBrain constructor.
@@ -106,6 +129,28 @@ class PooterBrain
         else
         {
           throw new Exception('Selected picture is not available');
+        }
+        return $message;
+      }
+      case (MessageType::VOICE):
+      {
+        $message = array('method'              => 'sendVoice',
+                         'reply_to_message_id' => $this->message['message_id']);
+        if ($content == 'random')
+        {
+          $message['voice'] = $this->voices[array_rand($this->voices)];
+        }
+        elseif ($content == 'random_song')
+        {
+          $message['voice'] = $this->songs[array_rand($this->songs)];
+        }
+        elseif (array_key_exists($content, $this->voices))
+        {
+          $message['voice'] = $this->voices[$content];
+        }
+        else
+        {
+          throw new Exception('Selected voice is not available');
         }
         return $message;
       }
@@ -429,6 +474,16 @@ class PooterBrain
       return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 
+    if ($this->found('canzone'))
+    {
+      return $this->get_message(MessageType::VOICE, 'random_song');
+    }
+
+    if ($this->found('/audio'))
+    {
+      return $this->get_message(MessageType::VOICE, 'random');
+    }
+
     if ($this->found('zitto'))
     {
       $text_to_send = "$this->interlocutor_name potresti rispettare le persone che scrivono quello che vogliono? Senza offesa per te, ma potresti non cagare il cazzo?";
@@ -533,7 +588,7 @@ class PooterBrain
 
     if ($this->found('pietrausen greco'))
     {
-      $text_to_send = "Che cazzo vuoi $this->interlocutor_name porco dio e anche porca madonna vaffanculo t'ammazzo di botte... forse";
+      $text_to_send = "Non è carino da parte tua, amico mio";
       return $this->get_message(MessageType::TEXT, $text_to_send);
     }
 

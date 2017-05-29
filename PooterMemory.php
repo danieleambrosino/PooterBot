@@ -122,29 +122,6 @@ class PooterMemory
   }
 
   /**
-   * Translates default chat type to string (for database).
-   *
-   * @param int $type Type to be translated.
-   * @return null|string
-   */
-  private function get_chat_type($type)
-  {
-    switch ($type)
-    {
-      case (ChatType::PRIVATE_CHAT):
-        return 'private';
-      case (ChatType::GROUP):
-        return 'group';
-      case (ChatType::SUPERGROUP):
-        return 'supergroup';
-      case (ChatType::CHANNEL):
-        return 'channel';
-      default:
-        return NULL;
-    }
-  }
-
-  /**
    * Returns specific content depending on message type.
    *
    * @param array $message Message to be analyzed.
