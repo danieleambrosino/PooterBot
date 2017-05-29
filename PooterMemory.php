@@ -202,6 +202,10 @@ class PooterMemory
     $this->database->query($query);
   }
 
+  ##################
+  # USER INTERFACE #
+  ##################
+
   /**
    * Save message into database.
    *
@@ -269,6 +273,42 @@ class PooterMemory
 
     $query = "INSERT INTO messages (id, chat_id, sender_id, sending_date, type, content, caption)
               VALUES (NULL, $chat_id, $sender_id, '$sending_date', '$type', '$content', $caption)";
+    $this->database->query($query);
+  }
+
+  /**
+   * Checks if a group is muted.
+   *
+   * @param int $group_id Group to be checked.
+   * @return bool
+   */
+  public function is_muted($group_id)
+  {
+    $query = "SELECT * FROM muted_groups WHERE group_id = $group_id";
+    $result = $this->database->query($query);
+
+    return $result->num_rows > 0;
+  }
+
+  /**
+   * Mutes PooterBot in a specific group.
+   *
+   * @param int $group_id Group to be muted.
+   */
+  public function mute($group_id)
+  {
+    $query = "INSERT INTO muted_groups (group_id) VALUES ($group_id)";
+    $this->database->query($query);
+  }
+
+  /**
+   * Unmutes PooterBot in a specific group.
+   *
+   * @param int $group_id Group to be unmuted.
+   */
+  public function unmute($group_id)
+  {
+    $query = "DELETE FROM muted_groups WHERE group_id = $group_id";
     $this->database->query($query);
   }
 

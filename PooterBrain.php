@@ -393,10 +393,7 @@ class PooterBrain
   private function is_muted()
   {
     $group_id = $this->message['chat']['id'];
-    $query = "SELECT * FROM muted_groups WHERE group_id = $group_id";
-    $result = $this->database->query($query);
-
-    return $result->num_rows > 0;
+    return $this->memory->is_muted($group_id);
   }
 
   /**
@@ -405,8 +402,7 @@ class PooterBrain
   private function mute()
   {
     $group_id = $this->message['chat']['id'];
-    $query = "INSERT INTO muted_groups (group_id) VALUES ($group_id)";
-    $this->database->query($query);
+    $this->memory->mute($group_id);
   }
 
   /**
@@ -415,8 +411,7 @@ class PooterBrain
   private function unmute()
   {
     $group_id = $this->message['chat']['id'];
-    $query = "DELETE FROM muted_groups WHERE group_id = $group_id";
-    $this->database->query($query);
+    $this->memory->unmute($group_id);
   }
 
   ####################
