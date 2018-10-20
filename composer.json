@@ -1,0 +1,16 @@
+{
+  "name": "danieleambrosino/PooterBot",
+  "description": "Un simpatico amicone",
+  "authors": [
+    {
+      "name": "Daniele Ambrosino",
+      "email": "mail@danieleambrosino.it"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "classmap": [
+      "core/"
+    ]
+  }
+}
