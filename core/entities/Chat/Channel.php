@@ -19,7 +19,7 @@ class Channel extends Chat
   private $title;
   private $username;
   
-  public function __construct(int $id, string $title, string $username = NULL)
+  public function __construct(int $id, string $title, $username)
   {
     parent::__construct($id);
     $this->title = $title;

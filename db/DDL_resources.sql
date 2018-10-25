@@ -1,0 +1,67 @@
+/* 
+ * This file is part of the PooterBot project.
+ * 
+ * (c) 2018 Daniele Ambrosino <mail@danieleambrosino.it>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file distributed with this source code.
+ */
+/**
+ * Author:  Daniele Ambrosino
+ * Created: 25-ott-2018
+ */
+
+DROP TABLE IF EXISTS PhotoResources;
+DROP TABLE IF EXISTS Speeches;
+DROP TABLE IF EXISTS Songs;
+DROP TABLE IF EXISTS Cities;
+DROP TABLE IF EXISTS Jokes;
+DROP TABLE IF EXISTS Proverbs;
+DROP TABLE IF EXISTS Opinions;
+DROP TABLE IF EXISTS Judgements;
+DROP TABLE IF EXISTS PhotoComments;
+DROP TABLE IF EXISTS FemaleNames;
+
+CREATE TABLE IF NOT EXISTS PhotoResources (
+  id TEXT PRIMARY KEY,
+  fileId TEXT NOT NULL REFERENCES Files (id) ON UPDATE CASCADE ON DELETE CASCADE
+) WITHOUT ROWID;
+
+
+CREATE TABLE IF NOT EXISTS Speeches (
+  id TEXT PRIMARY KEY,
+  fileId TEXT NOT NULL REFERENCES Files (id) ON UPDATE CASCADE ON DELETE CASCADE
+) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS Songs (
+  id TEXT PRIMARY KEY,
+  fileId TEXT NOT NULL REFERENCES Files (id) ON UPDATE CASCADE ON DELETE CASCADE
+) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS Cities (
+  id INTEGER PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS Jokes (
+  `text` TEXT PRIMARY KEY
+) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS Proverbs (
+  `text` TEXT PRIMARY KEY
+) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS Opinions (
+  `text` TEXT PRIMARY KEY
+) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS Judgements (
+  `text` TEXT PRIMARY KEY
+) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS PhotoComments (
+  `text` TEXT PRIMARY KEY
+) WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS FemaleNames (
+  `name` TEXT PRIMARY KEY
+) WITHOUT ROWID;

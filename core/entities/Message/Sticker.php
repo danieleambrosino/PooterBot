@@ -22,13 +22,12 @@ class Sticker extends MultimediaMessage
   private $emoji;
   private $setName;
 
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
-                              string $fileId, int $fileSize, string $mimeType,
-                              int $width, int $height, string $emoji,
-                              string $setName)
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
+                              string $fileId, int $fileSize, int $width,
+                              int $height, string $emoji, string $setName)
   {
     parent::__construct($id, $datetime, $user, $chat, $fileId, $fileSize,
-                        $mimeType);
+                        'image/webp');
     $this->width = $width;
     $this->height = $height;
     $this->emoji = $emoji;

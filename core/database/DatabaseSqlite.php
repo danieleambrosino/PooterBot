@@ -20,7 +20,7 @@ class DatabaseSqlite extends Database
 
   protected function __construct()
   {
-    $this->handle = new SQLite3(DATABASE_SQLITE_PATH);
+    $this->handle = new SQLite3(DATABASE_SQLITE_PATH, SQLITE3_OPEN_READWRITE);
   }
 
   protected function bind(string $query, array $values)

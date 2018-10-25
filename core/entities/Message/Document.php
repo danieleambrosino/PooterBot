@@ -20,9 +20,9 @@ class Document extends MultimediaMessage
   private $fileName;
   private $caption;
 
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
-                              string $fileId, int $fileSize, string $mimeType,
-                              string $fileName, string $caption)
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
+                              string $fileId, $fileSize, $mimeType, $fileName,
+                              $caption)
   {
     parent::__construct($id, $datetime, $user, $chat, $fileId, $fileSize,
                         $mimeType);

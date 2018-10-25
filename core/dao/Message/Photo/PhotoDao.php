@@ -8,14 +8,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file distributed with this source code.
  */
-
+require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
 /**
  * Description of PhotoDao
  *
  * @author Daniele Ambrosino
  */
-class PhotoDao extends MultimediaMessageDao
+abstract class PhotoDao extends MultimediaMessageDao
 {
+
+  protected static $instance;
+
+  public static function getInstance()
+  {
+    if ( empty(static::$instance) )
+    {
+      static::$instance = new static();
+    }
+    return static::$instance;
+  }
 
   public function get(int $id)
   {
@@ -29,15 +40,26 @@ SQL;
     $this->db->query($query, $values);
   }
 
-  public function store(Photo $message)
+  /**
+   * 
+   * @param Photo $message
+   */
+  public function store($message)
   {
     $this->storeMessageByType($message, 'photo');
+    $this->storeFile($message->getFileId(), $message->getFile(),
+                     $message->getFileSize(), $message->getMimeType());
     $query = "INSERT INTO Photos (messageId, width, height, caption, fileId) VALUES (?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getCaption(), $message->getCaption()];
+    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getCaption(), $message->getFileId()];
     $this->db->query($query, $values);
   }
 
   public function update($object)
+  {
+    
+  }
+
+  protected function constructObject(array $data)
   {
     
   }

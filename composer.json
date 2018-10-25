@@ -8,9 +8,28 @@
     }
   ],
   "require": {},
+  "require-dev": {
+    "Dogfalo/materialize": "1.0.0"
+  },
   "autoload": {
     "classmap": [
       "core/"
+    ],
+    "files" : [
+      "config.php"
     ]
-  }
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "Dogfalo/materialize",
+        "version": "1.0.0",
+        "dist": {
+          "url": "https://github.com/Dogfalo/materialize/releases/download/1.0.0/materialize-v1.0.0.zip",
+          "type": "zip"
+        }
+      }
+    }
+  ]
 }

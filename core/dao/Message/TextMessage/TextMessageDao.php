@@ -8,7 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file distributed with this source code.
  */
-require_once realpath(__DIR__ . '/../../../vendor/autoload.php');
+require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
+
 /**
  * Description of TextMessageDao
  *
@@ -16,6 +17,17 @@ require_once realpath(__DIR__ . '/../../../vendor/autoload.php');
  */
 abstract class TextMessageDao extends MessageDao
 {
+
+  protected static $instance;
+
+  public static function getInstance()
+  {
+    if ( empty(static::$instance) )
+    {
+      static::$instance = new static();
+    }
+    return static::$instance;
+  }
 
   public function get(int $id): TextMessage
   {
@@ -58,8 +70,8 @@ SQL;
     $message = &$data[0];
     return new TextMessage($message['id'], $message['datetime'],
                            UserDaoSqlite::getInstance()->get($message['userId']),
-                           ChatDao::getCorrectChat($message['chatId']),
-                           $message['text']);
+                                                             ChatDao::getCorrectChat($message['chatId']),
+                                                                                     $message['text']);
   }
 
 }

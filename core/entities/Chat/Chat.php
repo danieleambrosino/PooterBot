@@ -22,11 +22,21 @@ abstract class Chat
    * @var int
    */
   protected $id;
+  /**
+   *
+   * @var bool
+   */
   protected $isMuted;
 
   public function __construct(int $id)
   {
     $this->id = $id;
+    
+    $db = Factory::createDatabase();
+    $query = "SELECT 1 FROM MutedChats WHERE chatId = ?";
+    $values = [$this->id];
+    $result = $db->query($query, $values);
+    $this->isMuted = !empty($result);
   }
 
   public final function getId(): int
@@ -36,14 +46,6 @@ abstract class Chat
 
   public final function isMuted(): bool
   {
-    if ( is_null($this->isMuted) )
-    {
-      $db = Factory::createDatabase();
-      $query = "SELECT 1 FROM MutedChats WHERE chatId = ?";
-      $values = [$this->id];
-      $result = $db->query($query, $values);
-      $this->isMuted = !empty($result);
-    }
     return $this->isMuted;
   }
 
@@ -53,6 +55,7 @@ abstract class Chat
     $query = "INSERT INTO MutedChats (chatId) VALUES (?)";
     $values = [$this->id];
     $db->query($query, $values);
+    $this->isMuted = TRUE;
   }
 
   public final function unmute()
@@ -61,6 +64,7 @@ abstract class Chat
     $query = "DELETE FROM MutedChats WHERE chatId = ?";
     $values = [$this->id];
     $db->query($query, $values);
+    $this->isMuted = FALSE;
   }
 
 }

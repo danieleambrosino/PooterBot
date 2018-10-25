@@ -9,6 +9,7 @@
  * file distributed with this source code.
  */
 require_once realpath(__DIR__ . '/../../../vendor/autoload.php');
+
 /**
  * Description of ContactDao
  *
@@ -16,6 +17,17 @@ require_once realpath(__DIR__ . '/../../../vendor/autoload.php');
  */
 abstract class ContactDao extends MessageDao
 {
+
+  protected static $instance;
+
+  public static function getInstance()
+  {
+    if ( empty(static::$instance) )
+    {
+      static::$instance = new static();
+    }
+    return static::$instance;
+  }
 
   public function get(int $id): Contact
   {

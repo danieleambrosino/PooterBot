@@ -23,10 +23,9 @@ class Venue extends Message
   private $foursquareId;
   private $foursquareType;
 
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
-                              Location $location, string $title,
-                              string $address, string $foursquareId = NULL,
-                              string $foursquareType = NULL)
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
+                              Location &$location, string $title,
+                              string $address, $foursquareId, $foursquareType)
   {
     parent::__construct($id, $datetime, $user, $chat);
     $this->location = $location;

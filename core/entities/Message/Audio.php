@@ -22,10 +22,10 @@ class Audio extends MultimediaMessage
   private $performer;
   private $caption;
 
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
-                              string $fileId, int $fileSize, string $mimeType,
-                              int $duration, string $title, string $performer,
-                              string $caption)
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
+                              string $fileId, $fileSize, $mimeType,
+                              int $duration, $title, $performer,
+                              $caption)
   {
     parent::__construct($id, $datetime, $user, $chat, $fileId, $fileSize,
                         $mimeType);

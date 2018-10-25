@@ -9,6 +9,7 @@
  * file distributed with this source code.
  */
 require_once realpath(__DIR__ . '/../../../vendor/autoload.php');
+
 /**
  * Description of UserDao
  *
@@ -16,8 +17,18 @@ require_once realpath(__DIR__ . '/../../../vendor/autoload.php');
  */
 abstract class UserDao extends Dao
 {
-  
+
   public static $instantiatedUsers = [];
+  protected static $instance;
+
+  public static function getInstance()
+  {
+    if ( empty(static::$instance) )
+    {
+      static::$instance = new static();
+    }
+    return static::$instance;
+  }
 
   /**
    * 
@@ -39,6 +50,10 @@ abstract class UserDao extends Dao
     $query = "SELECT * FROM Users WHERE id = ?";
     $values = [$id];
     $data = $this->db->query($query, $values);
+    if ( empty($data) )
+    {
+      throw new ResourceNotFoundException();
+    }
     $user = $this->constructObject($data);
     static::$instantiatedUsers[$id] = $user;
     return static::$instantiatedUsers[$id];

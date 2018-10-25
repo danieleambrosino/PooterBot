@@ -37,5 +37,13 @@ abstract class MultimediaMessageDao extends MessageDao
     $values = [$fileId];
     $this->db->query($query, $values);
   }
+  
+  protected final function storeFile(string $fileId, $file, $size, $mimeType)
+  {
+    $query = "INSERT OR IGNORE INTO Files (id, content, size, mimeType) VALUES (?, ?, ?, ?)";
+    $values = [$fileId, $file, $size, $mimeType];
+    $db = Factory::createDatabase();
+    $db->query($query, $values);
+  }
 
 }

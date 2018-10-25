@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file distributed with this source code.
  */
+require_once realpath(__DIR__ . '/../../vendor/autoload.php');
 
 /**
  * Description of Factory
@@ -16,15 +17,20 @@
  */
 class Factory
 {
-  
+
   public static function createDatabase(): Database
   {
     return DEVELOPMENT ? DatabaseSqlite::getInstance() : DatabaseMysql::getInstance();
   }
-  
+
+  public static function createCommunicator(): Communicator
+  {
+    return DEVELOPMENT ? new Echoer() : new Sender();
+  }
+
   public static function createResources(): Resources
   {
-    return Resources::getInstance();
+    return DEVELOPMENT ? ResourcesSqlite::getInstance() : ResourcesMysql::getInstance();
   }
 
   public static function createUserDao(): UserDao
@@ -47,38 +53,69 @@ class Factory
     return DEVELOPMENT ? SupergroupDaoSqlite::getInstance() : SupergroupDaoMysql::getInstance();
   }
 
-  public static function createChannelDao()
+  public static function createChannelDao(): ChannelDao
   {
-    
+    return DEVELOPMENT ? ChannelDaoSqlite::getInstance() : ChannelDaoMysql::getInstance();
   }
 
-  public static function createTextMessageDao()
+  public static function createTextMessageDao(): TextMessageDao
   {
-    
+    return DEVELOPMENT ? TextMessageDaoSqlite::getInstance() : TextMessageDaoMysql::getInstance();
   }
 
-  public static function createContactDao()
+  public static function createContactDao(): ContactDao
   {
-    
+    return DEVELOPMENT ? ContactDaoSqlite::getInstance() : ContactDaoMysql::getInstance();
   }
 
-  public static function createLocationDao(){}
+  public static function createLocationDao(): LocationDao
+  {
+    return DEVELOPMENT ? LocationDaoSqlite::getInstance() : LocationDaoMysql::getInstance();
+  }
 
-  public static function createVenueDao(){}
+  public static function createVenueDao(): VenueDao
+  {
+    return DEVELOPMENT ? VenueDaoSqlite::getInstance() : VenueDaoMysql::getInstance();
+  }
 
-  public static function createPhotoDao(){}
+  public static function createPhotoDao(): PhotoDao
+  {
+    return DEVELOPMENT ? PhotoDaoSqlite::getInstance() : PhotoDaoMysql::getInstance();
+  }
 
-  public static function createAudioDao(){}
+  public static function createAudioDao(): AudioDao
+  {
+    return DEVELOPMENT ? AudioDaoSqlite::getInstance() : AudioDaoMysql::getInstance();
+  }
 
-  public static function createStickerDao(){}
+  public static function createStickerDao(): StickerDao
+  {
+    return DEVELOPMENT ? StickerDaoSqlite::getInstance() : StickerDaoMysql::getInstance();
+  }
 
-  public static function createVideoDao(){}
+  public static function createVideoDao(): VideoDao
+  {
+    return DEVELOPMENT ? VideoDaoSqlite::getInstance() : VideoDaoMysql::getInstance();
+  }
 
-  public static function createVideoNoteDao(){}
+  public static function createVideoNoteDao(): VideoNoteDao
+  {
+    return DEVELOPMENT ? VideoNoteDaoSqlite::getInstance() : VideoNoteDaoMysql::getInstance();
+  }
 
-  public static function createDocumentDao(){}
+  public static function createDocumentDao(): DocumentDao
+  {
+    return DEVELOPMENT ? DocumentDaoSqlite::getInstance() : DocumentDaoMysql::getInstance();
+  }
 
-  public static function createVoiceDao(){}
+  public static function createVoiceDao(): VoiceDao
+  {
+    return DEVELOPMENT ? VoiceDaoSqlite::getInstance() : VoiceDaoMysql::getInstance();
+  }
 
-  public static function createAnimationDao(){}
+  public static function createAnimationDao(): AnimationDao
+  {
+    return DEVELOPMENT ? AnimationDaoSqlite::getInstance() : AnimationDaoMysql::getInstance();
+  }
+
 }

@@ -8,19 +8,30 @@
  * For the full copyright and license information, please view the LICENSE
  * file distributed with this source code.
  */
-require_once realpath(__DIR__ . '/../../../vendor/autoload.php');
+require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
 /**
  * Description of PrivateChatDao
  *
  * @author Daniele Ambrosino
  */
-class PrivateChatDao extends ChatDao
+abstract class PrivateChatDao extends ChatDao
 {
 
+  protected static $instance;
+  
+  public static function getInstance()
+  {
+    if ( empty(static::$instance) )
+    {
+      static::$instance = new static();
+    }
+    return static::$instance;
+  }
+  
   protected function constructObject(array $data): PrivateChat
   {
     $chat = &$data[0];
-    return new PrivateChat($chat['id'], $chat['firstName'], $chat['lastName'],
+    return new PrivateChat($chat['chatId'], $chat['firstName'], $chat['lastName'],
                            $chat['username']);
   }
 
@@ -29,6 +40,10 @@ class PrivateChatDao extends ChatDao
     $query = "SELECT * FROM PrivateChats WHERE chatId = ?";
     $values = [$id];
     $data = $this->db->query($query, $values);
+    if ( empty($data) )
+    {
+      throw new ResourceNotFoundException();
+    }
     return $this->constructObject($data);
   }
 

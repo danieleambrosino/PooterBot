@@ -17,12 +17,40 @@
 class VoiceResponse extends Response
 {
 
-  private $voice;
+  /**
+   *
+   * @var string
+   */
+  private $fileId;
 
-  public function __construct(int $chatId, string $voice)
+  /**
+   *
+   * @var string
+   */
+  private $caption;
+
+  public function __construct(Message &$message, string $fileId, $caption = NULL)
   {
-    parent::__construct($chatId);
-    $this->voice = $voice;
+    parent::__construct($message);
+    $this->fileId = $fileId;
+    $this->caption = $caption;
+  }
+
+  public function getFileId(): string
+  {
+    return $this->fileId;
+  }
+
+  public function getCaption()
+  {
+    return $this->caption;
+  }
+
+  public function toMessage(int $id, int $datetime)
+  {
+    $pooter = Factory::createUserDao()->getMe();
+    return new Voice($id, $datetime, $pooter, $this->message->getChat(),
+                     $this->fileId, 0, 'audio/ogg', 0, $this->caption);
   }
 
 }

@@ -14,29 +14,32 @@
  *
  * @author Daniele Ambrosino
  */
-class Resources
+abstract class Resources
 {
 
-  private static $instance;
-  private $db;
+  protected static $instance;
+  protected $db;
 
   public static function getInstance(): Resources
   {
     if ( empty(static::$instance) )
     {
-      static::$instance = new Resources();
+      static::$instance = new static();
     }
     return static::$instance;
   }
   
-  private function __construct()
-  {
-    $this->db = Factory::createDatabase();
-  }
+  protected abstract function __construct();
   
   public function getPhoto(string $id): string
   {
-    $query = "SELECT fileId FROM PhotoResources WHERE id = $id";
+    $query = "SELECT fileId FROM PhotoResources WHERE id = '$id'";
+    return $this->db->query($query)[0]['fileId'];
+  }
+  
+  public function getRandomPhoto(): string
+  {
+    $query = "SELECT fileId FROM PhotoResources ORDER BY random() LIMIT 1";
     return $this->db->query($query)[0]['fileId'];
   }
   
@@ -52,10 +55,10 @@ class Resources
     return $this->db->query($query)[0]['fileId'];
   }
   
-  public function getRandomCity(): string
+  public function getRandomCityId(): int
   {
-    $query = "SELECT name FROM Cities ORDER BY random() LIMIT 1";
-    return $this->db->query($query)[0]['name'];
+    $query = "SELECT id FROM Cities ORDER BY random() LIMIT 1";
+    return $this->db->query($query)[0]['id'];
   }
   
   public function getRandomJoke(): string

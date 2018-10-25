@@ -35,7 +35,7 @@ class Contact extends Message
    * @param int $userId
    * @param string $vcard
    */
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
                               string $phoneNumber, string $firstName, $lastName,
                               $userId, $vcard)
   {

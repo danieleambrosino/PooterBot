@@ -14,27 +14,28 @@
  *
  * @author Daniele Ambrosino
  */
-class PhotoResponse extends Response
+class PhotoResponse extends MultimediaResponse
 {
 
-  private $photo;
   private $caption;
 
-  public function __construct(int $chatId, string $photo, string $caption = NULL)
+  public function __construct(Message &$message, string $fileId,
+                              string $caption = NULL)
   {
-    parent::__construct($chatId);
-    $this->photo = $photo;
+    parent::__construct($message, $fileId);
     $this->caption = $caption;
-  }
-
-  public function getPhoto(): string
-  {
-    return $this->photo;
   }
 
   public function getCaption()
   {
     return $this->caption;
+  }
+
+  public function toMessage(int $id, int $datetime)
+  {
+    $pooter = Factory::createUserDao()->getMe();
+    return new Photo($id, $datetime, $pooter, $this->message->getChat(),
+                     $this->fileId, 0, 'image/jpg', 0, 0, $this->caption);
   }
 
 }

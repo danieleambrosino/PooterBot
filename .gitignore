@@ -1,2 +1,4 @@
 /nbproject/
-/db/db.sqlite3
+/db/main.sqlite3
+/db/resources.sqlite3
+/db/sqlite3.exe

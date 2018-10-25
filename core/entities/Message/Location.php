@@ -20,7 +20,7 @@ class Location extends Message
   private $latitude;
   private $longitude;
 
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
                               float $latitude, float $longitude)
   {
     parent::__construct($id, $datetime, $user, $chat);

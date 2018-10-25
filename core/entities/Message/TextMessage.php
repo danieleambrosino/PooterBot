@@ -19,7 +19,7 @@ class TextMessage extends Message
 
   private $text;
 
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
                               string $text)
   {
     parent::__construct($id, $datetime, $user, $chat);

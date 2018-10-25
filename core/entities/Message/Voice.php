@@ -20,9 +20,9 @@ class Voice extends MultimediaMessage
   private $duration;
   private $caption;
 
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
-                              string $fileId, int $fileSize, string $mimeType,
-                              int $duration, string $caption)
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
+                              string $fileId, $fileSize, $mimeType,
+                              int $duration, $caption)
   {
     parent::__construct($id, $datetime, $user, $chat, $fileId, $fileSize,
                         $mimeType);

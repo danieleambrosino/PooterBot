@@ -17,3 +17,11 @@ if ( empty($update) )
   exit;
 }
 
+require_once realpath(__DIR__ . '/vendor/autoload.php');
+
+$director = new Director($update);
+$director->handleUpdate();
+if ( SAVE_MESSAGES )
+{
+  $director->storeData();
+}

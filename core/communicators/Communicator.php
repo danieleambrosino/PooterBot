@@ -16,7 +16,7 @@
  */
 abstract class Communicator
 {
-  public abstract function sendMessage(TextResponse $response);
-  public abstract function sendPhoto(PhotoResponse $response);
-  public abstract function sendVoice(VoiceResponse $response);
+  public abstract function sendMessage(TextResponse &$response);
+  public abstract function sendPhoto(PhotoResponse &$response);
+  public abstract function sendVoice(VoiceResponse &$response);
 }

@@ -19,9 +19,9 @@ class TextResponse extends Response
 
   private $text;
 
-  public function __construct(int $chatId, string $text)
+  public function __construct(Message &$message, string $text)
   {
-    parent::__construct($chatId);
+    parent::__construct($message);
     $this->text = $text;
   }
 
@@ -33,6 +33,13 @@ class TextResponse extends Response
   public function setText($text)
   {
     $this->text = $text;
+  }
+
+  public function toMessage(int $id, int $datetime)
+  {
+    $pooter = Factory::createUserDao()->getMe();
+    return new TextMessage($id, $datetime, $pooter, $this->message->getChat(),
+                           $this->text);
   }
 
 }

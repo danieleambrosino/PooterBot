@@ -20,19 +20,18 @@ class Video extends MultimediaMessage
   private $width;
   private $height;
   private $duration;
-  private $fileName;
+  private $caption;
 
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
-                              string $fileId, int $fileSize, string $mimeType,
-                              int $width, int $height, int $duration,
-                              string $fileName)
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
+                              string $fileId, $fileSize, $mimeType, int $width,
+                              int $height, int $duration, $caption)
   {
     parent::__construct($id, $datetime, $user, $chat, $fileId, $fileSize,
                         $mimeType);
     $this->width = $width;
     $this->height = $height;
     $this->duration = $duration;
-    $this->fileName = $fileName;
+    $this->caption = $caption;
   }
 
   public function getWidth()
@@ -50,9 +49,9 @@ class Video extends MultimediaMessage
     return $this->duration;
   }
 
-  public function getFileName()
+  public function getCaption()
   {
-    return $this->fileName;
+    return $this->caption;
   }
 
 }

@@ -17,20 +17,25 @@
 abstract class Response
 {
 
-  private $chatId;
+  /**
+   *
+   * @var Message
+   */
+  protected $message;
 
   /**
    * 
-   * @param int $chatId
+   * @param Chat $chat
    */
-  public function __construct(int $chatId)
+  public function __construct(Message &$message)
   {
-    $this->chatId = $chatId;
+    $this->message = $message;
   }
 
-  public function getChatId(): int
+  public final function getMessage(): Message
   {
-    return $this->chatId;
+    return $this->message;
   }
 
+  public abstract function toMessage(int $id, int $datetime);
 }

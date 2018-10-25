@@ -33,10 +33,11 @@ abstract class Responder
    */
   protected $resources;
   
-  public function __construct()
+  public function __construct(Message &$message)
   {
     $this->responses = [];
     $this->resources = Factory::createResources();
+    $this->message = $message;
   }
 
   public abstract function evaluateResponse();

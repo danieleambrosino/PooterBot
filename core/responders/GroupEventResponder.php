@@ -16,5 +16,10 @@
  */
 class GroupEventResponder extends Responder
 {
-  
+
+  public function evaluateResponse()
+  {
+    
+  }
+
 }

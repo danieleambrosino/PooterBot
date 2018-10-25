@@ -22,19 +22,11 @@ abstract class Dao
    * @var Database
    */
   protected $db;
-  
-  protected static $instance;
-  
-  public static function getInstance()
-  {
-    if ( empty(static::$instance) )
-    {
-      static::$instance = new static();
-    }
-    return static::$instance;
-  }
 
-  protected function __construct(){}
+  protected function __construct()
+  {
+    $this->db = Factory::createDatabase();
+  }
 
   abstract public function store($object);
 
@@ -43,6 +35,6 @@ abstract class Dao
   abstract public function update($object);
 
   abstract public function delete($object);
-  
+
   abstract protected function constructObject(array $data);
 }

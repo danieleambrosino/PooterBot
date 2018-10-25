@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file distributed with this source code.
  */
-
+require_once realpath(__DIR__ . '/../../../vendor/autoload.php');
 /**
  * Description of MultimediaMessage
  *
@@ -23,7 +23,7 @@ abstract class MultimediaMessage extends Message
   protected $mimeType;
 
   public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
-                              string $fileId, int $fileSize, string $mimeType)
+                              string $fileId, $fileSize, $mimeType)
   {
     parent::__construct($id, $datetime, $user, $chat);
     $this->fileId = $fileId;
@@ -33,6 +33,10 @@ abstract class MultimediaMessage extends Message
 
   public function getFile()
   {
+    if ( NULL === $this->file )
+    {
+      $this->loadFile();
+    }
     return $this->file;
   }
 
@@ -51,14 +55,20 @@ abstract class MultimediaMessage extends Message
     return $this->mimeType;
   }
 
-  protected function downloadFile()
+  protected final function loadFile()
   {
-    // TODO implement
-  }
-
-  protected function retrieveFileFromDatabase()
-  {
-    // TODO implement
+    $query = "SELECT content FROM Files WHERE id = ?";
+    $values = [$this->fileId];
+    $db = Factory::createDatabase();
+    $data = $db->query($query, $values);
+    if ( empty($data) )
+    {
+      $this->file = FileDownloader::downloadFile($this->fileId);
+    }
+    else
+    {
+      $this->file = $data[0]['content'];
+    }
   }
 
 }

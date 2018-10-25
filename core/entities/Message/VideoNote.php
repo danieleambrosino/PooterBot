@@ -20,12 +20,12 @@ class VideoNote extends MultimediaMessage
   private $length;
   private $duration;
 
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
-                              string $fileId, int $fileSize, string $mimeType,
-                              int $length, int $duration)
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
+                              string $fileId, $fileSize, int $length,
+                              int $duration)
   {
     parent::__construct($id, $datetime, $user, $chat, $fileId, $fileSize,
-                        $mimeType);
+                        'video/mp4');
     $this->length = $length;
     $this->duration = $duration;
   }

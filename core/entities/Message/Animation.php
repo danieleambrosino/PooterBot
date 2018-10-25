@@ -22,7 +22,7 @@ class Animation extends MultimediaMessage
   private $duration;
   private $fileName;
 
-  public function __construct(int $id, int $datetime, User $user, Chat $chat,
+  public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
                               string $fileId, int $fileSize, string $mimeType,
                               int $width, int $height, int $duration,
                               string $fileName)
@@ -33,6 +33,26 @@ class Animation extends MultimediaMessage
     $this->height = $height;
     $this->duration = $duration;
     $this->fileName = $fileName;
+  }
+
+  public function getWidth()
+  {
+    return $this->width;
+  }
+
+  public function getHeight()
+  {
+    return $this->height;
+  }
+
+  public function getDuration()
+  {
+    return $this->duration;
+  }
+
+  public function getFileName()
+  {
+    return $this->fileName;
   }
 
 }

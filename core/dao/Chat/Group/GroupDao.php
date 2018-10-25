@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file distributed with this source code.
  */
-require_once realpath(__DIR__ . '/../../../vendor/autoload.php');
+require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
 /**
  * Description of GroupDao
  *
@@ -28,6 +28,10 @@ class GroupDao extends ChatDao
     $query = "SELECT * FROM Groups WHERE chatId = ?";
     $values = [$id];
     $data = $this->db->query($query, $values);
+    if ( empty($data) )
+    {
+      throw new ResourceNotFoundException();
+    }
     return $this->constructObject($data);
   }
 
