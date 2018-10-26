@@ -9,6 +9,7 @@
  * file distributed with this source code.
  */
 require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
+
 /**
  * Description of GroupDao
  *
@@ -17,10 +18,21 @@ require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
 class GroupDao extends ChatDao
 {
 
+  protected static $instance;
+
+  public static function getInstance()
+  {
+    if ( empty(static::$instance) )
+    {
+      static::$instance = new static();
+    }
+    return static::$instance;
+  }
+
   protected function constructObject(array $data): Group
   {
     $group = &$data[0];
-    return new Group($group['id'], $group['title']);
+    return new Group($group['chatId'], $group['title']);
   }
 
   public function get(int $id): Group

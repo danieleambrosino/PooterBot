@@ -12,6 +12,19 @@
 define('DEVELOPMENT', TRUE);
 define('SAVE_MESSAGES', TRUE);
 
+###################
+# Error reporting #
+###################
+
+if ( DEVELOPMENT )
+{
+  error_reporting(E_ALL);
+}
+else
+{
+  error_reporting(0);
+}
+
 define('ROOT_DIR', realpath(__DIR__));
 define('VENDOR_DIR', realpath(ROOT_DIR . '/vendor'));
 define('DATABASE_DIR', realpath(ROOT_DIR . '/db/'));

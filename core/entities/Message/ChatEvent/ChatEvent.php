@@ -10,13 +10,11 @@
  */
 
 /**
- * Description of Communicator
+ * Description of GroupEvent
  *
  * @author Daniele Ambrosino
  */
-abstract class Communicator
+abstract class ChatEvent extends Message
 {
-  public abstract function sendMessage(TextResponse &$response): TextMessage;
-  public abstract function sendPhoto(PhotoResponse &$response): Photo;
-  public abstract function sendVoice(VoiceResponse &$response): Voice;
+  
 }

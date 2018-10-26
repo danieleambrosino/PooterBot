@@ -34,7 +34,7 @@ class Director
    * @var Message
    */
   private $message;
-  
+
   /**
    *
    * @var array
@@ -49,22 +49,31 @@ class Director
 
   public function __construct(string $update)
   {
-    /* @var $decodedUpdate array */
     $decodedUpdate = json_decode($update, TRUE);
     if ( $decodedUpdate === NULL )
     {
       throw new MalformedUpdateException();
     }
 
-    /* @var $messageArray array */
-    $messageArray = $decodedUpdate['message'];
+    if ( isset($decodedUpdate['message']) )
+    {
+      $messageArray = $decodedUpdate['message'];
+    }
+    elseif ( isset($decodedUpdate['edited_message']) )
+    {
+      $messageArray = $decodedUpdate['edited_message'];
+    }
+    else
+    {
+      exit;
+    }
 
-    /* @var $userArray array */
+    // construct User
     $userArray = $messageArray['from'];
     $this->user = new User($userArray['id'], $userArray['first_name'],
                            $userArray['last_name'], $userArray['username']);
 
-    /* @var $chatArray array */
+    // construct Chat
     $chatArray = $messageArray['chat'];
     switch ($chatArray['type'])
     {
@@ -91,9 +100,19 @@ class Director
 
     if ( isset($messageArray['text']) )
     {
-      $this->message = new TextMessage($messageArray['message_id'],
-                                       $messageArray['date'], $this->user,
-                                       $this->chat, $messageArray['text']);
+      if ( isset($decodedUpdate['message']) )
+      {
+        $this->message = new TextMessage($messageArray['message_id'],
+                                         $messageArray['date'], $this->user,
+                                         $this->chat, $messageArray['text']);
+      }
+      elseif ( isset($decodedUpdate['edited_message']) )
+      {
+        $this->message = new EditedTextMessage($messageArray['message_id'],
+                                               $messageArray['date'],
+                                               $this->user, $this->chat,
+                                               $messageArray['text']);
+      }
     }
     elseif ( isset($messageArray['photo']) )
     {
@@ -199,6 +218,69 @@ class Director
     {
       // si deve vedere
     }
+    elseif ( isset($messageArray['group_chat_created']) )
+    {
+      $this->message = new ChatCreatedEvent($messageArray['message_id'],
+                                            $messageArray['date'], $this->user,
+                                            $this->chat);
+    }
+    elseif ( isset($messageArray['new_chat_members']) )
+    {
+      $newMembersArray = &$messageArray['new_chat_members'];
+      $newMembers = [];
+      foreach ($newMembersArray as $newMemberArray)
+      {
+        $newMembers[] = new User($newMemberArray['id'],
+                                 $newMemberArray['first_name'],
+                                 $newMemberArray['last_name'],
+                                 $newMemberArray['username']);
+      }
+      $this->message = new NewChatMembersEvent($messageArray['message_id'],
+                                               $messageArray['date'],
+                                               $this->user, $this->chat,
+                                               $newMembers);
+    }
+    elseif ( isset($messageArray['left_chat_member']) )
+    {
+      $leftMemberArray = &$messageArray['left_chat_member'];
+      $leftMember = new User($leftMemberArray['id'],
+                             $leftMemberArray['first_name'],
+                             $leftMemberArray['last_name'],
+                             $leftMemberArray['username']);
+      $this->message = new LeftChatMemberEvent($messageArray['message_id'],
+                                               $messageArray['date'],
+                                               $this->user, $this->chat,
+                                               $leftMember);
+    }
+    elseif ( isset($messageArray['new_chat_title']) )
+    {
+      $this->message = new ChatTitleChangedEvent($messageArray['message_id'],
+                                                 $messageArray['date'],
+                                                 $this->user, $this->chat,
+                                                 $messageArray['new_chat_title']);
+    }
+    elseif ( isset($messageArray['new_chat_photo']) )
+    {
+      $newPhotoArray = &$messageArray['new_chat_photo'][count($messageArray['new_chat_photo']) - 1];
+      $newPhoto = new Photo($messageArray['message_id'], $messageArray['date'],
+                            $this->user, $this->chat, $newPhotoArray['file_id'],
+                            $newPhotoArray['file_size'], 'image/jpg',
+                            $newPhotoArray['width'], $newPhotoArray['height']);
+      $this->message = new ChatPhotoChangedEvent($messageArray['message_id'],
+                                                 $messageArray['date'],
+                                                 $this->user, $this->chat,
+                                                 $newPhoto);
+    }
+    elseif ( isset($messageArray['delete_chat_photo']) )
+    {
+      $this->message = new ChatPhotoDeletedEvent($messageArray['message_id'],
+                                                 $messageArray['date'],
+                                                 $this->user, $this->chat);
+    }
+    else
+    {
+      throw new ErrorException();
+    }
 
     $this->communicator = Factory::createCommunicator();
     $this->responses = [];
@@ -206,22 +288,34 @@ class Director
 
   public function handleUpdate()
   {
+    $responders = [];
     if ( $this->message instanceof TextMessage )
     {
-      $responder = new TextResponder($this->message);
+      $responders[] = new TextResponder($this->message);
     }
     elseif ( $this->message instanceof Photo )
     {
-      $responder = new PhotoResponder($this->message);
+      $responders[] = new PhotoResponder($this->message);
     }
-    else
+    elseif ( $this->message instanceof ChatEvent )
     {
-      return;
+      $responders[] = new ChatEventResponder($this->message);
     }
 
-    $responder->evaluateResponse();
-    /* @var $responses array */
-    $this->responses = $responder->getResponses();
+    if ( $this->message instanceof EditedTextMessage )
+    {
+      $responders[] = new EditedTextMessageResponder($this->message);
+    }
+
+    foreach ($responders as $responder)
+    {
+      $responder->evaluateResponse();
+      $responses = $responder->getResponses();
+      foreach ($responses as &$response)
+      {
+        $this->responses[] = $response;
+      }
+    }
     foreach ($this->responses as &$response)
     {
       $response = $this->sendResponse($response);
@@ -282,7 +376,6 @@ class Director
     {
       $this->storeMessage($message);
     }
-    
   }
 
   private function sendResponse(Response $response): Message
@@ -353,7 +446,11 @@ class Director
     {
       $messageDao = Factory::createVenueDao();
     }
-    
+    else
+    {
+      return;
+    }
+
     $messageDao->store($message);
   }
 

@@ -35,8 +35,8 @@ abstract class ChatDao extends Dao
   {
     $query = "SELECT type FROM Chats WHERE id = ?";
     $values = [$id];
-    $data = $this->db->query($query, $values);
-    $type = &$data[0];
+    $data = Factory::createDatabase()->query($query, $values);
+    $type = &$data[0]['type'];
     switch ($type)
     {
       case 'private':

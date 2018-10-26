@@ -39,4 +39,9 @@ class Group extends Chat
     return $this->title;
   }
 
+  public function setTitle(string $title)
+  {
+    $this->title = $title;
+  }
+
 }

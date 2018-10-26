@@ -10,13 +10,11 @@
  */
 
 /**
- * Description of Communicator
+ * Description of EditedTextMessage
  *
  * @author Daniele Ambrosino
  */
-abstract class Communicator
+class EditedTextMessage extends TextMessage
 {
-  public abstract function sendMessage(TextResponse &$response): TextMessage;
-  public abstract function sendPhoto(PhotoResponse &$response): Photo;
-  public abstract function sendVoice(VoiceResponse &$response): Voice;
+  
 }

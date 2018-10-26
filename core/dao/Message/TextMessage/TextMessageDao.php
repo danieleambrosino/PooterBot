@@ -49,7 +49,7 @@ SQL;
   public function store($message)
   {
     $this->storeMessageByType($message, 'text');
-    $query = "INSERT INTO TextMessages (messageId, text) VALUES (?, ?)";
+    $query = "INSERT OR REPLACE INTO TextMessages (messageId, text) VALUES (?, ?)";
     $values = [$message->getId(), $message->getText()];
     $this->db->query($query, $values);
   }
@@ -68,10 +68,10 @@ SQL;
   protected function constructObject(array $data): TextMessage
   {
     $message = &$data[0];
-    return new TextMessage($message['id'], $message['datetime'],
-                           UserDaoSqlite::getInstance()->get($message['userId']),
-                                                             ChatDao::getCorrectChat($message['chatId']),
-                                                                                     $message['text']);
+    $user = Factory::createUserDao()->get($message['userId']);
+    $chat = ChatDao::getCorrectChat($message['chatId']);
+    return new TextMessage($message['id'], $message['datetime'], $user, $chat,
+                           $message['text']);
   }
 
 }

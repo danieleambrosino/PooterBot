@@ -52,4 +52,9 @@ class Supergroup extends Chat
     return $this->username;
   }
 
+  public function setTitle(string $title)
+  {
+    $this->title = $title;
+  }
+
 }

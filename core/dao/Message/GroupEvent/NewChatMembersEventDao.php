@@ -10,13 +10,11 @@
  */
 
 /**
- * Description of Communicator
+ * Description of NewChatMembersEventDao
  *
  * @author Daniele Ambrosino
  */
-abstract class Communicator
+class NewChatMembersEventDao
 {
-  public abstract function sendMessage(TextResponse &$response): TextMessage;
-  public abstract function sendPhoto(PhotoResponse &$response): Photo;
-  public abstract function sendVoice(VoiceResponse &$response): Voice;
+  //put your code here
 }

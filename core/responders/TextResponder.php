@@ -122,6 +122,11 @@ class TextResponder extends Responder
       $text = 'Sono Speedy Gonzales?';
       $this->responses[] = new TextResponse($this->message, $text);
     }
+    elseif ( found('stasera', $this->text) )
+    {
+      $text = "Posso venire anch'io?";
+      $this->responses[] = new TextResponse($this->message, $text);
+    }
     elseif ( found('some', $this->text) )
     {
       $text = 'Body';

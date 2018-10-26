@@ -10,13 +10,11 @@
  */
 
 /**
- * Description of Communicator
+ * Description of ChatPhotoDeletedEvent
  *
  * @author Daniele Ambrosino
  */
-abstract class Communicator
+class ChatPhotoDeletedEvent extends ChatEvent
 {
-  public abstract function sendMessage(TextResponse &$response): TextMessage;
-  public abstract function sendPhoto(PhotoResponse &$response): Photo;
-  public abstract function sendVoice(VoiceResponse &$response): Voice;
+  
 }

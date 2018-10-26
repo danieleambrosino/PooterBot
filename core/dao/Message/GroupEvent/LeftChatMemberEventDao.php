@@ -10,16 +10,11 @@
  */
 
 /**
- * Description of GroupEventResponder
+ * Description of LeftChatMemberEventDao
  *
  * @author Daniele Ambrosino
  */
-class GroupEventResponder extends Responder
+class LeftChatMemberEventDao
 {
-
-  public function evaluateResponse()
-  {
-    
-  }
-
+  //put your code here
 }

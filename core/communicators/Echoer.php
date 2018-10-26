@@ -17,19 +17,19 @@
 class Echoer extends Communicator
 {
 
-  public function sendMessage(TextResponse &$response)
+  public function sendMessage(TextResponse &$response): TextMessage
   {
     echo $response->getText();
     return $response->toMessage(rand(), time());
   }
 
-  public function sendPhoto(PhotoResponse &$response)
+  public function sendPhoto(PhotoResponse &$response): Photo
   {
     echo $response->getFileId() . ', ' . $response->getCaption();
     return $response->toMessage(rand(), time());
   }
 
-  public function sendVoice(VoiceResponse &$response)
+  public function sendVoice(VoiceResponse &$response): Voice
   {
     echo $response->getFileId();
     return $response->toMessage(rand(), time());

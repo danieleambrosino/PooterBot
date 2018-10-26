@@ -14,6 +14,7 @@
 PRAGMA foreign_keys = OFF;
 DROP TABLE IF EXISTS `Users`;
 DROP TABLE IF EXISTS `Chats`;
+DROP TABLE IF EXISTS `Members`;
 DROP TABLE IF EXISTS `Messages`;
 DROP TABLE IF EXISTS `ChatTypes`;
 DROP TABLE IF EXISTS `MessageTypes`;
@@ -35,6 +36,10 @@ DROP TABLE IF EXISTS `Groups`;
 DROP TABLE IF EXISTS `Supergroups`;
 DROP TABLE IF EXISTS `Channels`;
 DROP TABLE IF EXISTS `MutedChats`;
+DROP TABLE IF EXISTS `ChatTitleChangedEvents`;
+DROP TABLE IF EXISTS `ChatPhotoChangedEvents`;
+DROP TABLE IF EXISTS `ChatEvents`;
+DROP TABLE IF EXISTS `ChatEventTypes`;
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS ChatTypes (
@@ -88,7 +93,7 @@ CREATE TABLE IF NOT EXISTS Users (
 INSERT INTO Users (id, firstName, lastName, username) VALUES
 (395202945, 'PooterBot', NULL, 'PooterBot');
 
-CREATE TABLE IF NOT EXISTS Participants (
+CREATE TABLE IF NOT EXISTS Members (
   chatId INTEGER NOT NULL REFERENCES Chats (id) ON UPDATE CASCADE ON DELETE CASCADE,
   userId INTEGER NOT NULL REFERENCES Users (id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (chatId, userId)
@@ -109,7 +114,8 @@ INSERT INTO MessageTypes VALUES
 ('location'),
 ('venue'),
 ('videoNote'),
-('document');
+('document'),
+('groupEvent');
 
 CREATE TABLE IF NOT EXISTS Messages (
   id INTEGER PRIMARY KEY,
@@ -117,6 +123,32 @@ CREATE TABLE IF NOT EXISTS Messages (
   `type` TEXT NOT NULL REFERENCES MessageTypes (`name`) ON UPDATE CASCADE ON DELETE CASCADE,
   userId INTEGER NOT NULL REFERENCES Users (id) ON UPDATE CASCADE ON DELETE CASCADE,
   chatId INTEGER NOT NULL REFERENCES Chats (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ChatEventTypes (
+  `name` TEXT PRIMARY KEY
+) WITHOUT ROWID;
+INSERT INTO ChatEventTypes (`name`) VALUES
+('chatCreated'),
+('chatMembersAdded'),
+('chatMemberLeft'),
+('chatTitleChanged'),
+('chatPhotoChanged'),
+('chatPhotoDeleted');
+
+CREATE TABLE IF NOT EXISTS ChatEvents (
+  messageId INTEGER PRIMARY KEY REFERENCES Messages (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  `type` TEXT NOT NULL REFERENCES ChatEventTypes (`name`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ChatTitleChangedEvents (
+  messageId INTEGER PRIMARY KEY REFERENCES ChatEvents (messageId) ON UPDATE CASCADE ON DELETE CASCADE,
+  chatTitle TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ChatPhotoChangedEvents (
+  messageId INTEGER PRIMARY KEY REFERENCES ChatEvents (messageId) ON UPDATE CASCADE ON DELETE CASCADE,
+  photoId TEXT NOT NULL REFERENCES Files (id)
 );
 
 CREATE TABLE IF NOT EXISTS Files (
