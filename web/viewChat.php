@@ -78,6 +78,3 @@ require_once './templates/head.php';
     </tbody>
   </table>
 </div>
-<script>
-  //$('table').DataTable();
-</script>

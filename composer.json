@@ -9,14 +9,15 @@
   ],
   "require": {},
   "require-dev": {
-    "Dogfalo/materialize": "1.0.0"
+    "Dogfalo/materialize": "1.0.0",
+    "components/jquery": "3.3.1"
   },
   "autoload": {
     "classmap": [
       "core/"
     ],
     "files" : [
-      "config.php"
+      "config/config.php"
     ]
   },
   "repositories": [
