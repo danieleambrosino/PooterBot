@@ -33,7 +33,7 @@ abstract class DocumentDao extends MultimediaMessageDao
     
   }
 
-  public function get(int $id)
+  public function get($id)
   {
     
   }
@@ -45,10 +45,9 @@ abstract class DocumentDao extends MultimediaMessageDao
   public function store($message)
   {
     $this->storeMessageByType($message, 'document');
-    $this->storeFile($message->getFileId(), $message->getFile(),
-                     $message->getFileSize(), $message->getMimeType());
+    $this->fileDao->store($message->getFile());
     $query = "INSERT INTO Documents (messageId, fileName, caption, fileId) VALUES (?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getFileName(), $message->getCaption(), $message->getFileId()];
+    $values = [$message->getId(), $message->getFileName(), $message->getCaption(), $message->getFile()->getId()];
     $this->db->query($query, $values);
   }
 

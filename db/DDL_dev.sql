@@ -115,7 +115,7 @@ INSERT INTO MessageTypes VALUES
 ('venue'),
 ('videoNote'),
 ('document'),
-('groupEvent');
+('chatEvent');
 
 CREATE TABLE IF NOT EXISTS Messages (
   id INTEGER PRIMARY KEY,
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS ChatEventTypes (
 INSERT INTO ChatEventTypes (`name`) VALUES
 ('chatCreated'),
 ('chatMembersAdded'),
-('chatMemberLeft'),
+('chatMemberRemoved'),
 ('chatTitleChanged'),
 ('chatPhotoChanged'),
 ('chatPhotoDeleted');

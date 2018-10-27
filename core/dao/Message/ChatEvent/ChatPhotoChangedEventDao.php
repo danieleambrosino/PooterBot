@@ -10,11 +10,11 @@
  */
 
 /**
- * Description of AnimationDao
+ * Description of ChatPhotoChangedEventDao
  *
  * @author Daniele Ambrosino
  */
-abstract class AnimationDao extends MultimediaMessageDao
+class ChatPhotoChangedEventDao extends ChatEventDao
 {
 
   protected static $instance;
@@ -28,7 +28,6 @@ abstract class AnimationDao extends MultimediaMessageDao
     return static::$instance;
   }
 
-  //put your code here
   protected function constructObject(array $data)
   {
     
@@ -41,17 +40,14 @@ abstract class AnimationDao extends MultimediaMessageDao
 
   /**
    * 
-   * @param Animation $message
+   * @param ChatPhotoChangedEvent $event
    */
-  public function store($message)
+  public function store($event)
   {
-    $this->db->query('BEGIN TRANSACTION');
-    $this->storeMessageByType($message, 'animation');
-    $this->fileDao->store($message->getFile());
-    $query = "INSERT INTO Animations (messageId, width, height, duration, fileName, fileId) VALUES (?, ?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getDuration(), $message->getFileName(), $message->getFile()->getId()];
+    $this->storeChatEventByType($event, 'chatPhotoChanged');
+    $query = "INSERT INTO ChatPhotoChangedEvents (messageId, photoId) VALUES (?, ?)";
+    $values = [$event->getId(), $event->getNewPhoto()->getId()];
     $this->db->query($query, $values);
-    $this->db->query('COMMIT');
   }
 
   public function update($object)

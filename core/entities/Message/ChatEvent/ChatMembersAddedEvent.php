@@ -14,7 +14,7 @@
  *
  * @author Daniele Ambrosino
  */
-class NewChatMembersEvent extends ChatEvent
+class ChatMembersAddedEvent extends ChatEvent
 {
 
   /**

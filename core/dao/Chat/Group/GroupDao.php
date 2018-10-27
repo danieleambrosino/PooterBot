@@ -35,7 +35,7 @@ class GroupDao extends ChatDao
     return new Group($group['chatId'], $group['title']);
   }
 
-  public function get(int $id): Group
+  public function get($id): Group
   {
     $query = "SELECT * FROM Groups WHERE chatId = ?";
     $values = [$id];

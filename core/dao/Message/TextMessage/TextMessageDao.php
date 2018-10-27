@@ -29,7 +29,7 @@ abstract class TextMessageDao extends MessageDao
     return static::$instance;
   }
 
-  public function get(int $id): TextMessage
+  public function get($id): TextMessage
   {
     $query = <<<SQL
 SELECT *

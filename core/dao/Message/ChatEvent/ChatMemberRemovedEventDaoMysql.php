@@ -10,11 +10,11 @@
  */
 
 /**
- * Description of LeftChatMemberEventDao
+ * Description of ChatMemberRemovedEventDaoMysql
  *
  * @author Daniele Ambrosino
  */
-class LeftChatMemberEventDao
+class ChatMemberRemovedEventDaoMysql extends ChatMemberRemovedEventDao
 {
   //put your code here
 }

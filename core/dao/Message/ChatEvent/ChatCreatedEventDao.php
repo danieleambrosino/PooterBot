@@ -10,33 +10,41 @@
  */
 
 /**
- * Description of ChatPhotoChangedEventDao
+ * Description of GroupChatCreatedEventDao
  *
  * @author Daniele Ambrosino
  */
-class ChatPhotoChangedEventDao extends ChatEventDao
+abstract class ChatCreatedEventDao extends ChatEventDao
 {
+
+  protected static $instance;
+
+  public static function getInstance()
+  {
+    if ( empty(static::$instance) )
+    {
+      static::$instance = new static();
+    }
+    return static::$instance;
+  }
 
   protected function constructObject(array $data)
   {
     
   }
 
-  public function get(int $id)
+  public function get($id)
   {
     
   }
 
   /**
    * 
-   * @param ChatPhotoChangedEvent $event
+   * @param ChatCreatedEvent $event
    */
   public function store($event)
   {
-    $this->storeChatEventByType($event, 'chatPhotoChanged');
-    $query = "INSERT INTO ChatPhotoChangedEvents (messageId, photoId) VALUES (?, ?)";
-    $values = [$event->getId(), $event->getNewPhoto()->getId()];
-    $this->db->query($query, $values);
+    $this->storeChatEventByType($event, 'chatCreated');
   }
 
   public function update($object)

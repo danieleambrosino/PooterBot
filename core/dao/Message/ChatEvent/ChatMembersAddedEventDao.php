@@ -10,11 +10,11 @@
  */
 
 /**
- * Description of AnimationDao
+ * Description of NewChatMembersEventDao
  *
  * @author Daniele Ambrosino
  */
-abstract class AnimationDao extends MultimediaMessageDao
+class ChatMembersAddedEventDao extends ChatEventDao
 {
 
   protected static $instance;
@@ -28,7 +28,6 @@ abstract class AnimationDao extends MultimediaMessageDao
     return static::$instance;
   }
 
-  //put your code here
   protected function constructObject(array $data)
   {
     
@@ -41,15 +40,23 @@ abstract class AnimationDao extends MultimediaMessageDao
 
   /**
    * 
-   * @param Animation $message
+   * @param ChatMembersAddedEvent $event
    */
-  public function store($message)
+  public function store($event)
   {
     $this->db->query('BEGIN TRANSACTION');
-    $this->storeMessageByType($message, 'animation');
-    $this->fileDao->store($message->getFile());
-    $query = "INSERT INTO Animations (messageId, width, height, duration, fileName, fileId) VALUES (?, ?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getDuration(), $message->getFileName(), $message->getFile()->getId()];
+    $this->storeChatEventByType($event, 'chatMembersAdded');
+    $query = "INSERT OR IGNORE INTO Members (chatId, userId) VALUES ";
+    $values = [];
+    $newMembers = $event->getNewMembers();
+    /* @var $newMember User */
+    foreach ($newMembers as $newMember)
+    {
+      $query .= "(?, ?), ";
+      $values[] = $event->getChat()->getId();
+      $values[] = $newMember->getId();
+    }
+    $query = substr($query, 0, -2);
     $this->db->query($query, $values);
     $this->db->query('COMMIT');
   }

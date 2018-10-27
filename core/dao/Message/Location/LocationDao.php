@@ -33,7 +33,7 @@ abstract class LocationDao extends MessageDao
     
   }
 
-  public function get(int $id)
+  public function get($id)
   {
     
   }

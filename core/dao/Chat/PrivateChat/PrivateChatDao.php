@@ -35,7 +35,7 @@ abstract class PrivateChatDao extends ChatDao
                            $chat['username']);
   }
 
-  public function get(int $id): PrivateChat
+  public function get($id): PrivateChat
   {
     $query = "SELECT * FROM PrivateChats WHERE chatId = ?";
     $values = [$id];

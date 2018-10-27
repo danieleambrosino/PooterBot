@@ -35,14 +35,13 @@ abstract class StickerDao extends MultimediaMessageDao
   public function store($message)
   {
     $this->storeMessageByType($message, 'sticker');
-    $this->storeFile($message->getFileId(), $message->getFile(),
-                     $message->getFileSize(), $message->getMimeType());
+    $this->fileDao->store($message->getFile());
     $query = "INSERT INTO Stickers (messageId, width, height, emoji, setName, fileId) VALUES (?, ?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getEmoji(), $message->getSetName(), $message->getFileId()];
+    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getEmoji(), $message->getSetName(), $message->getFile()->getId()];
     $this->db->query($query, $values);
   }
 
-  public function get(int $id)
+  public function get($id)
   {
     
   }

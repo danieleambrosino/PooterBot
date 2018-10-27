@@ -10,11 +10,11 @@
  */
 
 /**
- * Description of NewChatMembersEventDao
+ * Description of ChatPhotoDeletedEventDaoMysql
  *
  * @author Daniele Ambrosino
  */
-class NewChatMembersEventDao
+class ChatPhotoDeletedEventDaoMysql extends ChatPhotoDeletedEventDao
 {
   //put your code here
 }

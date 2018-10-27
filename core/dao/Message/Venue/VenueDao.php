@@ -33,7 +33,7 @@ abstract class VenueDao extends MessageDao
     
   }
 
-  public function get(int $id)
+  public function get($id)
   {
     
   }

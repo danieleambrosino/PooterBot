@@ -23,7 +23,7 @@ class Photo extends MultimediaMessage
 
   public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
                               string $fileId, $fileSize, string $mimeType,
-                              int $width, int $height, $caption)
+                              int $width, int $height, $caption = NULL)
   {
     parent::__construct($id, $datetime, $user, $chat, $fileId, $fileSize, $mimeType);
     $this->width = $width;

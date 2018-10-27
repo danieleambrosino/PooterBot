@@ -37,7 +37,7 @@ class ChatEventResponder extends Responder
       $text = "Questo gruppo è incredibile, e solo il mio grande amico {$this->groupEvent->getUser()->getFirstName()} poteva crearlo";
       $this->responses[] = new TextResponse($this->groupEvent, $text);
     }
-    elseif ( $this->groupEvent instanceof NewChatMembersEvent )
+    elseif ( $this->groupEvent instanceof ChatMembersAddedEvent )
     {
       $newMembers = $this->groupEvent->getNewMembers();
       $newMembersIds = [];
@@ -49,22 +49,22 @@ class ChatEventResponder extends Responder
       {
         $text = "{$this->groupEvent->getUser()->getFirstName()}, grande amico mio, grazie per avermi aggiunto a questo incredibile gruppo";
         $this->responses[] = new TextResponse($this->groupEvent, $text);
-        $text = "Che fate di bello stasera, ragazzi?";
+        $text = "Che fate di bello stasera, amici miei?";
       }
       elseif ( count($newMembers) > 1 )
       {
-        $text = 'Benvenuti ragazzi, che fate di bello stasera?';
+        $text = 'Benvenuti amici miei, che fate di bello stasera?';
       }
       else
       {
         $newMemberName = $newMembers[0]->getFirstName();
-        $text = "Ciao $newMemberName, che fai di bello stasera?";
+        $text = "Ciao $newMemberName, caro amico mio, che fai di bello stasera?";
       }
       $this->responses[] = new TextResponse($this->groupEvent, $text);
     }
-    elseif ( $this->groupEvent instanceof LeftChatMemberEvent )
+    elseif ( $this->groupEvent instanceof ChatMemberRemovedEvent )
     {
-      $text = "Non è mai bello quando le persone lasciano un gruppo";
+      $text = "Perché {$this->groupEvent->getLeftMember()->getFirstName()} se n'è andato? Era un mio grande amico";
       $this->responses[] = new TextResponse($this->groupEvent, $text);
     }
     elseif ( $this->groupEvent instanceof ChatTitleChangedEvent )

@@ -117,5 +117,40 @@ class Factory
   {
     return DEVELOPMENT ? AnimationDaoSqlite::getInstance() : AnimationDaoMysql::getInstance();
   }
+  
+  public static function createFileDao(): FileDao
+  {
+    return DEVELOPMENT ? FileDaoSqlite::getInstance() : FileDaoMysql::getInstance();
+  }
+
+  public static function createChatCreatedEventDao(): ChatCreatedEventDao
+  {
+    return DEVELOPMENT ? ChatCreatedEventDaoSqlite::getInstance() : ChatCreatedEventDaoMysql::getInstance();
+  }
+
+  public static function createChatPhotoChangedEventDao(): ChatPhotoChangedEventDao
+  {
+    return DEVELOPMENT ? ChatPhotoChangedEventDaoSqlite::getInstance() : ChatPhotoChangedEventDaoMysql::getInstance();
+  }
+
+  public static function createChatPhotoDeletedEventDao(): ChatPhotoDeletedEventDao
+  {
+    return DEVELOPMENT ? ChatPhotoDeletedEventDaoSqlite::getInstance() : ChatPhotoDeletedEventDaoMysql::getInstance();
+  }
+
+  public static function createChatTitleChangedEventDao(): ChatTitleChangedEventDao
+  {
+    return DEVELOPMENT ? ChatTitleChangedEventDaoSqlite::getInstance() : ChatTitleChangedEventDaoMysql::getInstance();
+  }
+
+  public static function createChatMembersAddedEventDao(): ChatMembersAddedEventDao
+  {
+    return DEVELOPMENT ? ChatMembersAddedEventDaoSqlite::getInstance() : ChatMembersAddedEventDaoMysql::getInstance();
+  }
+
+  public static function createChatMemberRemovedEventDao(): ChatMemberRemovedEventDao
+  {
+    return DEVELOPMENT ? ChatMemberRemovedEventDaoSqlite::getInstance() : ChatMemberRemovedEventDaoMysql::getInstance();
+  }
 
 }

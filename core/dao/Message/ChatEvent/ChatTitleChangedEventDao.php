@@ -17,12 +17,23 @@
 class ChatTitleChangedEventDao extends ChatEventDao
 {
 
+  protected static $instance;
+
+  public static function getInstance()
+  {
+    if ( empty(static::$instance) )
+    {
+      static::$instance = new static();
+    }
+    return static::$instance;
+  }
+
   protected function constructObject(array $data)
   {
     
   }
 
-  public function get(int $id)
+  public function get($id)
   {
     
   }

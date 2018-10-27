@@ -28,7 +28,7 @@ abstract class PhotoDao extends MultimediaMessageDao
     return static::$instance;
   }
 
-  public function get(int $id)
+  public function get($id)
   {
     $query = <<<SQL
 SELECT *
@@ -47,10 +47,9 @@ SQL;
   public function store($message)
   {
     $this->storeMessageByType($message, 'photo');
-    $this->storeFile($message->getFileId(), $message->getFile(),
-                     $message->getFileSize(), $message->getMimeType());
+    $this->fileDao->store($message->getFile());
     $query = "INSERT INTO Photos (messageId, width, height, caption, fileId) VALUES (?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getCaption(), $message->getFileId()];
+    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getCaption(), $message->getFile()->getId()];
     $this->db->query($query, $values);
   }
 

@@ -21,7 +21,7 @@ class WeatherReportFetcher
   {
     $url = 'https://api.openweathermap.org/data/2.5/weather?';
     $params = [
-      'id'     => $id,
+      'id'    => $id,
       'units' => 'metric',
       'lang'  => 'it',
       'APPID' => OPENWEATHERMAP_TOKEN
@@ -30,13 +30,52 @@ class WeatherReportFetcher
     $content = file_get_contents($url);
     $response = json_decode($content, TRUE);
 
-    $city = $response['name'];
-    $currentWeather = $response['weather'][0]['description'];
-    $temperature = $response['main']['temp'];
-    $windSpeed = $response['wind']['speed'];
-    $windDirection = $response['wind']['deg'];
-    
-    return "A $city c'è $currentWeather con una temperatura di {$temperature}°C, il vento tira ad una velocità di $windSpeed km/h a {$windDirection}°";
+    $city = isset($response['name']) ? $response['name'] : NULL;
+    $latitude = isset($response['coord']['lat']) ? $response['coord']['lat'] : NULL;
+    $longitude = isset($response['coord']['lon']) ? $response['coord']['lon'] : NULL;
+    $currentWeather = isset($response['weather'][0]['description']) ? $response['weather'][0]['description'] : NULL;
+    $temperature = isset($response['main']['temp']) ? $response['main']['temp'] : NULL;
+    $pressure = isset($response['main']['pressure']) ? $response['main']['pressure'] : NULL;
+    $humidity = isset($response['main']['humidity']) ? $response['main']['humidity'] : NULL;
+    $clouds = isset($response['clouds']['all']) ? $response['clouds']['all'] : NULL;
+    $windSpeed = isset($response['wind']['speed']) ? $response['wind']['speed'] : NULL;
+    $windDirection = isset($response['wind']['deg']) ? $response['wind']['deg'] : NULL;
+
+    $weatherReport = "A $city";
+    if ( !empty($latitude) && !empty($longitude) )
+    {
+      $weatherReport .= " (situata a {$latitude}° di latitudine e {$longitude}° di longitudine)";
+    }
+    if ( !empty($currentWeather) )
+    {
+      $weatherReport .= " c'è $currentWeather;";
+    }
+    if ( !empty($temperature) )
+    {
+      $weatherReport .= " la temperatura è di {$temperature}°C,";
+    }
+    if ( !empty($humidity) )
+    {
+      $weatherReport .= " l'umidità è al $humidity%,";
+    }
+    if ( !empty($pressure) )
+    {
+      $weatherReport .= " la pressione è di $pressure hPa,";
+    }
+    if ( !empty($clouds) )
+    {
+      $weatherReport .= " la nuvolosità è del $clouds%,";
+    }
+    if ( !empty($windSpeed) )
+    {
+      $weatherReport .= " il vento tira ad una velocità di $windSpeed km/h";
+      if ( !empty($windDirection) )
+      {
+        $weatherReport .= " a {$windDirection}°";
+      }
+    }
+
+    return $weatherReport;
   }
 
 }

@@ -22,7 +22,7 @@ class ChannelDao extends ChatDao
     return new Channel($chat['id'], $chat['title'], $chat['username']);
   }
 
-  public function get(int $id): Channel
+  public function get($id): Channel
   {
     $query = "SELECT * FROM Channels WHERE chatId = ?";
     $values = [$id];

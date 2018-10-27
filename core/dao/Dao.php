@@ -30,7 +30,7 @@ abstract class Dao
 
   abstract public function store($object);
 
-  abstract public function get(int $id);
+  abstract public function get($id);
 
   abstract public function update($object);
 

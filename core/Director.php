@@ -71,7 +71,8 @@ class Director
     // construct User
     $userArray = $messageArray['from'];
     $this->user = new User($userArray['id'], $userArray['first_name'],
-                           $userArray['last_name'], $userArray['username']);
+                           isset($userArray['last_name']) ? $userArray['last_name'] : NULL,
+                                 isset($userArray['username']) ? $userArray['username'] : NULL);
 
     // construct Chat
     $chatArray = $messageArray['chat'];
@@ -80,19 +81,19 @@ class Director
       case 'private':
         $this->chat = new PrivateChat($chatArray['id'],
                                       $chatArray['first_name'],
-                                      $chatArray['last_name'],
-                                      $chatArray['username']);
+                                      isset($chatArray['last_name']) ? $chatArray['last_name'] : NULL,
+                                            isset($chatArray['username']) ? $chatArray['username'] : NULL);
         break;
       case 'group':
         $this->chat = new Group($chatArray['id'], $chatArray['title']);
         break;
       case 'supergroup':
         $this->chat = new Supergroup($chatArray['id'], $chatArray['title'],
-                                     $chatArray['username']);
+                                     isset($chatArray['username']) ? $chatArray['username'] : NULL);
         break;
       case 'channel':
         $this->chat = new Channel($chatArray['id'], $chatArray['title'],
-                                  $chatArray['username']);
+                                  isset($chatArray['username']) ? $chatArray['username'] : NULL);
         break;
       default:
         throw new MalformedUpdateException();
@@ -122,7 +123,7 @@ class Director
                                  $this->chat, $photoSize['file_id'],
                                  $photoSize['file_size'], 'image/jpg',
                                  $photoSize['width'], $photoSize['height'],
-                                 $messageArray['caption']);
+                                 isset($messageArray['caption']) ? $messageArray['caption'] : NULL);
     }
     elseif ( isset($messageArray['voice']) )
     {
@@ -131,7 +132,8 @@ class Director
                                  $messageArray['date'], $this->user,
                                  $this->chat, $voice['file_id'],
                                  $voice['file_size'], $voice['mime_type'],
-                                 $voice['duration'], $messageArray['caption']);
+                                 $voice['duration'],
+                                 isset($messageArray['caption']) ? $messageArray['caption'] : NULL);
     }
     elseif ( isset($messageArray['audio']) )
     {
@@ -140,8 +142,10 @@ class Director
                                  $messageArray['date'], $this->user,
                                  $this->chat, $audio['file_id'],
                                  $audio['file_size'], $audio['mime_type'],
-                                 $audio['duration'], $audio['title'],
-                                 $audio['performer'], $messageArray['caption']);
+                                 $audio['duration'],
+                                 isset($audio['title']) ? $audio['title'] : NULL,
+                                 isset($audio['performer']) ? $audio['performer'] : NULL,
+                                 isset($messageArray['caption']) ? $messageArray['caption'] : NULL);
     }
     elseif ( isset($messageArray['video']) )
     {
@@ -151,7 +155,8 @@ class Director
                                  $this->chat, $video['file_id'],
                                  $video['file_size'], $video['mime_type'],
                                  $video['width'], $video['height'],
-                                 $video['duration'], $messageArray['caption']);
+                                 $video['duration'],
+                                 isset($messageArray['caption']) ? $messageArray['caption'] : NULL);
     }
     elseif ( isset($messageArray['video_note']) )
     {
@@ -194,7 +199,7 @@ class Director
                                     $document['file_size'],
                                     $document['mime_type'],
                                     $document['file_name'],
-                                    $messageArray['caption']);
+                                    isset($messageArray['caption']) ? $messageArray['caption'] : NULL);
     }
     elseif ( isset($messageArray['contact']) )
     {
@@ -232,25 +237,25 @@ class Director
       {
         $newMembers[] = new User($newMemberArray['id'],
                                  $newMemberArray['first_name'],
-                                 $newMemberArray['last_name'],
-                                 $newMemberArray['username']);
+                                 isset($newMemberArray['last_name']) ? $newMemberArray['last_name'] : NULL,
+                                 isset($newMemberArray['username']) ? $newMemberArray['username'] : NULL);
       }
-      $this->message = new NewChatMembersEvent($messageArray['message_id'],
-                                               $messageArray['date'],
-                                               $this->user, $this->chat,
-                                               $newMembers);
+      $this->message = new ChatMembersAddedEvent($messageArray['message_id'],
+                                                 $messageArray['date'],
+                                                 $this->user, $this->chat,
+                                                 $newMembers);
     }
     elseif ( isset($messageArray['left_chat_member']) )
     {
       $leftMemberArray = &$messageArray['left_chat_member'];
       $leftMember = new User($leftMemberArray['id'],
                              $leftMemberArray['first_name'],
-                             $leftMemberArray['last_name'],
-                             $leftMemberArray['username']);
-      $this->message = new LeftChatMemberEvent($messageArray['message_id'],
-                                               $messageArray['date'],
-                                               $this->user, $this->chat,
-                                               $leftMember);
+                             isset($leftMemberArray['last_name']) ? $leftMemberArray['last_name'] : NULL,
+                             isset($leftMemberArray['username']) ? $leftMemberArray['username'] : NULL);
+      $this->message = new ChatMemberRemovedEvent($messageArray['message_id'],
+                                                  $messageArray['date'],
+                                                  $this->user, $this->chat,
+                                                  $leftMember);
     }
     elseif ( isset($messageArray['new_chat_title']) )
     {
@@ -445,6 +450,18 @@ class Director
     elseif ( $message instanceof Venue )
     {
       $messageDao = Factory::createVenueDao();
+    }
+    elseif ( $message instanceof ChatCreatedEvent )
+    {
+      $messageDao = Factory::createChatCreatedEventDao();
+    }
+    elseif ( $message instanceof ChatMembersAddedEvent )
+    {
+      $messageDao = Factory::createChatMembersAddedEventDao();
+    }
+    elseif ( $message instanceof ChatMemberRemovedEvent )
+    {
+      $messageDao = Factory::createChatMemberRemovedEventDao();
     }
     else
     {

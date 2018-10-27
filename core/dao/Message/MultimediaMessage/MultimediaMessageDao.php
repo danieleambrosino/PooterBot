@@ -16,6 +16,18 @@
  */
 abstract class MultimediaMessageDao extends MessageDao
 {
+  
+  /**
+   *
+   * @var FileDao
+   */
+  protected $fileDao;
+  
+  protected function __construct()
+  {
+    parent::__construct();
+    $this->fileDao = Factory::createFileDao();
+  }
 
   public final function getFile(string $fileId): string
   {
@@ -36,14 +48,6 @@ abstract class MultimediaMessageDao extends MessageDao
     $query = "SELECT mimeType FROM Files WHERE id = ?";
     $values = [$fileId];
     $this->db->query($query, $values);
-  }
-  
-  protected final function storeFile(string $fileId, $file, $size, $mimeType)
-  {
-    $query = "INSERT OR IGNORE INTO Files (id, content, size, mimeType) VALUES (?, ?, ?, ?)";
-    $values = [$fileId, $file, $size, $mimeType];
-    $db = Factory::createDatabase();
-    $db->query($query, $values);
   }
 
 }

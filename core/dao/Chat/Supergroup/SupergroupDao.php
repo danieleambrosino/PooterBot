@@ -23,7 +23,7 @@ class SupergroupDao extends ChatDao
     return new Supergroup($chat['id'], $chat['title'], $chat['username']);
   }
 
-  public function get(int $id): Supergroup
+  public function get($id): Supergroup
   {
     $query = "SELECT * FROM Supergroups WHERE chatId = ?";
     $values = [$id];

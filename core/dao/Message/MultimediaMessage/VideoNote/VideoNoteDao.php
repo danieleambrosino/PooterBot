@@ -33,7 +33,7 @@ abstract class VideoNoteDao extends MultimediaMessageDao
     
   }
 
-  public function get(int $id)
+  public function get($id)
   {
     
   }
@@ -45,10 +45,9 @@ abstract class VideoNoteDao extends MultimediaMessageDao
   public function store($message)
   {
     $this->storeMessageByType($message, 'videoNote');
-    $this->storeFile($message->getFileId(), $message->getFile(),
-                     $message->getFileSize(), $message->getMimeType());
+    $this->fileDao->store($message->getFile());
     $query = "INSERT INTO VideoNotes (messageId, length, duration, fileId) VALUES (?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getLength(), $message->getDuration(), $message->getFileId()];
+    $values = [$message->getId(), $message->getLength(), $message->getDuration(), $message->getFile()->getId()];
     $this->db->query($query, $values);
   }
 

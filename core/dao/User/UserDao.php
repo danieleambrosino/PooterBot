@@ -41,7 +41,7 @@ abstract class UserDao extends Dao
     $this->db->query($query, $values);
   }
 
-  public function get(int $id): User
+  public function get($id): User
   {
     if ( isset(static::$instantiatedUsers[$id]) )
     {

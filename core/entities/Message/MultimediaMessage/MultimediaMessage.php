@@ -17,58 +17,22 @@ require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
 abstract class MultimediaMessage extends Message
 {
 
+  /**
+   *
+   * @var File
+   */
   protected $file;
-  protected $fileId;
-  protected $fileSize;
-  protected $mimeType;
 
   public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
                               string $fileId, $fileSize, $mimeType)
   {
     parent::__construct($id, $datetime, $user, $chat);
-    $this->fileId = $fileId;
-    $this->fileSize = $fileSize;
-    $this->mimeType = $mimeType;
+    $this->file = new File($fileId, $fileSize, $mimeType);
   }
 
   public function getFile()
   {
-    if ( NULL === $this->file )
-    {
-      $this->loadFile();
-    }
     return $this->file;
-  }
-
-  public function getFileId()
-  {
-    return $this->fileId;
-  }
-
-  public function getFileSize()
-  {
-    return $this->fileSize;
-  }
-
-  public function getMimeType()
-  {
-    return $this->mimeType;
-  }
-
-  protected final function loadFile()
-  {
-    $query = "SELECT content FROM Files WHERE id = ?";
-    $values = [$this->fileId];
-    $db = Factory::createDatabase();
-    $data = $db->query($query, $values);
-    if ( empty($data) )
-    {
-      $this->file = FileDownloader::downloadFile($this->fileId);
-    }
-    else
-    {
-      $this->file = $data[0]['content'];
-    }
   }
 
 }

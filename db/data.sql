@@ -48,9 +48,16 @@ INSERT INTO Songs (id, fileId) VALUES
 ('corte_miracoli', 'AwADBAADHgEAAk-rYVEx2Nikwfdh1QI');
 
 INSERT INTO Jokes (`text`) VALUES
-('Due gamberetti si incontrano a un party ed uno si accorge che l''altro è un po'' triste e gli chiede:\n-"Che cosa c''è?"\n-"No niente"'),
-('Una tartaruga, dopo aver battuto la testa contro un albero si confida con un''amica:\n-"Spero che... che la... sgusa, anzi, prego..."\nNon me la ricordo più'),
-('-"Voto inglese"?\n-"Ottimo"\n-"Ok... traduca ''capire le donne''\n-"Somebody"'),
+('Due gamberetti si incontrano a un party ed uno si accorge che l''altro è un po'' triste e gli chiede:
+-"Che cosa c''è?"
+-"No niente"'),
+('Una tartaruga, dopo aver battuto la testa contro un albero si confida con un''amica:
+-"Spero che... che la... sgusa, anzi, prego..."
+Non me la ricordo più'),
+('-"Voto inglese?"
+-"Ottimo"
+-"Ok... traduca ''capire le donne''"
+-"Somebody"'),
 ('Che cosa fa un pittore al polo nord? Io non lo so'),
 ('Tua madre è cosi troia che quando le dico... no cioè, quando non le dico... che poi tua madre non è troia... capito? Sto scherzando amico mio!'),
 ('Il commendator Colombo Ernesto va in Africa a caccia di leoni nella savana. Mentre è acquattato con il fucile in mano nel più completo silenzio, si sente toccare su una spalla e, giratosi di scatto, vede un negro tutto nudo, alto e muscoloso che gli grida: "SOOOOMEBOOOOODY"'),

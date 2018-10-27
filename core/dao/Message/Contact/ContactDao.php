@@ -29,7 +29,7 @@ abstract class ContactDao extends MessageDao
     return static::$instance;
   }
 
-  public function get(int $id): Contact
+  public function get($id): Contact
   {
     $query = <<<SQL
 SELECT *

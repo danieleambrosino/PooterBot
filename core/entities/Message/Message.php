@@ -45,7 +45,7 @@ abstract class Message
     return $this->user;
   }
 
-  public final function getChat(): Chat
+  public final function &getChat(): Chat
   {
     return $this->chat;
   }

@@ -25,6 +25,10 @@ class FileDownloader
     ];
     $url .= '?' . http_build_query($params);
     $response = file_get_contents($url);
+    if ( FALSE === $response )
+    {
+      return "";
+    }
     $decodedResponse = json_decode($response, TRUE);
     if ( $decodedResponse['ok'] === FALSE )
     {
@@ -33,6 +37,10 @@ class FileDownloader
     $filePath = $decodedResponse['result']['file_path'];
     $url = 'https://api.telegram.org/file/bot' . TELEGRAM_TOKEN . '/' . $filePath;
     $response = file_get_contents($url);
+    if ( FALSE === $response )
+    {
+      return "";
+    }
     return $response;
   }
 

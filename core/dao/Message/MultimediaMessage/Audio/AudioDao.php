@@ -33,7 +33,7 @@ abstract class AudioDao extends MultimediaMessageDao
     
   }
 
-  public function get(int $id)
+  public function get($id)
   {
     
   }
@@ -45,10 +45,9 @@ abstract class AudioDao extends MultimediaMessageDao
   public function store($message)
   {
     $this->storeMessageByType($message, 'audio');
-    $this->storeFile($message->getFileId(), $message->getFile(),
-                     $message->getFileSize(), $message->getMimeType());
+    $this->fileDao->store($message->getFile());
     $query = "INSERT INTO Audios (messageId, duration, title, performer, caption, fileId) VALUES (?, ?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getDuration(), $message->getTitle(), $message->getPerformer(), $message->getCaption(), $message->getFileId()];
+    $values = [$message->getId(), $message->getDuration(), $message->getTitle(), $message->getPerformer(), $message->getCaption(), $message->getFile()->getId()];
     $this->db->query($query, $values);
   }
 

@@ -14,7 +14,7 @@
  *
  * @author Daniele Ambrosino
  */
-class LeftChatMemberEvent extends ChatEvent
+class ChatMemberRemovedEvent extends ChatEvent
 {
 
   /**
@@ -22,12 +22,17 @@ class LeftChatMemberEvent extends ChatEvent
    * @var User
    */
   private $leftMember;
-  
+
   public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
                               User &$leftMember)
   {
     parent::__construct($id, $datetime, $user, $chat);
     $this->leftMember = $leftMember;
+  }
+
+  public function getLeftMember(): User
+  {
+    return $this->leftMember;
   }
 
 }
