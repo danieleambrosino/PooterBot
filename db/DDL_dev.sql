@@ -254,7 +254,7 @@ CREATE TABLE IF NOT EXISTS Documents (
 );
 
 -- TRIGGERS
-
+-- -CHAT TRIGGERS
 CREATE TRIGGER IF NOT EXISTS PrivateChats_insertChatId_beforeInsert
 BEFORE INSERT ON PrivateChats
 FOR EACH ROW

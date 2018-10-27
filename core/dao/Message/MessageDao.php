@@ -161,6 +161,38 @@ WITH ContentTable (id, datetime, chatId, userId, type, content) AS
     V3.fileId AS content
   FROM Messages M12
     JOIN Voices V3 on M12.id = V3.messageId
+  UNION
+  SELECT
+    M13.id,
+    M13.datetime,
+    M13.chatId,
+    M13.userId,
+    CE.type,
+    '' AS content
+  FROM Messages M13
+    JOIN ChatEvents CE ON M13.id = CE.messageId
+  WHERE CE.type <> 'chatPhotoChanged'
+    AND CE.type <> 'chatTitleChanged'
+  UNION
+  SELECT
+    M14.id,
+    M14.datetime,
+    M14.chatId,
+    M14.userId,
+    'chatPhotoChanged' AS type,
+    CPCE.photoId AS content
+  FROM Messages M14
+    JOIN ChatPhotoChangedEvents CPCE ON M14.id = CPCE.messageId
+  UNION
+  SELECT
+    M15.id,
+    M15.datetime,
+    M15.chatId,
+    M15.userId,
+    'chatTitleChanged' AS type,
+    CTCE.chatTitle AS content
+  FROM Messages M15
+    JOIN ChatTitleChangedEvents CTCE ON M15.id = CTCE.messageId
 )
 SELECT
   strftime('%d/%m/%Y %H:%M:%S', CT.datetime, 'unixepoch') AS datetime,

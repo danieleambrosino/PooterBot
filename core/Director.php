@@ -267,10 +267,8 @@ class Director
     elseif ( isset($messageArray['new_chat_photo']) )
     {
       $newPhotoArray = &$messageArray['new_chat_photo'][count($messageArray['new_chat_photo']) - 1];
-      $newPhoto = new Photo($messageArray['message_id'], $messageArray['date'],
-                            $this->user, $this->chat, $newPhotoArray['file_id'],
-                            $newPhotoArray['file_size'], 'image/jpg',
-                            $newPhotoArray['width'], $newPhotoArray['height']);
+      $newPhoto = new File($newPhotoArray['file_id'],
+                           $newPhotoArray['file_size'], 'image/jpg');
       $this->message = new ChatPhotoChangedEvent($messageArray['message_id'],
                                                  $messageArray['date'],
                                                  $this->user, $this->chat,
@@ -455,13 +453,25 @@ class Director
     {
       $messageDao = Factory::createChatCreatedEventDao();
     }
+    elseif ( $message instanceof ChatMemberRemovedEvent )
+    {
+      $messageDao = Factory::createChatMemberRemovedEventDao();
+    }
     elseif ( $message instanceof ChatMembersAddedEvent )
     {
       $messageDao = Factory::createChatMembersAddedEventDao();
     }
-    elseif ( $message instanceof ChatMemberRemovedEvent )
+    elseif ( $message instanceof ChatPhotoChangedEvent )
     {
-      $messageDao = Factory::createChatMemberRemovedEventDao();
+      $messageDao = Factory::createChatPhotoChangedEventDao();
+    }
+    elseif ( $message instanceof ChatPhotoDeletedEvent )
+    {
+      $messageDao = Factory::createChatPhotoDeletedEventDao();
+    }
+    elseif ( $message instanceof ChatTitleChangedEvent )
+    {
+      $messageDao = Factory::createChatTitleChangedEventDao();
     }
     else
     {

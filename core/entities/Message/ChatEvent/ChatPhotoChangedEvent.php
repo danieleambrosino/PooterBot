@@ -19,18 +19,18 @@ class ChatPhotoChangedEvent extends ChatEvent
 
   /**
    *
-   * @var Photo
+   * @var File
    */
   private $newPhoto;
 
   public function __construct(int $id, int $datetime, User &$user, Chat &$chat,
-                              Photo &$newPhoto)
+                              File &$newPhoto)
   {
     parent::__construct($id, $datetime, $user, $chat);
     $this->newPhoto = $newPhoto;
   }
 
-  public function getNewPhoto(): Photo
+  public function getNewPhoto(): File
   {
     return $this->newPhoto;
   }

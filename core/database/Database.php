@@ -73,7 +73,7 @@ abstract class Database
     }
     return $results;
   }
-
+  
   protected abstract function bind(string $query, array $values);
 
   protected abstract function fetchAll($result): array;

@@ -18,6 +18,7 @@ class ChatPhotoChangedEventDao extends ChatEventDao
 {
 
   protected static $instance;
+  protected $fileDao;
 
   public static function getInstance()
   {
@@ -26,6 +27,12 @@ class ChatPhotoChangedEventDao extends ChatEventDao
       static::$instance = new static();
     }
     return static::$instance;
+  }
+  
+  protected function __construct()
+  {
+    parent::__construct();
+    $this->fileDao = Factory::createFileDao();
   }
 
   protected function constructObject(array $data)
@@ -44,10 +51,13 @@ class ChatPhotoChangedEventDao extends ChatEventDao
    */
   public function store($event)
   {
+    $this->db->query('BEGIN TRANSACTION');
     $this->storeChatEventByType($event, 'chatPhotoChanged');
+    $this->fileDao->store($event->getNewPhoto());
     $query = "INSERT INTO ChatPhotoChangedEvents (messageId, photoId) VALUES (?, ?)";
     $values = [$event->getId(), $event->getNewPhoto()->getId()];
     $this->db->query($query, $values);
+    $this->db->query('COMMIT');
   }
 
   public function update($object)
