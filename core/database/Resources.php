@@ -31,64 +31,24 @@ abstract class Resources
   
   protected abstract function __construct();
   
-  public function getPhoto(string $id): string
-  {
-    $query = "SELECT fileId FROM PhotoResources WHERE id = '$id'";
-    return $this->db->query($query)[0]['fileId'];
-  }
+  public abstract function getPhoto(string $id): string;
   
-  public function getRandomPhoto(): string
-  {
-    $query = "SELECT fileId FROM PhotoResources ORDER BY random() LIMIT 1";
-    return $this->db->query($query)[0]['fileId'];
-  }
+  public abstract function getRandomPhoto(): string;
   
-  public function getRandomSpeech(): string
-  {
-    $query = "SELECT fileId FROM Speeches ORDER BY random() LIMIT 1";
-    return $this->db->query($query)[0]['fileId'];
-  }
+  public abstract function getRandomSpeech(): string;
   
-  public function getRandomSong(): string
-  {
-    $query = "SELECT fileId FROM Songs ORDER BY random() LIMIT 1";
-    return $this->db->query($query)[0]['fileId'];
-  }
+  public abstract function getRandomSong(): string;
   
-  public function getRandomCityId(): int
-  {
-    $query = "SELECT id FROM Cities ORDER BY random() LIMIT 1";
-    return $this->db->query($query)[0]['id'];
-  }
+  public abstract function getRandomCityId(): int;
   
-  public function getRandomJoke(): string
-  {
-    $query = "SELECT text FROM Jokes ORDER BY random() LIMIT 1";
-    return $this->db->query($query)[0]['text'];
-  }
+  public abstract function getRandomJoke(): string;
   
-  public function getRandomProverb(): string
-  {
-    $query = "SELECT text FROM Proverbs ORDER BY random() LIMIT 1";
-    return $this->db->query($query)[0]['text'];
-  }
+  public abstract function getRandomProverb(): string;
   
-  public function getRandomOpinion(): string
-  {
-    $query = "SELECT text FROM Opinions ORDER BY random() LIMIT 1";
-    return $this->db->query($query)[0]['text'];
-  }
+  public abstract function getRandomOpinion(): string;
   
-  public function getRandomJudgement(): string
-  {
-    $query = "SELECT text FROM Judgements ORDER BY random() LIMIT 1";
-    return $this->db->query($query)[0]['text'];
-  }
+  public abstract function getRandomJudgement(): string;
   
-  public function getRandomPhotoComment(): string
-  {
-    $query = "SELECT text FROM PhotoComments ORDER BY random() LIMIT 1";
-    return $this->db->query($query)[0]['text'];
-  }
+  public abstract function getRandomPhotoComment(): string;
 
 }

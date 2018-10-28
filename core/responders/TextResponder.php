@@ -169,6 +169,11 @@ class TextResponder extends Responder
       $text = "Non è carino da parte tua, amico mio";
       $this->responses[] = new TextResponse($this->message, $text);
     }
+    elseif ( found('passaggio', $this->text) )
+    {
+      $text = "Se vuoi ti accompagno io, {$this->message->getUser()->getFirstName()}";
+      $this->responses[] = new TextResponse($this->message, $text);
+    }
     // REGEX
     elseif ( preg_match('/conquista (\w+)/i', $this->text, $matches) )
     {
@@ -220,6 +225,11 @@ class TextResponder extends Responder
     elseif ( preg_match('/b+o+d+y+/i', $this->text) )
     {
       $text = "Sssssssssssoooooooooommmmmmmeeeeeeeeeeee";
+      $this->responses[] = new TextResponse($this->message, $text);
+    }
+    elseif ( preg_match('/hai la (?:patente|macchina)/i', $this->text) )
+    {
+      $text = "No";
       $this->responses[] = new TextResponse($this->message, $text);
     }
   }

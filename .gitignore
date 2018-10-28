@@ -2,4 +2,5 @@
 /db/main.sqlite3
 /db/resources.sqlite3
 /db/sqlite3.exe
+/db/test.php
 /config/privateConfig.php

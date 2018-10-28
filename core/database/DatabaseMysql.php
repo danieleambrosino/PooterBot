@@ -24,6 +24,7 @@ class DatabaseMysql extends Database
          DATABASE_MYSQL_USERNAME,
          DATABASE_MYSQL_PASSWORD,
          DATABASE_MYSQL_DBNAME);
+    $this->handle->set_charset('utf8mb4');
   }
 
   protected function bind(string $query, array $values)
