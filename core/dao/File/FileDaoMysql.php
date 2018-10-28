@@ -16,5 +16,26 @@
  */
 class FileDaoMysql extends FileDao
 {
-  //put your code here
+
+  /**
+   * 
+   * @param File $file
+   */
+  public function store($file)
+  {
+    $query = "SELECT 1 FROM Files WHERE id = ? AND content <> ''";
+    $values = [$file->getId()];
+    $data = $this->db->query($query, $values);
+    if ( !empty($data) )
+    {
+      if ( $data[0]['1'] === 1 )
+      {
+        return;
+      }
+    }
+    $query = "REPLACE INTO Files (id, content, size, mimeType) VALUES (?, ?, ?, ?)";
+    $values = [$file->getId(), $file->getContent(), $file->getSize(), $file->getMimeType()];
+    $this->db->query($query, $values);
+  }
+
 }

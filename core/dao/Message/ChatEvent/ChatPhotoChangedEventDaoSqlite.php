@@ -16,5 +16,20 @@
  */
 class ChatPhotoChangedEventDaoSqlite extends ChatPhotoChangedEventDao
 {
-  //put your code here
+
+  /**
+   * 
+   * @param ChatPhotoChangedEvent $event
+   */
+  public function store($event)
+  {
+    $this->db->query('BEGIN TRANSACTION');
+    $this->storeChatEventByType($event, 'chatPhotoChanged');
+    $this->fileDao->store($event->getNewPhoto());
+    $query = "INSERT INTO ChatPhotoChangedEvents (messageId, photoId) VALUES (?, ?)";
+    $values = [$event->getId(), $event->getNewPhoto()->getId()];
+    $this->db->query($query, $values);
+    $this->db->query('COMMIT');
+  }
+
 }

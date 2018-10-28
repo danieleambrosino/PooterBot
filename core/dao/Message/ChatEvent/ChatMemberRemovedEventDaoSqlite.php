@@ -16,5 +16,30 @@
  */
 class ChatMemberRemovedEventDaoSqlite extends ChatMemberRemovedEventDao
 {
-  //put your code here
+
+  public function store($event)
+  {
+    $this->db->query('BEGIN TRANSACTION');
+    $this->storeChatEventByType($event, 'chatMemberRemoved');
+    $query = "DELETE FROM Members WHERE chatId = ? AND userId = ?";
+    $values = [$event->getChat()->getId(), $event->getLeftMember()->getId()];
+    $this->db->query($query, $values);
+    $this->db->query('COMMIT');
+  }
+
+  protected function constructObject(array $data)
+  {
+    
+  }
+
+  public function get($id)
+  {
+    
+  }
+
+  public function update($object)
+  {
+    
+  }
+
 }

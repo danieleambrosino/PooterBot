@@ -16,5 +16,17 @@
  */
 class TextMessageDaoMysql extends TextMessageDao
 {
-  //put your code here
+
+  /**
+   * 
+   * @param TextMessage $message
+   */
+  public function store($message)
+  {
+    $this->storeMessageByType($message, 'text');
+    $query = "REPLACE INTO TextMessages (messageId, text) VALUES (?, ?)";
+    $values = [$message->getId(), $message->getText()];
+    $this->db->query($query, $values);
+  }
+
 }

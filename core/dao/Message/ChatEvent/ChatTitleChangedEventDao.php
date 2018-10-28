@@ -38,20 +38,6 @@ class ChatTitleChangedEventDao extends ChatEventDao
     
   }
 
-  /**
-   * 
-   * @param ChatTitleChangedEvent $event
-   */
-  public function store($event)
-  {
-    $this->db->query('BEGIN TRANSACTION');
-    $this->storeChatEventByType($event, 'chatTitleChanged');
-    $query = "INSERT INTO ChatTitleChangedEvents (messageId, chatTitle) VALUES (?, ?)";
-    $values = [$event->getId(), $event->getNewTitle()];
-    $this->db->query($query, $values);
-    $this->db->query('COMMIT');
-  }
-
   public function update($object)
   {
     

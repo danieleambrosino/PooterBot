@@ -39,21 +39,6 @@ abstract class AnimationDao extends MultimediaMessageDao
     
   }
 
-  /**
-   * 
-   * @param Animation $message
-   */
-  public function store($message)
-  {
-    $this->db->query('BEGIN TRANSACTION');
-    $this->storeMessageByType($message, 'animation');
-    $this->fileDao->store($message->getFile());
-    $query = "INSERT INTO Animations (messageId, width, height, duration, fileName, fileId) VALUES (?, ?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getDuration(), $message->getFileName(), $message->getFile()->getId()];
-    $this->db->query($query, $values);
-    $this->db->query('COMMIT');
-  }
-
   public function update($object)
   {
     

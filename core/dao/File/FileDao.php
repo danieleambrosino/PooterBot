@@ -85,27 +85,6 @@ class FileDao extends Dao
    * 
    * @param File $file
    */
-  public function store($file)
-  {
-    $query = "SELECT 1 FROM Files WHERE id = ? AND content <> ''";
-    $values = [$file->getId()];
-    $data = $this->db->query($query, $values);
-    if ( !empty($data) )
-    {
-      if ( $data[0]['1'] === 1 )
-      {
-        return;
-      }
-    }
-    $query = "INSERT OR REPLACE INTO Files (id, content, size, mimeType) VALUES (?, ?, ?, ?)";
-    $values = [$file->getId(), $file->getContent(), $file->getSize(), $file->getMimeType()];
-    $this->db->query($query, $values);
-  }
-
-  /**
-   * 
-   * @param File $file
-   */
   public function update($file)
   {
     $query = "UPDATE Files SET content = ?, size = ?, mimeType = ? WHERE id = ?";

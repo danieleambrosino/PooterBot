@@ -31,7 +31,7 @@ abstract class MessageDao extends Dao
 
   protected final function storeMessageByType(Message $message, string $type)
   {
-    $query = "INSERT OR IGNORE INTO Messages (id, datetime, type, userId, chatId) VALUES (?, ?, ?, ?, ?)";
+    $query = "INSERT INTO Messages (id, datetime, type, userId, chatId) VALUES (?, ?, ?, ?, ?)";
     $values = [$message->getId(), $message->getDatetime(), $type, $message->getUser()->getId(), $message->getChat()->getId()];
     $this->db->query($query, $values);
   }

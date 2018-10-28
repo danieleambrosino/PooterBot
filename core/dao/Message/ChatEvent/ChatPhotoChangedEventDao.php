@@ -14,7 +14,7 @@
  *
  * @author Daniele Ambrosino
  */
-class ChatPhotoChangedEventDao extends ChatEventDao
+abstract class ChatPhotoChangedEventDao extends ChatEventDao
 {
 
   protected static $instance;
@@ -28,7 +28,7 @@ class ChatPhotoChangedEventDao extends ChatEventDao
     }
     return static::$instance;
   }
-  
+
   protected function __construct()
   {
     parent::__construct();
@@ -43,21 +43,6 @@ class ChatPhotoChangedEventDao extends ChatEventDao
   public function get($id)
   {
     
-  }
-
-  /**
-   * 
-   * @param ChatPhotoChangedEvent $event
-   */
-  public function store($event)
-  {
-    $this->db->query('BEGIN TRANSACTION');
-    $this->storeChatEventByType($event, 'chatPhotoChanged');
-    $this->fileDao->store($event->getNewPhoto());
-    $query = "INSERT INTO ChatPhotoChangedEvents (messageId, photoId) VALUES (?, ?)";
-    $values = [$event->getId(), $event->getNewPhoto()->getId()];
-    $this->db->query($query, $values);
-    $this->db->query('COMMIT');
   }
 
   public function update($object)

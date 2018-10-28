@@ -46,18 +46,6 @@ SQL;
    * 
    * @param TextMessage $message
    */
-  public function store($message)
-  {
-    $this->storeMessageByType($message, 'text');
-    $query = "INSERT OR REPLACE INTO TextMessages (messageId, text) VALUES (?, ?)";
-    $values = [$message->getId(), $message->getText()];
-    $this->db->query($query, $values);
-  }
-
-  /**
-   * 
-   * @param TextMessage $message
-   */
   public function update($message)
   {
     $query = "UPDATE TextMessages SET text = ? WHERE messageId = ?";
