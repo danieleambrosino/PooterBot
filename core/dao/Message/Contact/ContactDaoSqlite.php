@@ -16,5 +16,19 @@
  */
 class ContactDaoSqlite extends ContactDao
 {
-  
+
+  /**
+   * 
+   * @param Contact $message
+   */
+  public function store($message)
+  {
+    $this->db->query('BEGIN TRANSACTION');
+    $this->storeMessageByType($message, 'contact');
+    $query = "INSERT INTO Contacts (messageId, phoneNumber, firstName, lastName, userId, vcard) VALUES (?, ?, ?, ?, ?, ?)";
+    $values = [$message->getId(), $message->getPhoneNumber(), $message->getFirstName(), $message->getLastName(), $message->getUserId(), $message->getVcard()];
+    $this->db->query($query, $values);
+    $this->db->query('COMMIT');
+  }
+
 }

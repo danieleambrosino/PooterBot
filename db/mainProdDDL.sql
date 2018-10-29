@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS ChatEvents (
 
 CREATE TABLE IF NOT EXISTS Files (
   id       VARCHAR(128) PRIMARY KEY,
-  content  BLOB,
+  content  MEDIUMBLOB,
   size     INTEGER,
   mimeType VARCHAR(32)
 )

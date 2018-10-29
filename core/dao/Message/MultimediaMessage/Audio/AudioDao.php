@@ -38,19 +38,6 @@ abstract class AudioDao extends MultimediaMessageDao
     
   }
 
-  /**
-   * 
-   * @param Audio $message
-   */
-  public function store($message)
-  {
-    $this->storeMessageByType($message, 'audio');
-    $this->fileDao->store($message->getFile());
-    $query = "INSERT INTO Audios (messageId, duration, title, performer, caption, fileId) VALUES (?, ?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getDuration(), $message->getTitle(), $message->getPerformer(), $message->getCaption(), $message->getFile()->getId()];
-    $this->db->query($query, $values);
-  }
-
   public function update($object)
   {
     

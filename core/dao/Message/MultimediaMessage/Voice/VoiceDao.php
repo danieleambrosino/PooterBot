@@ -38,19 +38,6 @@ abstract class VoiceDao extends MultimediaMessageDao
     
   }
 
-  /**
-   * 
-   * @param Voice $message
-   */
-  public function store($message)
-  {
-    $this->storeMessageByType($message, 'voice');
-    $this->fileDao->store($message->getFile());
-    $query = "INSERT INTO Voices (messageId, duration, caption, fileId) VALUES (?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getDuration(), $message->getCaption(), $message->getFile()->getId()];
-    $this->db->query($query, $values);
-  }
-
   public function update($object)
   {
     

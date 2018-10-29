@@ -24,6 +24,10 @@ class DatabaseMysql extends Database
     $this->handle = new mysqli(
          DATABASE_MYSQL_HOST, DATABASE_MYSQL_USERNAME, DATABASE_MYSQL_PASSWORD,
          DATABASE_MYSQL_DBNAME);
+    if ( $this->handle->connect_errno )
+    {
+      throw new ConnectionFailedException($this->handle->connect_error);
+    }
     $this->handle->set_charset('utf8mb4');
   }
 

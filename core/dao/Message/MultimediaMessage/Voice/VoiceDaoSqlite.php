@@ -16,5 +16,20 @@
  */
 class VoiceDaoSqlite extends VoiceDao
 {
-  
+
+  /**
+   * 
+   * @param Voice $message
+   */
+  public function store($message)
+  {
+    $this->db->query('START TRANSACTION');
+    $this->storeMessageByType($message, 'voice');
+    $this->fileDao->store($message->getFile());
+    $query = "INSERT INTO Voices (messageId, duration, caption, fileId) VALUES (?, ?, ?, ?)";
+    $values = [$message->getId(), $message->getDuration(), $message->getCaption(), $message->getFile()->getId()];
+    $this->db->query($query, $values);
+    $this->db->query('COMMIT');
+  }
+
 }

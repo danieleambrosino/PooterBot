@@ -45,18 +45,6 @@ SQL;
    * 
    * @param Contact $message
    */
-  public function store($message)
-  {
-    $this->storeMessageByType($message, 'contact');
-    $query = "INSERT INTO Contacts (messageId, phoneNumber, firstName, lastName, userId, vcard) VALUES (?, ?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getPhoneNumber(), $message->getFirstName(), $message->getLastName(), $message->getUserId(), $message->getVcard()];
-    $this->db->query($query, $values);
-  }
-
-  /**
-   * 
-   * @param Contact $message
-   */
   public function update($message)
   {
     $query = "UPDATE Contacts SET phoneNumber = ?, firstName = ?, lastName = ?, userId = ?, vcard = ? WHERE messageId = ?";

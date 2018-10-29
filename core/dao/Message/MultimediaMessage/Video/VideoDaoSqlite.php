@@ -16,5 +16,20 @@
  */
 class VideoDaoSqlite extends VideoDao
 {
-  //put your code here
+
+  /**
+   * 
+   * @param Video $message
+   */
+  public function store($message)
+  {
+    $this->db->query('BEGIN TRANSACTION');
+    $this->storeMessageByType($message, 'video');
+    $this->fileDao->store($message->getFile());
+    $query = "INSERT INTO Videos (messageId, width, height, duration, caption, fileId) VALUES (?, ?, ?, ?, ?, ?)";
+    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getDuration(), $message->getCaption(), $message->getFile()->getId()];
+    $this->db->query($query, $values);
+    $this->db->query('COMMIT');
+  }
+
 }
