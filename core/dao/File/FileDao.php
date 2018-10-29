@@ -14,7 +14,7 @@
  *
  * @author Daniele Ambrosino
  */
-class FileDao extends Dao
+abstract class FileDao extends Dao
 {
 
   protected static $instance;

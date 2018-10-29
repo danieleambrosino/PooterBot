@@ -23,10 +23,12 @@ class TextMessageDaoMysql extends TextMessageDao
    */
   public function store($message)
   {
+    $this->db->query('START TRANSACTION');
     $this->storeMessageByType($message, 'text');
     $query = "REPLACE INTO TextMessages (messageId, text) VALUES (?, ?)";
     $values = [$message->getId(), $message->getText()];
     $this->db->query($query, $values);
+    $this->db->query('COMMIT');
   }
 
 }

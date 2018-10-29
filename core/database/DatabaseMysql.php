@@ -57,6 +57,11 @@ class DatabaseMysql extends Database
       }
     }
 
+    if ( is_bool($result) )
+    {
+      return [];
+    }
+
     if ( $result->num_rows === 0 )
     {
       return [];
