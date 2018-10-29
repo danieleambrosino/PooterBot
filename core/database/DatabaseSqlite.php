@@ -10,6 +10,7 @@
  * file distributed with this source code.
  */
 require_once realpath(__DIR__ . '/../../vendor/autoload.php');
+
 /**
  * Description of DatabaseSqlite
  *
@@ -21,6 +22,47 @@ class DatabaseSqlite extends Database
   protected function __construct()
   {
     $this->handle = new SQLite3(DATABASE_SQLITE_PATH, SQLITE3_OPEN_READWRITE);
+  }
+
+  /**
+   * 
+   * @param string $query
+   * @param array $values
+   * @return array
+   * @throws ErrorException
+   */
+  public function query(string $query, array $values = NULL): array
+  {
+    $result = NULL;
+    if ( !empty($values) )
+    {
+      $stmt = $this->bind($query, $values);
+
+      if ( !$stmt )
+      {
+        throw new ErrorException(__METHOD__ . ': unable to bind statement');
+      }
+
+      $result = $stmt->execute();
+    }
+    else
+    {
+      $result = $this->handle->query($query);
+    }
+
+    if ( FALSE === $result )
+    {
+      throw new ErrorException(__METHOD__ . ': query failed');
+    }
+
+    if ( TRUE === $result )
+    {
+      return [];
+    }
+    else
+    {
+      return $this->fetchAll($result);
+    }
   }
 
   protected function bind(string $query, array $values)
@@ -55,7 +97,7 @@ class DatabaseSqlite extends Database
 
     if ( $result->numColumns() !== 0 )
     {
-      while ($row = $result->fetchArray(SQLITE3_ASSOC))
+      while ( $row = $result->fetchArray(SQLITE3_ASSOC) )
       {
         $results[] = $row;
       }

@@ -10,6 +10,7 @@
  * file distributed with this source code.
  */
 require_once realpath(__DIR__ . '/../../vendor/autoload.php');
+
 /**
  * Description of DatabaseMysql
  *
@@ -17,14 +18,53 @@ require_once realpath(__DIR__ . '/../../vendor/autoload.php');
  */
 class DatabaseMysql extends Database
 {
+
   protected function __construct()
   {
     $this->handle = new mysqli(
-         DATABASE_MYSQL_HOST,
-         DATABASE_MYSQL_USERNAME,
-         DATABASE_MYSQL_PASSWORD,
+         DATABASE_MYSQL_HOST, DATABASE_MYSQL_USERNAME, DATABASE_MYSQL_PASSWORD,
          DATABASE_MYSQL_DBNAME);
     $this->handle->set_charset('utf8mb4');
+  }
+
+  public function __destruct()
+  {
+    $this->handle->close();
+  }
+
+  public function query(string $query, array $values = NULL): array
+  {
+    $result = NULL;
+    if ( !empty($values) )
+    {
+      $stmt = $this->bind($query, $values);
+      $stmt->execute();
+
+      if ( $stmt->errno !== 0 )
+      {
+        throw new ErrorException(__METHOD__ . ": error while executing statement (errno $stmt->errno, error: $stmt->error)");
+      }
+
+      $result = $stmt->get_result();
+      $stmt->close();
+    }
+    else
+    {
+      $result = $this->handle->query($query);
+      if ( FALSE === $result )
+      {
+        throw new ErrorException(__METHOD__ . ': query failed');
+      }
+    }
+
+    if ( $result->num_rows === 0 )
+    {
+      return [];
+    }
+    else
+    {
+      return $this->fetchAll($result);
+    }
   }
 
   protected function bind(string $query, array $values)
@@ -57,9 +97,9 @@ class DatabaseMysql extends Database
 
   protected function fetchAll($results): array
   {
-    return $result->fetch_all(MYSQLI_ASSOC);
+    return $results->fetch_all(MYSQLI_ASSOC);
   }
-  
+
   private function getTypesString(array $values)
   {
     $typesString = '';

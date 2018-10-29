@@ -39,40 +39,7 @@ abstract class Database
    * @return array
    * @throws ErrorException
    */
-  public final function query(string $query, array $values = NULL): array
-  {
-    $result = NULL;
-    if ( !empty($values) )
-    {
-      $stmt = $this->bind($query, $values);
-
-      if ( !$stmt )
-      {
-        throw new ErrorException(__METHOD__ . ': unable to bind statement');
-      }
-
-      $result = $stmt->execute();
-    }
-    else
-    {
-      $result = $this->handle->query($query);
-    }
-
-    if ( FALSE === $result )
-    {
-      throw new ErrorException(__METHOD__ . ': query failed');
-    }
-
-    if ( TRUE === $result )
-    {
-      $results = TRUE;
-    }
-    else
-    {
-      $results = $this->fetchAll($result);
-    }
-    return $results;
-  }
+  public abstract function query(string $query, array $values = NULL): array;
   
   protected abstract function bind(string $query, array $values);
 

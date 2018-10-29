@@ -32,8 +32,15 @@ class EditedTextMessageResponder extends Responder
   public function evaluateResponse()
   {
     $messageDao = Factory::createTextMessageDao();
-    /* @var $oldMessage Message */
-    $oldMessage = $messageDao->get($this->editedMessage->getId());
+    try
+    {
+      /* @var $oldMessage Message */
+      $oldMessage = $messageDao->get($this->editedMessage->getId());
+    }
+    catch (ResourceNotFoundException $exc)
+    {
+      return;
+    }
     $text = <<<TXT
 Non fare il furbetto, amico mio, avevi scritto:
 "{$oldMessage->getText()}"

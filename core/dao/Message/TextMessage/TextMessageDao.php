@@ -39,6 +39,10 @@ WHERE M.id = ?
 SQL;
     $values = [$id];
     $data = $this->db->query($query, $values);
+    if ( empty($data) )
+    {
+      throw new ResourceNotFoundException();
+    }
     return $this->constructObject($data);
   }
 

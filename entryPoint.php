@@ -13,9 +13,9 @@ require_once realpath(__DIR__ . '/vendor/autoload.php');
 
 if ( !DEVELOPMENT )
 {
-  $ipAddress = $_SERVER['REMOTE_ADDR'];
+  $ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
   if ( substr($ipAddress, 0, 12) !== '149.154.167.' ||
-       (substr($ipAddress, 12, 3) >= 197 && substr($ipAddress, 12, 3) <= 233) )
+       (substr($ipAddress, 12, 3) < 197 || substr($ipAddress, 12, 3) > 233) )
   {
     http_response_code(403);
     exit;
@@ -30,9 +30,28 @@ if ( empty($update) )
   exit;
 }
 
-$director = new Director($update);
-$director->handleUpdate();
-if ( SAVE_MESSAGES )
+if ( DEVELOPMENT )
 {
-  $director->storeData();
+  $director = new Director($update);
+  $director->handleUpdate();
+  if ( SAVE_MESSAGES )
+  {
+    $director->storeData();
+  }
+}
+else
+{
+  try
+  {
+    $director = new Director($update);
+    $director->handleUpdate();
+    if ( SAVE_MESSAGES )
+    {
+      $director->storeData();
+    }
+  }
+  catch (Exception $ex)
+  {
+    mail('danieleambrosino97@gmail.com', 'Error Log', $ex->getTraceAsString());
+  }
 }

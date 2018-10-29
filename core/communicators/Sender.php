@@ -9,6 +9,7 @@
  * file distributed with this source code.
  */
 require_once realpath(__DIR__ . '/../../vendor/autoload.php');
+
 /**
  * Description of Sender
  *
@@ -43,8 +44,9 @@ class Sender extends Communicator
       CURLOPT_URL        => 'https://api.telegram.org/bot' . TELEGRAM_TOKEN . '/sendMessage',
       CURLOPT_POSTFIELDS => json_encode($params)
     ]);
-    $response = $this->performSession();
-    return $response->toMessage($response['message_id'], $response['date']);
+    $telegramResponse = $this->performSession();
+    return $response->toMessage($telegramResponse['message_id'],
+                                $telegramResponse['date']);
   }
 
   public function sendPhoto(PhotoResponse &$response): Photo
@@ -52,17 +54,21 @@ class Sender extends Communicator
     $params = [
       'chat_id'             => $response->getMessage()->getChat()->getId(),
       'photo'               => $response->getFileId(),
-      'caption'             => $response->getCaption(),
       'parse_mode'          => 'Markdown',
       'reply_to_message_id' => $response->getMessage()->getId()
     ];
+    if ( !is_null($response->getCaption()) )
+    {
+      $params['caption'] = $response->getCaption();
+    }
     curl_setopt_array($this->curlHandle,
                       [
       CURLOPT_URL        => 'https://api.telegram.org/bot' . TELEGRAM_TOKEN . '/sendPhoto',
       CURLOPT_POSTFIELDS => json_encode($params)
     ]);
-    $response = $this->performSession();
-    return $response->toMessage($response['message_id'], $response['date']);
+    $telegramResponse = $this->performSession();
+    return $response->toMessage($telegramResponse['message_id'],
+                                $telegramResponse['date']);
   }
 
   public function sendVoice(VoiceResponse &$response): Voice
@@ -70,17 +76,21 @@ class Sender extends Communicator
     $params = [
       'chat_id'             => $response->getMessage()->getChat()->getId(),
       'voice'               => $response->getFileId(),
-      'caption'             => $response->getCaption(),
       'parse_mode'          => 'Markdown',
       'reply_to_message_id' => $response->getMessage()->getId()
     ];
+    if ( !is_null($response->getCaption()) )
+    {
+      $params['caption'] = $response->getCaption();
+    }
     curl_setopt_array($this->curlHandle,
                       [
       CURLOPT_URL        => 'https://api.telegram.org/bot' . TELEGRAM_TOKEN . '/sendVoice',
       CURLOPT_POSTFIELDS => json_encode($params)
     ]);
-    $response = $this->performSession();
-    return $response->toMessage($response['message_id'], $response['date']);
+    $telegramResponse = $this->performSession();
+    return $response->toMessage($telegramResponse['message_id'],
+                                $telegramResponse['date']);
   }
 
   private function performSession()
