@@ -9,6 +9,7 @@
  * file distributed with this source code.
  */
 require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
+
 /**
  * Description of ChannelDao
  *
@@ -16,6 +17,18 @@ require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
  */
 class ChannelDao extends ChatDao
 {
+
+  protected static $instance;
+
+  public static function getInstance()
+  {
+    if ( empty(static::$instance) )
+    {
+      static::$instance = new static();
+    }
+    return static::$instance;
+  }
+
   protected function constructObject(array $data): Channel
   {
     $chat = &$data[0];
@@ -55,4 +68,5 @@ class ChannelDao extends ChatDao
     $values = [$chat->getTitle(), $chat->getUsername(), $chat->getId()];
     $this->db->query($query, $values);
   }
+
 }

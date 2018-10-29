@@ -9,6 +9,7 @@
  * file distributed with this source code.
  */
 require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
+
 /**
  * Description of SupergroupDao
  *
@@ -16,6 +17,17 @@ require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
  */
 class SupergroupDao extends ChatDao
 {
+
+  protected static $instance;
+
+  public static function getInstance()
+  {
+    if ( empty(static::$instance) )
+    {
+      static::$instance = new static();
+    }
+    return static::$instance;
+  }
 
   protected function constructObject(array $data): Supergroup
   {
