@@ -12,9 +12,6 @@ require_once realpath(__DIR__ . '/../../vendor/autoload.php');
 <head>
   <script src="<?= JQUERY_SLIM_URL ?>"></script>
 
-  <link rel="stylesheet" href="<?= DATATABLES_CSS_URL ?>">
-  <script src="<?= DATATABLES_JS_URL ?>"></script>
-
   <link rel="stylesheet" href="<?= MATERIALIZE_CSS_URL ?>">
   <script src="<?= MATERIALIZE_JS_URL ?>"></script>
 

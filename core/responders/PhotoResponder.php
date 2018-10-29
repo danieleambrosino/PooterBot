@@ -30,6 +30,7 @@ class PhotoResponder extends Responder
   {
     $comment = $this->resources->getRandomPhotoComment();
     $this->responses[] = new TextResponse($this->message, $comment);
+    $this->genderizeResponses();
   }
 
 }

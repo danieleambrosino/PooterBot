@@ -31,6 +31,11 @@ class PhotoResponse extends MultimediaResponse
     return $this->caption;
   }
 
+  public function setCaption($caption)
+  {
+    $this->caption = $caption;
+  }
+
   public function toMessage(int $id, int $datetime)
   {
     $pooter = Factory::createUserDao()->getMe();

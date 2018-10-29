@@ -234,27 +234,4 @@ class TextResponder extends Responder
     }
   }
 
-  private function genderizeResponses()
-  {
-    $db = Factory::createDatabase();
-    $query = "SELECT 1 FROM FemaleNames WHERE name LIKE ?";
-    $values = [$this->message->getUser()->getFirstName()];
-    $result = $db->query($query, $values);
-    if ( empty($result) )
-    {
-      return;
-    }
-    foreach ($this->responses as &$response)
-    {
-      if ( $response instanceof TextResponse )
-      {
-        $text = $response->getText();
-        $text = preg_replace('/(car)o/i', '$1a', $text);
-        $text = preg_replace('/(amic)o/i', '$1a', $text);
-        $text = preg_replace('/(mi)o/i', '$1a', $text);
-        $response->setText($text);
-      }
-    }
-  }
-
 }
