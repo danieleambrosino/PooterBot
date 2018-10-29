@@ -32,7 +32,7 @@ class ChannelDao extends ChatDao
   protected function constructObject(array $data): Channel
   {
     $chat = &$data[0];
-    return new Channel($chat['id'], $chat['title'], $chat['username']);
+    return new Channel($chat['chatId'], $chat['title'], $chat['username']);
   }
 
   public function get($id): Channel

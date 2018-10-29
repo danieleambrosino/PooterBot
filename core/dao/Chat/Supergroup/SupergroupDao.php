@@ -32,7 +32,7 @@ class SupergroupDao extends ChatDao
   protected function constructObject(array $data): Supergroup
   {
     $chat = &$data[0];
-    return new Supergroup($chat['id'], $chat['title'], $chat['username']);
+    return new Supergroup($chat['chatId'], $chat['title'], $chat['username']);
   }
 
   public function get($id): Supergroup
