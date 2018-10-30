@@ -19,9 +19,9 @@ abstract class ChatEventDao extends MessageDao
 
   protected final function storeChatEventByType(ChatEvent $event, string $type)
   {
-    $this->storeMessageByType($event, 'chatEvent');
+    $id = $this->storeMessageByType($event, 'chatEvent');
     $query = "INSERT INTO ChatEvents (messageId, type) VALUES (?, ?)";
-    $values = [$event->getId(), $type];
+    $values = [$id, $type];
     $this->db->query($query, $values);
   }
 

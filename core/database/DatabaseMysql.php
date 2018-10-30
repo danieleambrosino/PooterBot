@@ -76,6 +76,11 @@ class DatabaseMysql extends Database
     }
   }
 
+  public function lastInsertId()
+  {
+    return $this->handle->insert_id;
+  }
+
   protected function bind(string $query, array $values)
   {
     if ( !($stmt = $this->handle->prepare($query)) )

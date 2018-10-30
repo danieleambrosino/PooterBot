@@ -14,7 +14,7 @@
  *
  * @author Daniele Ambrosino
  */
-class ChatTitleChangedEventDao extends ChatEventDao
+abstract class ChatTitleChangedEventDao extends ChatEventDao
 {
 
   protected static $instance;

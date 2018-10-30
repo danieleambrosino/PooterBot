@@ -24,10 +24,10 @@ class VoiceDaoMysql extends VoiceDao
   public function store($message)
   {
     $this->db->query('START TRANSACTION');
-    $this->storeMessageByType($message, 'voice');
+    $id = $this->storeMessageByType($message, 'voice');
     $this->fileDao->store($message->getFile());
     $query = "INSERT INTO Voices (messageId, duration, caption, fileId) VALUES (?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getDuration(), $message->getCaption(), $message->getFile()->getId()];
+    $values = [$id, $message->getDuration(), $message->getCaption(), $message->getFile()->getId()];
     $this->db->query($query, $values);
     $this->db->query('COMMIT');
   }

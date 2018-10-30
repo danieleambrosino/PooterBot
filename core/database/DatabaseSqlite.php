@@ -65,6 +65,11 @@ class DatabaseSqlite extends Database
     }
   }
 
+  public function lastInsertId()
+  {
+    return $this->handle->lastInsertRowID();
+  }
+
   protected function bind(string $query, array $values)
   {
     if ( !($stmt = $this->handle->prepare($query)) )

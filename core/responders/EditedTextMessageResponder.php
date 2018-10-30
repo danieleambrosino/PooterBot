@@ -35,7 +35,7 @@ class EditedTextMessageResponder extends Responder
     try
     {
       /* @var $oldMessage Message */
-      $oldMessage = $messageDao->get($this->editedMessage->getId());
+      $oldMessage = $messageDao->getMessage($this->editedMessage);
     }
     catch (ResourceNotFoundException $exc)
     {

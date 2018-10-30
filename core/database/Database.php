@@ -41,6 +41,8 @@ abstract class Database
    */
   public abstract function query(string $query, array $values = NULL): array;
   
+  public abstract function lastInsertId();
+  
   protected abstract function bind(string $query, array $values);
 
   protected abstract function fetchAll($result): array;

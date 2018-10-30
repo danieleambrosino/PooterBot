@@ -24,10 +24,10 @@ class DocumentDaoSqlite extends DocumentDao
   public function store($message)
   {
     $this->db->query('BEGIN TRANSACTION');
-    $this->storeMessageByType($message, 'document');
+    $id = $this->storeMessageByType($message, 'document');
     $this->fileDao->store($message->getFile());
     $query = "INSERT INTO Documents (messageId, fileName, caption, fileId) VALUES (?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getFileName(), $message->getCaption(), $message->getFile()->getId()];
+    $values = [$id, $message->getFileName(), $message->getCaption(), $message->getFile()->getId()];
     $this->db->query($query, $values);
     $this->db->query('COMMIT');
   }

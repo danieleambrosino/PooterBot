@@ -24,10 +24,10 @@ class StickerDaoMysql extends StickerDao
   public function store($message)
   {
     $this->db->query('START TRANSACTION');
-    $this->storeMessageByType($message, 'sticker');
+    $id = $this->storeMessageByType($message, 'sticker');
     $this->fileDao->store($message->getFile());
     $query = "INSERT INTO Stickers (messageId, width, height, emoji, setName, fileId) VALUES (?, ?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getWidth(), $message->getHeight(), $message->getEmoji(), $message->getSetName(), $message->getFile()->getId()];
+    $values = [$id, $message->getWidth(), $message->getHeight(), $message->getEmoji(), $message->getSetName(), $message->getFile()->getId()];
     $this->db->query($query, $values);
     $this->db->query('COMMIT');
   }

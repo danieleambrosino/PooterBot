@@ -24,10 +24,10 @@ class VideoNoteDaoSqlite extends VideoNoteDao
   public function store($message)
   {
     $this->db->query('BEGIN TRANSACTION');
-    $this->storeMessageByType($message, 'videoNote');
+    $id = $this->storeMessageByType($message, 'videoNote');
     $this->fileDao->store($message->getFile());
     $query = "INSERT INTO VideoNotes (messageId, length, duration, fileId) VALUES (?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getLength(), $message->getDuration(), $message->getFile()->getId()];
+    $values = [$id, $message->getLength(), $message->getDuration(), $message->getFile()->getId()];
     $this->db->query($query, $values);
     $this->db->query('COMMIT');
   }

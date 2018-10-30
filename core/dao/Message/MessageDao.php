@@ -22,6 +22,22 @@ abstract class MessageDao extends Dao
    * 
    * @param Message $message
    */
+  public function getMessage(Message $message)
+  {
+    $query = "SELECT id FROM Messages WHERE telegramId = ? AND chatId = ?";
+    $values = [$message->getId(), $message->getChat()->getId()];
+    $data = $this->db->query($query, $values);
+    if ( empty($data) )
+    {
+      throw new ResourceNotFoundException();
+    }
+    return $this->get($data[0]['id']);
+  }
+  
+  /**
+   * 
+   * @param Message $message
+   */
   public function delete($message)
   {
     $query = "DELETE FROM Messages WHERE id = ?";
@@ -31,9 +47,10 @@ abstract class MessageDao extends Dao
 
   protected final function storeMessageByType(Message $message, string $type)
   {
-    $query = "REPLACE INTO Messages (id, datetime, type, userId, chatId) VALUES (?, ?, ?, ?, ?)";
+    $query = "REPLACE INTO Messages (telegramId, datetime, type, userId, chatId) VALUES (?, ?, ?, ?, ?)";
     $values = [$message->getId(), $message->getDatetime(), $type, $message->getUser()->getId(), $message->getChat()->getId()];
     $this->db->query($query, $values);
+    return $this->db->lastInsertId();
   }
 
   public static final function getAllMessages(int $chatId)

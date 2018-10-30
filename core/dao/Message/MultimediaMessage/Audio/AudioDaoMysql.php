@@ -24,10 +24,10 @@ class AudioDaoMysql extends AudioDao
   public function store($message)
   {
     $this->db->query('START TRANSACTION');
-    $this->storeMessageByType($message, 'audio');
+    $id = $this->storeMessageByType($message, 'audio');
     $this->fileDao->store($message->getFile());
     $query = "INSERT INTO Audios (messageId, duration, title, performer, caption, fileId) VALUES (?, ?, ?, ?, ?, ?)";
-    $values = [$message->getId(), $message->getDuration(), $message->getTitle(), $message->getPerformer(), $message->getCaption(), $message->getFile()->getId()];
+    $values = [$id, $message->getDuration(), $message->getTitle(), $message->getPerformer(), $message->getCaption(), $message->getFile()->getId()];
     $this->db->query($query, $values);
     $this->db->query('COMMIT');
   }
