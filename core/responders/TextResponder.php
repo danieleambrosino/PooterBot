@@ -235,7 +235,7 @@ class TextResponder extends Responder
       $text = $this->resources->getRandomOpinion();
       $this->responses[] = new TextResponse($this->message, $text);
     }
-    elseif ( preg_match('/(pooter\s+)?(?:vaffanculo|hai (?:rot|scassa|sfracassa|scartavetra)to(?: (?:il cazzo|le palle|i coglioni))?|sei (?:inutile|un(?:o stronzo|a merda| coglione))|chi ti vuole|non capisci un cazzo)(?(1)|\s+pooter)|oh mostro/i',
+    elseif ( preg_match('/(pooter(?:bot)?[\w\s,\.]+)?(?:va(?:i (?:a fare )?i|ffa)n ?culo|hai (?:rot|scassa|sfracassa|scartavetra)to(?: (?:il cazzo|le palle|i coglioni))?|sei (?:inutile|un(?:o stronzo|a merda| coglione))|chi ti vuole|non capisci (?:un cazzo|niente)|che (?:cazzo )vuoi|falla finita|fottiti)(?(1)|[\w\s,]+pooter(?:bot)?)|oh mostro/i',
                         $this->text) )
     {
       $offenseCount = $this->message->getChat()->getOffenseCount();
