@@ -32,6 +32,7 @@ else
 ###############
 
 define('ROOT_DIR', realpath(dirname(__DIR__)));
+define('RES_DIR', realpath(ROOT_DIR . '/res'));
 define('VENDOR_DIR', realpath(ROOT_DIR . '/vendor'));
 define('DATABASE_DIR', realpath(ROOT_DIR . '/db/'));
 define('DATABASE_SQLITE_PATH', realpath(DATABASE_DIR . '/main.sqlite3'));

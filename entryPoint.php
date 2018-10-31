@@ -52,6 +52,6 @@ else
   }
   catch (Exception $ex)
   {
-    mail('danieleambrosino97@gmail.com', 'Error Log', $ex->getTraceAsString() . "\n\n" . $ex->getMessage());
+    mail(ADMIN_EMAIL, 'Error Log', $ex->getTraceAsString() . "\n\n" . $ex->getMessage());
   }
 }

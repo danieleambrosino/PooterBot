@@ -63,6 +63,10 @@ class TextResponder extends Responder
         $this->responses[] = new TextResponse($this->message,
                                               "Ciao {$this->message->getUser()->getFirstName()}, come va?");
         break;
+      case 'info':
+        $text = file_get_contents(RES_DIR . '/info.md');
+        $this->responses[] = new TextResponse($this->message, $text);
+        break;
       case 'foto':
         $fileId = $this->resources->getRandomPhoto();
         $this->responses[] = new PhotoResponse($this->message, $fileId);
@@ -199,19 +203,13 @@ class TextResponder extends Responder
       $text = $this->resources->getRandomJudgement();
       $this->responses[] = new TextResponse($this->message, $text);
     }
-    elseif ( preg_match('/(?:pooter|sugo|sugus|sugoide|gusso|pietro|luca)/i',
-                        $this->text) )
-    {
-      $text = "Dimmi tutto {$this->message->getUser()->getFirstName()}";
-      $this->responses[] = new TextResponse($this->message, $text);
-    }
     elseif ( preg_match('/s+t+o+p{2,}e+r+/i', $this->text) )
     {
       $fileId = $this->resources->getPhoto('sergioBrio');
       $caption = "Il più grande di tutti";
       $this->responses[] = new PhotoResponse($this->message, $fileId, $caption);
     }
-    elseif ( preg_match('/lava.*piedi/i', $this->text) )
+    elseif ( preg_match('/lava.+piedi/i', $this->text) )
     {
       $fileId = $this->resources->getPhoto('filosofia');
       $caption = "Come dissi tempo fa...";
@@ -230,6 +228,35 @@ class TextResponder extends Responder
     elseif ( preg_match('/hai la (?:patente|macchina)/i', $this->text) )
     {
       $text = "No";
+      $this->responses[] = new TextResponse($this->message, $text);
+    }
+    elseif ( preg_match('/\?$/', $this->text) )
+    {
+      $text = $this->resources->getRandomOpinion();
+      $this->responses[] = new TextResponse($this->message, $text);
+    }
+    elseif ( preg_match('/(pooter\s+)?(?:vaffanculo|hai (?:rot|scassa|sfracassa|scartavetra)to(?: (?:il cazzo|le palle|i coglioni))?|sei (?:inutile|un(?:o stronzo|a merda| coglione))|chi ti vuole|non capisci un cazzo)(?(1)|\s+pooter)|oh mostro/i',
+                        $this->text) )
+    {
+      $offenseCount = $this->message->getChat()->getOffenseCount();
+      if ( ($offenseCount % 5) === 4 )
+      {
+        if ( $this->message->getChat() instanceof Group )
+        {
+          $this->responses[] = new TextResponse($this->message, 'Va bene, me ne vado a fanculo');
+          $this->responses[] = new LeaveGroupResponse($this->message);
+        }
+        else
+        {
+          $this->responses[] = new TextResponse($this->message, 'Stai esagerando, amico mio');
+        }
+      }
+      $this->message->getChat()->setOffenseCount($offenseCount + 1);
+    }
+    elseif ( preg_match('/(?:pooter|sugo|sugus|sugoide|gusso|pietro|luca)/i',
+                        $this->text) )
+    {
+      $text = "Dimmi tutto {$this->message->getUser()->getFirstName()}";
       $this->responses[] = new TextResponse($this->message, $text);
     }
   }

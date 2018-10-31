@@ -35,4 +35,10 @@ class Echoer extends Communicator
     return $response->toMessage(rand(), time());
   }
 
+  public function leaveGroup(LeaveGroupResponse &$response): ChatMemberRemovedEvent
+  {
+    echo "Pooter ha abbandonato la chat {$response->getMessage()->getChat()->getId()}";
+    return $response->toMessage(rand(), time());
+  }
+
 }

@@ -67,6 +67,8 @@ abstract class Responder
         $text = preg_replace('/(car)o/i', '$1a', $text);
         $text = preg_replace('/(amic)o/i', '$1a', $text);
         $text = preg_replace('/(mi)o/i', '$1a', $text);
+        $text = str_replace('il furbetto', 'la furbetta', $text);
+        $text = str_replace('un grande', 'una grande', $text);
         $response->setText($text);
       }
       elseif ( $response instanceof PhotoResponse )

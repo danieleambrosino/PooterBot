@@ -93,6 +93,20 @@ class Sender extends Communicator
                                 $telegramResponse['date']);
   }
 
+  public function leaveGroup(LeaveGroupResponse &$response): ChatMemberRemovedEvent
+  {
+    $params = [
+      'chat_id' => $response->getMessage()->getChat()->getId()
+    ];
+    curl_setopt_array($this->curlHandle,
+                      [
+      CURLOPT_URL        => 'https://api.telegram.org/bot' . TELEGRAM_TOKEN . '/leaveChat',
+      CURLOPT_POSTFIELDS => json_encode($params)
+    ]);
+    $this->performSession();
+    return $response->toMessage(rand(0, 2147483647), time());
+  }
+
   private function performSession()
   {
     $rawResponse = curl_exec($this->curlHandle);

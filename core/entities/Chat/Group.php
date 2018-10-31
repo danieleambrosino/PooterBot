@@ -21,7 +21,7 @@ class Group extends Chat
    *
    * @var string
    */
-  private $title;
+  protected $title;
 
   /**
    * 

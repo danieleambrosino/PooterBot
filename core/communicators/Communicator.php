@@ -16,7 +16,24 @@
  */
 abstract class Communicator
 {
+
+  /**
+   * @return TextMessage
+   */
   public abstract function sendMessage(TextResponse &$response): TextMessage;
+
+  /**
+   * @return Photo
+   */
   public abstract function sendPhoto(PhotoResponse &$response): Photo;
+
+  /**
+   * @return Voice
+   */
   public abstract function sendVoice(VoiceResponse &$response): Voice;
+
+  /**
+   * @return ChatMemberRemovedEvent
+   */
+  public abstract function leaveGroup(LeaveGroupResponse &$response): ChatMemberRemovedEvent;
 }

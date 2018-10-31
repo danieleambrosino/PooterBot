@@ -46,6 +46,7 @@ Non fare il furbetto, amico mio, avevi scritto:
 "{$oldMessage->getText()}"
 TXT;
     $this->responses[] = new TextResponse($this->editedMessage, $text);
+    $this->genderizeResponses();
   }
 
 }

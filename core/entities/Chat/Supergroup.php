@@ -14,14 +14,8 @@
  *
  * @author Daniele Ambrosino
  */
-class Supergroup extends Chat
+class Supergroup extends Group
 {
-
-  /**
-   *
-   * @var string
-   */
-  private $title;
 
   /**
    *
@@ -37,24 +31,13 @@ class Supergroup extends Chat
    */
   public function __construct(int $id, string $title, $username)
   {
-    parent::__construct($id);
-    $this->title = $title;
+    parent::__construct($id, $title);
     $this->username = $username;
-  }
-
-  public function getTitle(): string
-  {
-    return $this->title;
   }
 
   public function getUsername()
   {
     return $this->username;
-  }
-
-  public function setTitle(string $title)
-  {
-    $this->title = $title;
   }
 
 }

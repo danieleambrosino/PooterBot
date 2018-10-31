@@ -335,13 +335,13 @@ class Director
     {
       $chatDao = Factory::createPrivateChatDao();
     }
-    elseif ( $this->chat instanceof Group )
-    {
-      $chatDao = Factory::createGroupDao();
-    }
     elseif ( $this->chat instanceof Supergroup )
     {
       $chatDao = Factory::createSupergroupDao();
+    }
+    elseif ( $this->chat instanceof Group )
+    {
+      $chatDao = Factory::createGroupDao();
     }
     elseif ( $this->chat instanceof Channel )
     {
@@ -394,6 +394,10 @@ class Director
     if ( $response instanceof VoiceResponse )
     {
       return $this->communicator->sendVoice($response);
+    }
+    if ( $response instanceof LeaveGroupResponse )
+    {
+      return $this->communicator->leaveGroup($response);
     }
   }
 
