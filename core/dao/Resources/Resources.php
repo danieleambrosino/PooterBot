@@ -50,5 +50,7 @@ abstract class Resources
   public abstract function getRandomJudgement(): string;
   
   public abstract function getRandomPhotoComment(): string;
+  
+  public abstract function getRandomOffense(bool $self = FALSE): string;
 
 }

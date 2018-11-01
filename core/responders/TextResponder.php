@@ -178,6 +178,11 @@ class TextResponder extends Responder
       $text = "Se vuoi ti accompagno io, {$this->message->getUser()->getFirstName()}";
       $this->responses[] = new TextResponse($this->message, $text);
     }
+    elseif ( found('offenditi', $this->text) )
+    {
+      $text = $this->resources->getRandomOffense(TRUE);
+      $this->responses[] = new TextResponse($this->message, $text);
+    }
     // REGEX
     elseif ( preg_match('/conquista (\w+)/i', $this->text, $matches) )
     {
@@ -191,6 +196,13 @@ class TextResponder extends Responder
       $fileId = $this->resources->getPhoto('hooligan');
       $caption = "{$matches[1]} trema! No scherzo amico mio ♥";
       $this->responses[] = new PhotoResponse($this->message, $fileId, $caption);
+    }
+    elseif ( preg_match('/offendi (\w+)/i', $this->text, $matches) )
+    {
+      $name = $matches[1];
+      $text = $this->resources->getRandomOffense();
+      $text = str_replace('$name', $name, $text);
+      $this->responses[] = new TextResponse($this->message, $text);
     }
     elseif ( preg_match('/secondo te|(?:(?:che|cosa)(?: ne)? (?:pens|dic))|come (?:la vedi|(?:ti )?sembra)|che te ne pare/i',
                         $this->text) )
@@ -235,7 +247,7 @@ class TextResponder extends Responder
       $text = $this->resources->getRandomOpinion();
       $this->responses[] = new TextResponse($this->message, $text);
     }
-    elseif ( preg_match('/(pooter(?:bot)?[\w\s,\.]+)?(?:va(?:i (?:a fare )?i|ffa)n ?culo|hai (?:rot|scassa|sfracassa|scartavetra)to(?: (?:il cazzo|le palle|i coglioni))?|sei (?:inutile|un(?:o stronzo|a merda| coglione))|chi ti vuole|non capisci (?:un cazzo|niente)|che (?:cazzo )vuoi|falla finita|fottiti)(?(1)|[\w\s,]+pooter(?:bot)?)|oh mostro/i',
+    elseif ( preg_match('/(pooter(?:bot)?[\w\s,\.]+)?(?:va(?:i (?:a fare )?i|ffa)n ?culo|hai (?:rot|scassa|sfracassa|scartavetra)to(?: (?:il cazzo|le (?:palle|scatole)|i coglioni))?|sei (?:inutile|un(?:o stronzo|a merda| coglione))|chi ti vuole|non capisci (?:un cazzo|n(?:iente|ulla))|che (?:cazzo )vuoi|falla finita|fottiti)(?(1)|[\w\s,]+pooter(?:bot)?)|oh mostro/i',
                         $this->text) )
     {
       $offenseCount = $this->message->getChat()->getOffenseCount();
@@ -243,12 +255,14 @@ class TextResponder extends Responder
       {
         if ( $this->message->getChat() instanceof Group )
         {
-          $this->responses[] = new TextResponse($this->message, 'Va bene, me ne vado a fanculo');
+          $this->responses[] = new TextResponse($this->message,
+                                                'Va bene, me ne vado a fanculo');
           $this->responses[] = new LeaveGroupResponse($this->message);
         }
         else
         {
-          $this->responses[] = new TextResponse($this->message, 'Stai esagerando, amico mio');
+          $this->responses[] = new TextResponse($this->message,
+                                                'Stai esagerando, amico mio');
         }
       }
       $this->message->getChat()->setOffenseCount($offenseCount + 1);

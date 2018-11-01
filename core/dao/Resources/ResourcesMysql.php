@@ -82,4 +82,10 @@ class ResourcesMysql extends Resources
     return $this->db->query($query)[0]['text'];
   }
 
+  public function getRandomOffense(bool $self = FALSE): string
+  {
+    $query = "SELECT text FROM Offenses WHERE self = $self ORDER BY rand() LIMIT 1";
+    return $this->db->query($query)[0]['text'];
+  }
+
 }

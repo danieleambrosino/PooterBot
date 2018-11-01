@@ -42,7 +42,9 @@ SET FOREIGN_KEY_CHECKS = 1;
 CREATE TABLE IF NOT EXISTS Chats (
   id   BIGINT PRIMARY KEY,
   type ENUM ('private', 'group', 'supergroup', 'channel') NOT NULL
-  COLLATE utf8mb4_bin
+  COLLATE utf8mb4_bin,
+  offenseCount TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  isMuted BOOLEAN NOT NULL DEFAULT FALSE
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
