@@ -84,4 +84,11 @@ class ResourcesSqlite extends Resources
     return $this->db->query($query)[0]['text'];
   }
 
+  public function getRandomOffense(bool $self = FALSE): string
+  {
+    $self = $self ? 1 : 0;
+    $query = "SELECT text FROM Offenses WHERE self = $self ORDER BY random() LIMIT 1";
+    return $this->db->query($query)[0]['text'];
+  }
+
 }
